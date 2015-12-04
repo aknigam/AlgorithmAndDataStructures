@@ -1,7 +1,7 @@
-package com.learning.design;
+package com.learning.design.game;
 
 import com.learning.design.game.BoardPosition;
-import com.learning.design.game.piece.Piece;
+import com.learning.design.game.Piece;
 
 /**
  * Created by a.nigam on 02/12/15.

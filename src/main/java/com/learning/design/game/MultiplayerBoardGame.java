@@ -1,18 +1,14 @@
 package com.learning.design.game;
 
-import com.learning.design.Move;
-import com.learning.design.Player;
-import com.learning.design.PlayerList;
-import com.learning.design.game.impl.Board;
-import com.learning.design.game.piece.Piece;
-
 public abstract class MultiplayerBoardGame {
+
+    private static final int MAX_ATTEMPTS_PER_PLAYER = 1;
 
     /*
 
         A game is played using following entities:
 
-        1. Board
+        1. ChessBoard
         2. Player
         3. Pieces
 
@@ -26,6 +22,21 @@ public abstract class MultiplayerBoardGame {
 
         Game manager manages multiple games
 
+        Player can see all the pieces on the board but should not be allowed to move the piece for which he is not authorized.
+        So piece should not be encapsulated in the Player class rather they should be part of ChessBoard
+
+        Player and Piece should have something in common - Color
+
+        ChessBoard should have
+        1. The ChessBoard representation (grid etc)
+        2. The position of all the pieces and
+
+        ChessBoard should provide methods to get the piece so that a move can be made.
+        1. Get piece by position
+        2. get piece by piece identifier (name, number and color etc)
+
+        UNDO functionality.
+
      */
 
     private PlayerList playerList;
@@ -34,7 +45,9 @@ public abstract class MultiplayerBoardGame {
 
     abstract public void init();
 
-    public void start(){
+    abstract public void showGameRules();
+
+    public void start() throws Exception {
 
         /*
             Steps
@@ -43,34 +56,75 @@ public abstract class MultiplayerBoardGame {
                 3. Change the state of the game by applying the move
                 4. Continue until the game is finished
          */
-        while(true) {
-            Player p = playerList.getNextPlayer();
+        int noOfAttempts = 0;
+        Move m = null;
+        Player p =  null;
+        while(gameNotFinished(board)) {
+            p = playerList.getNextPlayer();
 
-            Move m = p.move();
+            // player is making the move on the board
+            // Move m = p.move(board);
 
-            if(validateMove(m)) {
-                applyMove(m);
+            while(true) {
+
+                // timeout must be handled here
+                m = p.move(board);
+
+
+                noOfAttempts++;
+                if(validateMove(m, board))
+                    break;
+                if(noOfAttempts == MAX_ATTEMPTS_PER_PLAYER){
+                    throw new Exception("User has exceeded max no. of attempts to make a valid move.");
+                }
             }
+
+            /*
+            Result of applying the move is to
+            1. record the move
+            2. displace a piece if required by the game
+            3. Giving a score to player etc. Score is normally not valid for most board games.
+
+             */
+            applyMove(m, board);
+            
+            
         }
+
+        Player winner  = getWinner(p, board);
 
     }
 
-    protected void applyMove(Move m){
-        // giving the chess impl here.
+    protected abstract Player getWinner(Player p, Board board);
 
+    protected abstract boolean gameNotFinished(Board board);
+
+    protected void applyMove(Move m, Board board){
+        // giving the chess impl here.
+        // this takes care of application. Validation is already done. Even if a piece is already present in the target position.
+        // validation has passed , this means the the moved piece can move to the destination.
+
+
+        Piece dp = board.getPieceAtPosition(m.getDestination());
+        if(dp == null)
+        {
+            board.clearPosition(m.getDestination());
+
+        }
+        board.changePiecePosition(m.getPiece(), m.getDestination());
 
     }
 
     // protected abstract void validateMove(Move m);
 
-    protected boolean validateMove(Move m){
-        /*
+    protected boolean validateMove(Move m, Board board){
 
+        /*
         Move should have following information
         ---FIXED----
         1. Player - who made the move
         2. Piece - which made the move
-        3. Board
+        3. ChessBoard
         ---VARIABLES----
         ---for chess ---
         3. End position
@@ -81,11 +135,18 @@ public abstract class MultiplayerBoardGame {
 
         // giving the chess implementation here
 
+        // what about the case if the other piece is present in the target.
+
 
         Piece p = m.getPiece();
+
+        BoardPosition startPosition = board.getBoardPosition(p);
         BoardPosition endPosition = m.getDestination();
-        boolean isValidMove  = p.isValidMove(endPosition);
-        return isValidMove && board.isValidPosition();
+        // first apply piece rules and then the board rules.
+        // then any other game rules
+        boolean isValidMove  = p.isValidMove(startPosition , endPosition);
+
+        return isValidMove && this.board.isValidPosition(endPosition);
 
     }
 
