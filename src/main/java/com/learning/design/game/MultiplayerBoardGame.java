@@ -1,8 +1,8 @@
 package com.learning.design.game;
 
-/*
+/**
 
-        A game is played using following entities:
+        A chess game is played using following entities:
 
         1. ChessBoard
         2. Player
@@ -32,8 +32,9 @@ package com.learning.design.game;
         2. get piece by piece identifier (name, number and color etc)
 
         UNDO functionality.
+        - Keep track of the moves in the sequential order.
 
-     */
+ **/
 public abstract class MultiplayerBoardGame {
 
     private static final int MAX_ATTEMPTS_PER_PLAYER = 1;
@@ -100,56 +101,9 @@ public abstract class MultiplayerBoardGame {
 
     protected abstract boolean gameNotFinished(Board board);
 
-    protected void applyMove(Move m, Board board){
-        // giving the chess impl here.
-        // this takes care of application. Validation is already done. Even if a piece is already present in the target position.
-        // validation has passed , this means the the moved piece can move to the destination.
+    protected abstract void applyMove(Move m, Board board);
 
-
-        Piece dp = board.getPieceAtPosition(m.getDestination());
-        if(dp == null)
-        {
-            board.clearPosition(m.getDestination());
-
-        }
-        board.changePiecePosition(m.getPiece(), m.getDestination());
-
-    }
-
-    // protected abstract void validateMove(Move m);
-
-    protected boolean validateMove(Move m, Board board){
-
-        /*
-        Move should have following information
-        ---FIXED----
-        1. Player - who made the move
-        2. Piece - which made the move
-        3. ChessBoard
-        ---VARIABLES----
-        ---for chess ---
-        3. End position
-        ---VARIABLES----
-        -- for ludo it will be
-        3. No of cells advanced
-         */
-
-        // giving the chess implementation here
-
-        // what about the case if the other piece is present in the target.
-
-
-        Piece p = m.getPiece();
-
-        BoardPosition startPosition = board.getBoardPosition(p);
-        BoardPosition endPosition = m.getDestination();
-        // first apply piece rules and then the board rules.
-        // then any other game rules
-        boolean isValidMove  = p.isValidMove(startPosition , endPosition);
-
-        return isValidMove && this.board.isValidPosition(endPosition);
-
-    }
+    protected abstract boolean validateMove(Move m, Board board);
 
 
 }

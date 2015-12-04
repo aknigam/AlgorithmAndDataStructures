@@ -7,4 +7,6 @@ public interface BoardPosition {
     void setPiece(Piece p);
 
     Piece getPiece();
+
+    void clear();
 }

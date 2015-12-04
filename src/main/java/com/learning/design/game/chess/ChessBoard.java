@@ -38,7 +38,7 @@ public class ChessBoard implements Board<ChessBoardPosition>{
         }
     }
 
-    public void print(){
+    public void display(){
 
 
         for (int i = 0; i < 8; i++) {
@@ -89,14 +89,19 @@ public class ChessBoard implements Board<ChessBoardPosition>{
     }
 
     public ChessBoardPosition getBoardPosition(Piece p) {
-        return null;
+        return piecePositions.get(p);
     }
 
     public Piece getPieceAtPosition(ChessBoardPosition destination) {
-        return null;
+        return positionPieces.get(destination);
     }
 
     public void changePiecePosition(Piece piece, ChessBoardPosition destination) {
+
+        getBoardPosition(piece).clear();
+        destination.setPiece(piece);
+        piecePositions.put(piece, destination);
+        positionPieces.put(destination, piece);
 
     }
 
@@ -110,7 +115,7 @@ public class ChessBoard implements Board<ChessBoardPosition>{
     public static void main(String[] args) {
         ChessBoard board = new ChessBoard();
         board.init();
-        board.print();
+        board.display();
     }
 
 }

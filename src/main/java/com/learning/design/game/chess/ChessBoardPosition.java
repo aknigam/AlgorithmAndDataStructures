@@ -31,4 +31,8 @@ public class ChessBoardPosition implements BoardPosition {
         return piece;
     }
 
+    public void clear() {
+
+    }
+
 }
