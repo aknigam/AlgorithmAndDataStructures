@@ -5,7 +5,7 @@ import com.learning.design.game.*;
 import com.learning.design.game.Board;
 
 
-public class ChessGame extends MultiplayerBoardGame {
+public class ChessGame extends MultiplayerBoardGame<ChessBoard, ChessBoardPosition> {
 
 
     @Override
@@ -19,17 +19,17 @@ public class ChessGame extends MultiplayerBoardGame {
     }
 
     @Override
-    protected Player getWinner(Player p, Board board) {
+    protected Player getWinner(Player p, ChessBoard board) {
         return null;
     }
 
     @Override
-    protected boolean gameNotFinished(Board board) {
+    protected boolean gameNotFinished(ChessBoard board) {
         return false;
     }
 
     @Override
-    protected void applyMove(Move m, Board board) {
+    protected void applyMove(Move<ChessBoardPosition> m, ChessBoard board) {
         // giving the chess impl here.
         // this takes care of application. Validation is already done. Even if a piece is already present in the target position.
         // validation has passed , this means the the moved piece can move to the destination.
@@ -62,11 +62,11 @@ public class ChessGame extends MultiplayerBoardGame {
      // what about the case if the other piece is present in the target.
      **/
     @Override
-    protected boolean validateMove(Move m, Board board) {
+    protected boolean validateMove(Move<ChessBoardPosition> m, ChessBoard board) {
         Piece p = m.getPiece();
 
-        BoardPosition startPosition = board.getBoardPosition(p);
-        BoardPosition endPosition = m.getDestination();
+        ChessBoardPosition startPosition = board.getBoardPosition(p);
+        ChessBoardPosition endPosition = m.getDestination();
         // first apply piece rules and then the board rules.
         // then any other game rules
         boolean isValidMove  = p.isValidMove(startPosition , endPosition);

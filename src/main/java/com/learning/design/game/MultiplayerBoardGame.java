@@ -35,15 +35,19 @@ package com.learning.design.game;
         - Keep track of the moves in the sequential order.
 
  **/
-public abstract class MultiplayerBoardGame {
+public abstract class MultiplayerBoardGame<B extends Board, E extends BoardPosition> {
 
     private static final int MAX_ATTEMPTS_PER_PLAYER = 1;
 
+    protected PlayerList playerList;
+
+    protected B board;
 
 
-    private PlayerList playerList;
-
-    private Board board;
+    public MultiplayerBoardGame(B board, PlayerList playerList){
+        this.board = board;
+        this.playerList = playerList;
+    }
 
     abstract public void init();
 
@@ -51,6 +55,7 @@ public abstract class MultiplayerBoardGame {
 
     public void start() throws Exception {
 
+        System.out.println(board);
         /*
             Steps
                 1. Prompt/ask the first player to make the move
@@ -59,7 +64,7 @@ public abstract class MultiplayerBoardGame {
                 4. Continue until the game is finished
          */
         int noOfAttempts = 0;
-        Move m = null;
+        Move<E> m = null;
         Player p =  null;
         while(gameNotFinished(board)) {
             p = playerList.getNextPlayer();
@@ -89,6 +94,8 @@ public abstract class MultiplayerBoardGame {
 
              */
             applyMove(m, board);
+
+            System.out.println(board);
             
             
         }
@@ -97,13 +104,13 @@ public abstract class MultiplayerBoardGame {
 
     }
 
-    protected abstract Player getWinner(Player p, Board board);
+    protected abstract Player getWinner(Player p, B board);
 
-    protected abstract boolean gameNotFinished(Board board);
+    protected abstract boolean gameNotFinished(B board);
 
-    protected abstract void applyMove(Move m, Board board);
+    protected abstract void applyMove(Move<E> m, B board);
 
-    protected abstract boolean validateMove(Move m, Board board);
+    protected abstract boolean validateMove(Move<E> m, B board);
 
 
 }

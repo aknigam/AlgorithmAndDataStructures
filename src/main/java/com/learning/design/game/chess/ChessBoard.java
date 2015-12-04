@@ -28,9 +28,9 @@ public class ChessBoard implements Board<ChessBoardPosition>{
             for (int j = 0; j < 8; j++) {
 
                 if(evenrow)
-                    grid[i][j] = new ChessBoardPosition(j%2 ==0 ? PieceType.BLACK : PieceType.WHITE);
+                    grid[i][j] = new ChessBoardPosition(j%2 ==0 ? PieceType.BLACK : PieceType.WHITE, i, j);
                 else
-                    grid[i][j] = new ChessBoardPosition(j%2 ==0 ? PieceType.WHITE : PieceType.BLACK);
+                    grid[i][j] = new ChessBoardPosition(j%2 ==0 ? PieceType.WHITE : PieceType.BLACK, i, j);
             }
             evenrow = evenrow ? false: true;
 
@@ -84,9 +84,9 @@ public class ChessBoard implements Board<ChessBoardPosition>{
 
     public boolean isValidPosition(ChessBoardPosition position) {
 
-
         return true;
     }
+
 
     public ChessBoardPosition getBoardPosition(Piece p) {
         return piecePositions.get(p);
@@ -98,7 +98,7 @@ public class ChessBoard implements Board<ChessBoardPosition>{
 
     public void changePiecePosition(Piece piece, ChessBoardPosition destination) {
 
-        getBoardPosition(piece).clear();
+        piecePositions.get(piece).clear();
         destination.setPiece(piece);
         piecePositions.put(piece, destination);
         positionPieces.put(destination, piece);

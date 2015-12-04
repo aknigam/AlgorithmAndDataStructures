@@ -6,15 +6,15 @@ import com.learning.design.game.Piece;
 /**
  * Created by a.nigam on 02/12/15.
  */
-public class Move {
+public class Move <E extends BoardPosition> {
     private Piece piece;
-    private BoardPosition destination;
+    private E destination;
 
     public Piece getPiece() {
         return piece;
     }
 
-    public BoardPosition getDestination() {
+    public E getDestination() {
         return destination;
     }
 }

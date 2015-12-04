@@ -1,10 +1,10 @@
 package com.learning.design.game;
 
+import java.util.LinkedList;
+
 /**
  * Created by a.nigam on 02/12/15.
  */
-public class PlayerList {
-    public Player getNextPlayer() {
-        return null;
-    }
+public interface PlayerList {
+    Player getNextPlayer();
 }
