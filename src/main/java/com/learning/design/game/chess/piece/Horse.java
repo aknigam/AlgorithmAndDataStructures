@@ -1,14 +1,14 @@
 package com.learning.design.game.chess.piece;
 
 import com.learning.design.game.BoardPosition;
+import com.learning.design.game.Piece;
 
 /**
- * Created by a.nigam on 03/12/15.
+ * Created by a.nigam on 04/12/15.
  */
-public class Rook extends NumberedPiece {
+public class Horse extends NumberedPiece {
 
-
-    public Rook(PieceType pieceType, int number) {
+    public Horse(PieceType pieceType, int number) {
         super(pieceType, number);
     }
 
@@ -18,7 +18,6 @@ public class Rook extends NumberedPiece {
 
     @Override
     protected String getShortName() {
-        return "r";
+        return "h";
     }
-
 }

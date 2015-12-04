@@ -1,15 +1,15 @@
 package com.learning.design.game;
 
 
-public interface Board {
+public interface Board<E extends  BoardPosition> {
 
-    boolean isValidPosition(BoardPosition position);
+    boolean isValidPosition(E position);
 
-    BoardPosition getBoardPosition(Piece p) ;
+    E getBoardPosition(Piece p) ;
 
-    Piece getPieceAtPosition(BoardPosition destination);
+    Piece getPieceAtPosition(E destination);
 
-    void changePiecePosition(Piece piece, BoardPosition destination);
+    void changePiecePosition(Piece piece, E destination);
 
-    void clearPosition(BoardPosition destination) ;
+    void clearPosition(E destination) ;
 }

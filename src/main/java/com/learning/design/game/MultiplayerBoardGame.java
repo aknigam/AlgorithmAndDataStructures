@@ -1,10 +1,6 @@
 package com.learning.design.game;
 
-public abstract class MultiplayerBoardGame {
-
-    private static final int MAX_ATTEMPTS_PER_PLAYER = 1;
-
-    /*
+/*
 
         A game is played using following entities:
 
@@ -38,6 +34,11 @@ public abstract class MultiplayerBoardGame {
         UNDO functionality.
 
      */
+public abstract class MultiplayerBoardGame {
+
+    private static final int MAX_ATTEMPTS_PER_PLAYER = 1;
+
+
 
     private PlayerList playerList;
 
