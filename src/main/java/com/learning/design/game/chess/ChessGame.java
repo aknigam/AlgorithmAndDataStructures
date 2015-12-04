@@ -8,6 +8,10 @@ import com.learning.design.game.Board;
 public class ChessGame extends MultiplayerBoardGame<ChessBoard, ChessBoardPosition> {
 
 
+    public ChessGame(ChessBoard board, PlayerList playerList) {
+        super(board, playerList);
+    }
+
     @Override
     public void init() {
 

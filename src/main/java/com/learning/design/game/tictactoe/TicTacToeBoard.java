@@ -21,7 +21,10 @@ public class TicTacToeBoard implements Board<TicTacToeBoardPosition>{
         for (int i = 0; i < 3; i++) {
 
             for (int j = 0; j < 3; j++) {
-                grid[i][j] = new TicTacToeBoardPosition(i, j);
+                TicTacToeBoardPosition position = new TicTacToeBoardPosition(i, j);
+                grid[i][j] = position;
+                piecePositions.put(position.getPiece(), position);
+                positionPieces.put(position, position.getPiece());
             }
         }
     }
@@ -56,6 +59,7 @@ public class TicTacToeBoard implements Board<TicTacToeBoardPosition>{
         return piecePositions.get(p);
     }
 
+
     public Piece getPieceAtPosition(TicTacToeBoardPosition destination) {
         return positionPieces.get(destination);
     }
@@ -83,4 +87,9 @@ public class TicTacToeBoard implements Board<TicTacToeBoardPosition>{
         board.display();
     }
 
+    public void addPieceAtPosition(Piece piece, TicTacToeBoardPosition destination, TicTacToeBoard board) {
+        destination.setPiece(piece);
+        piecePositions.put(piece, destination);
+        positionPieces.put(destination, piece);
+    }
 }

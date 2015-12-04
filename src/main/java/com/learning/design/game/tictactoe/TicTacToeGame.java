@@ -42,7 +42,7 @@ public class TicTacToeGame extends MultiplayerBoardGame<TicTacToeBoard, TicTacTo
 
     @Override
     protected void applyMove(Move<TicTacToeBoardPosition> m, TicTacToeBoard board) {
-
+        board.addPieceAtPosition(m.getPiece(), m.getDestination(), board);
     }
 
     @Override
