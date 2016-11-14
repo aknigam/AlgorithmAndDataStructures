@@ -13,14 +13,25 @@ public class CutRod {
 
         int[] r = new int[p.length];
         init(r);
+
+        int[] peices = new int[p.length];
+        init(peices);
         StringBuilder log = new StringBuilder();
-        int rev = memoizedCutRodTopDown(p, p.length, log,r);
+        int rev = extendedMemoizedCutRodTopDown(p, p.length, log,r, peices);
 
         System.out.println(rev+"\n"+log);
 
         for (int i = 0; i < r.length; i++) {
-            System.out.println(String.valueOf(r[i]));
+            int size = i;
+            StringBuilder sb = new StringBuilder();
+            while (size>0){
+                sb.append(peices[size]).append("-");
+                size = size - peices[size];
+            }
+
+            System.out.println("Size\t"+(i+1)+"\t"+String.valueOf(r[i])+"\t"+sb);
         }
+
 
 
 
@@ -54,6 +65,53 @@ public class CutRod {
         return max_val;
     }
 
+    /*
+    Outputs the revenue and sizes of the rod as well.
+     */
+    static int extendedMemoizedCutRodTopDown(int price[], int n, StringBuilder log, int[] r, int[] peices){
+
+        System.out.println("Processing\t"+n);
+        if (n <= 0)
+            return 0;
+
+        int max_val = Integer.MIN_VALUE;
+
+        // Recursively cut the rod in different pieces and
+        // compare different configurations
+
+        int size =-1;
+        for (int i = 0; i<n; i++) {
+//            log.append("n="+n+"\ti="+i+"	P("+(i+1)+"="+price[i]+")+ R(" + (n- i -1)+")\t,\t");
+            int rev =-1;
+
+            if((n-i-1 -1 )>0){
+                rev = r[n-i-1 -1];
+            }
+            if(rev == -1) {
+                rev = extendedMemoizedCutRodTopDown(price, n - i - 1, log, r,peices);
+            }else {
+//                System.out.println("Skipped\t"+(n-i-1));
+            }
+
+            if(max_val < price[i] + rev) {
+                max_val = Math.max(max_val, price[i] + rev);
+                size = i+1;
+
+            }
+
+
+        }
+        if(peices[n-1] == -1)
+            peices[n-1] = size;
+        append(log,String.valueOf(size)+"("+n+")");
+        r[n-1] =  max_val;
+        return max_val;
+    }
+
+    private static void append(StringBuilder log, String size) {
+        log.append(size).append("\t");
+    }
+
     static int memoizedCutRodTopDown(int price[], int n, StringBuilder log, int[] r)
     {
         System.out.println("Processing\t"+n);
@@ -64,8 +122,9 @@ public class CutRod {
 
         // Recursively cut the rod in different pieces and
         // compare different configurations
+
         for (int i = 0; i<n; i++) {
-            log.append("n="+n+"\ti="+i+"	P("+(i+1)+"="+price[i]+")+ R(" + (n- i -1)+")\t,\t");
+//            log.append("n="+n+"\ti="+i+"	P("+(i+1)+"="+price[i]+")+ R(" + (n- i -1)+")\t,\t");
             int rev =-1;
 
             if((n-i-1 -1 )>0){
@@ -77,8 +136,11 @@ public class CutRod {
 //                System.out.println("Skipped\t"+(n-i-1));
             }
 
-            max_val = Math.max(max_val,
-                    price[i] + rev);
+            if(max_val < price[i] + rev) {
+                max_val = Math.max(max_val, price[i] + rev);
+                log.append(i).append("\t");
+
+            }
 
 
         }
