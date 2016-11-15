@@ -29,17 +29,28 @@ public class AdjacencyMatrixGraph extends  Graph{
 
     @Override
     public void addEdge(int sourceVertex, int destVertex) {
+        addDirectedEdge(sourceVertex,destVertex);
+        addDirectedEdge(destVertex, sourceVertex);
+    }
+
+    @Override
+    public void addDirectedEdge(int sourceVertex, int destVertex) {
         if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)){
             g[sourceVertex][destVertex] = 1;
-            g[destVertex][sourceVertex] = 1;
         }
     }
 
     @Override
     public void addEdge(int sourceVertex, int destVertex, int weight) {
+        addDirectedEdge(sourceVertex, destVertex, weight);
+        addDirectedEdge(destVertex, sourceVertex, weight);
+
+    }
+
+    @Override
+    public void addDirectedEdge(int sourceVertex, int destVertex, int weight) {
         if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)){
             g[sourceVertex][destVertex] = weight;
-            g[destVertex][sourceVertex] = weight;
         }
     }
 

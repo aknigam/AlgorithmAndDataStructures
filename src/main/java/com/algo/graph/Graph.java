@@ -20,7 +20,11 @@ public abstract class Graph {
 
     public abstract void addEdge(int sourceVertex , int destVertex);
 
+    public abstract void addDirectedEdge(int sourceVertex , int destVertex);
+
     public abstract void addEdge(int sourceVertex, int destVertex, int weight);
+
+    public abstract void addDirectedEdge(int sourceVertex, int destVertex, int weight);
 
     /**
     First index in the 2-D array represents the row
@@ -111,8 +115,8 @@ public abstract class Graph {
         };
 
 
-        Graph g = new AdjacencyListGraph(5);
-//        Graph g = new AdjacencyMatrixGraph(5);
+//        Graph g = new AdjacencyListGraph(5);
+        Graph g = new AdjacencyMatrixGraph(5);
 
         g.addEdge(0, 1);
         g.addEdge(0, 2);
