@@ -1,4 +1,4 @@
-package com.algo;
+package com.algo.tree;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class BTreePrinter {
 
-    public static <T extends Comparable<?>> void printTreeNode(TreeNode root) {
+    public static <T extends Comparable<?>> void printTreeNode(BinaryTreeNode root) {
         int maxLevel = BTreePrinter.maxLevel(root);
 
         printTreeNodeInternal(Collections.singletonList(root), 1, maxLevel);
     }
 
-    private static <T extends Comparable<?>> void printTreeNodeInternal(List<TreeNode> TreeNodes, int level, int maxLevel) {
+    private static <T extends Comparable<?>> void printTreeNodeInternal(List<BinaryTreeNode> TreeNodes, int level, int maxLevel) {
         if (TreeNodes.isEmpty() || BTreePrinter.isAllElementsNull(TreeNodes)) {
             System.out.println("Empty tree");
             return;
@@ -28,8 +28,8 @@ public class BTreePrinter {
 
         BTreePrinter.printWhitespaces(firstSpaces);
 
-        List<TreeNode> newTreeNodes = new ArrayList<TreeNode>();
-        for (TreeNode TreeNode : TreeNodes) {
+        List<BinaryTreeNode> newTreeNodes = new ArrayList<BinaryTreeNode>();
+        for (BinaryTreeNode TreeNode : TreeNodes) {
             if (TreeNode != null) {
                 System.out.print(TreeNode.data);
                 newTreeNodes.add(TreeNode.left);
@@ -78,7 +78,7 @@ public class BTreePrinter {
             System.out.print(" ");
     }
 
-    private static <T extends Comparable<?>> int maxLevel(TreeNode TreeNode) {
+    private static <T extends Comparable<?>> int maxLevel(BinaryTreeNode TreeNode) {
         if (TreeNode == null)
             return 0;
 

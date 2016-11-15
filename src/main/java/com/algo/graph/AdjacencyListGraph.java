@@ -22,7 +22,7 @@ public class AdjacencyListGraph extends Graph{
     }
 
     @Override
-    public void addEdge(int sourceVertex, int destVertex) {
+    public void addUndirectedEdge(int sourceVertex, int destVertex) {
         addDirectedEdge(sourceVertex, destVertex);
         addDirectedEdge(destVertex, sourceVertex);
     }
@@ -35,7 +35,7 @@ public class AdjacencyListGraph extends Graph{
     }
 
     @Override
-    public void addEdge(int sourceVertex, int destVertex, int weight) {
+    public void addUndirectedEdge(int sourceVertex, int destVertex, int weight) {
         addDirectedEdge(sourceVertex, destVertex, weight);
         addDirectedEdge(destVertex, sourceVertex, weight);
     }

@@ -1,4 +1,7 @@
-package com.algo;
+package com.algo.tree;
+
+
+
 
 public class BinarySearch<T extends Integer> {
 
@@ -11,7 +14,7 @@ public class BinarySearch<T extends Integer> {
 //        System.out.printf(String.valueOf(adjustHeightIfLess(a, 2, 0, 16)));
 
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 30, 0, a.length-1, "root"));
-//        TreeNode n = drawBinaryTreeOfHeight(a, 3, 0, a.length - 1, "root");
+//        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 3, 0, a.length - 1, "root");
 //        System.out.println(n);
 //        BTreePrinter.printTreeNode(n);
         BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 2, 0, a.length-1, "root"));
@@ -23,14 +26,14 @@ public class BinarySearch<T extends Integer> {
     }
 
     public static void buildDummyBinaryTree(){
-        TreeNode n= new TreeNode(1);
+        BinaryTreeNode n= new BinaryTreeNode(1);
         n.data = 1;
     }
 
 
     /**
      int[] a = {1,4,6,45,78,90, 91, 95, 98, 99, 100};
-     TreeNode n = drawBinaryTreeOfHeight(a, 1, 0, a.length-1);
+     BinaryTreeNode n = drawBinaryTreeOfHeight(a, 1, 0, a.length-1);
      System.out.println(n);
      BTreePrinter.printTreeNode(n);
      * @param a
@@ -39,7 +42,7 @@ public class BinarySearch<T extends Integer> {
      * @param endIndex
      * @return
      */
-    public static TreeNode drawBinaryTreeOfHeight(int[] a, int height, int startIndex, int endIndex, String debug){
+    public static BinaryTreeNode drawBinaryTreeOfHeight(int[] a, int height, int startIndex, int endIndex, String debug){
         // System.out.println(debug+"\tH\t"+height+"\tS\t"+startIndex+"\tE\t"+endIndex);
         // first sort the array
         if(startIndex>endIndex){
@@ -47,7 +50,7 @@ public class BinarySearch<T extends Integer> {
             return null;
         }
         if(startIndex == endIndex){
-            return new TreeNode(a[startIndex]);
+            return new BinaryTreeNode(a[startIndex]);
         }
 
         height = adjustHeightIfLess(a, height, startIndex, endIndex);
@@ -66,7 +69,7 @@ public class BinarySearch<T extends Integer> {
         }
         System.out.println(debug+"\tH\t"+height+"\tS\t"+startIndex+"\tE\t"+endIndex+"\t|\tR\t"+ rootIndex+"("+a[rootIndex]+")\tLN\t["+0+","+(rootIndex-1)+"]\tRN\t["+(rootIndex+1)+ ","+(endIndex)+"]");
 
-        TreeNode n = new TreeNode(a[rootIndex]);
+        BinaryTreeNode n = new BinaryTreeNode(a[rootIndex]);
         n.setLeft( drawBinaryTreeOfHeight(a , height -1, startIndex, rootIndex -1, "Left"));
         n.setRight( drawBinaryTreeOfHeight(a , height -1, rootIndex+1, endIndex, "Right"));
 
@@ -105,7 +108,7 @@ public class BinarySearch<T extends Integer> {
     public void generateBinaryTree(int[] a, int rootIndex){
 
     }
-    public void inorderTreeWalk(TreeNode node, StringBuilder sb){
+    public void inorderTreeWalk(BinaryTreeNode node, StringBuilder sb){
 
         if(node == null){
             return;
@@ -117,26 +120,26 @@ public class BinarySearch<T extends Integer> {
 
 
     }
-	public static TreeNode dummyTree() {
-		TreeNode node = new TreeNode(2);
+	public static BinaryTreeNode dummyTree() {
+		BinaryTreeNode node = new BinaryTreeNode(2);
 		buildTree(2, 2,node, node.data);
 		return node;
 	}
 
-	public static void buildTree(int i, int depth, TreeNode node, Integer data) {
+	public static void buildTree(int i, int depth, BinaryTreeNode node, Integer data) {
 
 		if (depth < 0) {
 			return;
 		}
 
-		node.left = new TreeNode(i - 1);
-		node.right = new TreeNode(i + 1);
+		node.left = new BinaryTreeNode(i - 1);
+		node.right = new BinaryTreeNode(i + 1);
         System.out.println(depth+"\t\t"+node);
         buildTree(i - 1, depth - 1, node.left, (Integer) node.data);
 		buildTree(i + 1, depth - 1, node.right, (Integer) node.data);
 	}
 
-//	public boolean isBST2(TreeNode root) {
+//	public boolean isBST2(BinaryTreeNode root) {
 //		return (isBST2(root, Integer.MIN_VALUE, Integer.MAX_VALUE));
 //
 //	}
@@ -146,18 +149,18 @@ public class BinarySearch<T extends Integer> {
 	 * the tree to verify that it is a BST, and that all its nodes are within
 	 * the min..max range. Works in O(n) time -- visits each node only once.
 	 */
-	private boolean  isBST2(TreeNode node, T min, T max) {
+	private boolean  isBST2(BinaryTreeNode node, T min, T max) {
 		if (node == null) {
 			return (true);
 		} else {
 			// left should be in range min...node.data
-			boolean leftOk = isBST2((TreeNode)node.left, min, (T) node.data);
+			boolean leftOk = isBST2((BinaryTreeNode)node.left, min, (T) node.data);
 			// if the left is not ok, bail out
 			if (!leftOk)
 				return (false);
 			// right should be in range node.data+1..max
             T a = (T)T.valueOf( node.data.intValue() + 1);
-			boolean rightOk = isBST2((TreeNode) node.right, a, max);
+			boolean rightOk = isBST2((BinaryTreeNode) node.right, a, max);
 			return (rightOk);
 		}
 	}

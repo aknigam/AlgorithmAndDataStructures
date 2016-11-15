@@ -1,11 +1,11 @@
-package com.algo;
+package com.algo.tree;
 
-import java.util.Comparator;
+import com.algo.GenericBinaryTreeNode;
 
 /**
  * Created by a.nigam on 09/11/16.
  */
-public class TreeNode extends GenericTreeNode <Integer> {
+public class BinaryTreeNode extends GenericBinaryTreeNode<Integer> {
 
     Integer data;
 
@@ -17,26 +17,26 @@ public class TreeNode extends GenericTreeNode <Integer> {
         this.data = data;
     }
 
-    public TreeNode getLeft() {
+    public BinaryTreeNode getLeft() {
         return left;
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(BinaryTreeNode left) {
         this.left = left;
     }
 
-    public TreeNode getRight() {
+    public BinaryTreeNode getRight() {
         return right;
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(BinaryTreeNode right) {
         this.right = right;
     }
 
-    TreeNode left;
-    TreeNode right;
+    BinaryTreeNode left;
+    BinaryTreeNode right;
 
-    public TreeNode(Integer i) {
+    public BinaryTreeNode(Integer i) {
         data =i;
     }
 

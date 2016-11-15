@@ -1,9 +1,9 @@
-package com.algo;
+package com.algo.tree;
 
 /**
  * Created by a.nigam on 10/11/16.
  */
-public abstract class GenericTreeNode<T> {
+public abstract class GenericBinaryTreeNode<T> {
 
 
     @Override
@@ -13,7 +13,7 @@ public abstract class GenericTreeNode<T> {
 
     protected abstract T getData();
 
-    protected abstract GenericTreeNode<T> getLeft();
+    protected abstract GenericBinaryTreeNode<T> getLeft();
 
-    protected abstract GenericTreeNode<T> getRight();
+    protected abstract GenericBinaryTreeNode<T> getRight();
 }

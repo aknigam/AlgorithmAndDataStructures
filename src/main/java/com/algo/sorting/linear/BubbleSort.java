@@ -1,6 +1,6 @@
-package com.learning.sorting.linear;
+package com.algo.sorting.linear;
 
-import com.learning.sorting.AbstractBaseSort;
+import com.algo.sorting.AbstractBaseSort;
 
 /**
  Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order.

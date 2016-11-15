@@ -18,11 +18,11 @@ public abstract class Graph {
         V = noOfvertices;
     }
 
-    public abstract void addEdge(int sourceVertex , int destVertex);
+    public abstract void addUndirectedEdge(int sourceVertex , int destVertex);
 
     public abstract void addDirectedEdge(int sourceVertex , int destVertex);
 
-    public abstract void addEdge(int sourceVertex, int destVertex, int weight);
+    public abstract void addUndirectedEdge(int sourceVertex, int destVertex, int weight);
 
     public abstract void addDirectedEdge(int sourceVertex, int destVertex, int weight);
 
@@ -118,15 +118,15 @@ public abstract class Graph {
 //        Graph g = new AdjacencyListGraph(5);
         Graph g = new AdjacencyMatrixGraph(5);
 
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(1, 2);
-//        g.addEdge(2, 0);
-        g.addEdge(2, 3);
-        g.addEdge(3, 4);
-//        g.addEdge(2, 4);
-        g.addEdge(1, 4);
-        g.addEdge(1, 3);
+        g.addUndirectedEdge(0, 1);
+        g.addUndirectedEdge(0, 2);
+        g.addUndirectedEdge(1, 2);
+//        g.addUndirectedEdge(2, 0);
+        g.addUndirectedEdge(2, 3);
+        g.addUndirectedEdge(3, 4);
+//        g.addUndirectedEdge(2, 4);
+        g.addUndirectedEdge(1, 4);
+        g.addUndirectedEdge(1, 3);
         System.out.println(g);
 
         g.BFS(2);

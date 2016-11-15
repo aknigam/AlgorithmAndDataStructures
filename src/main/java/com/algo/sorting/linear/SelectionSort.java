@@ -1,7 +1,7 @@
-package com.learning.sorting.linear;
+package com.algo.sorting.linear;
 
 
-import com.learning.sorting.AbstractBaseSort;
+import com.algo.sorting.AbstractBaseSort;
 
 /*
 http://quiz.geeksforgeeks.org/selection-sort/

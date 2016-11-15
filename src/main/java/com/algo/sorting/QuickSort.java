@@ -1,4 +1,4 @@
-package com.learning.sorting;
+package com.algo.sorting;
 
 /**
  * Like Merge Sort, QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given
