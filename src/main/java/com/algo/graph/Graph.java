@@ -1,6 +1,9 @@
 package com.algo.graph;
 
 
+import com.algo.util.ArrayUtils;
+import com.algo.util.GraphUtils;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,14 +31,14 @@ public abstract class Graph {
         if(!GraphUtils.isValidVertex(V, s)){
             return;
         }
-        int[] visited = new int[V];
-        GraphUtils.initArray(visited , 0);
+        int[] previous = new int[V];
+        ArrayUtils.initArray(previous , 0);
 
         int[] distance = new int[V];
-        GraphUtils.initArray(distance , Integer.MAX_VALUE);
+        ArrayUtils.initArray(distance , Integer.MAX_VALUE);
 
         int[] color = new int[V];
-        GraphUtils.initArray(color , -1); // 0 == W, 1 == G, 2 == B
+        ArrayUtils.initArray(color , -1); // 0 == W, 1 == G, 2 == B
 
         LinkedList<Integer> q =  new LinkedList<Integer>();
 
@@ -48,23 +51,28 @@ public abstract class Graph {
 
         while (!q.isEmpty()){
             int v = q.poll();
-            visited[v] = 1;
+
             color[v] = 1; // marked G
             bfs.append(v).append("\t");
             List<Integer> adj =  getAdjacentvertices(v);
             for (int i = 0; i < adj.size(); i++) {
                 int u = adj.get(i);
 
-                if(visited[u] == 0) {
+                if(color[u] == -1) {
+                    color[u] = 0;
+                    distance[u] = distance[v]+1;
+                    previous[u] = v;
                     q.add(u);
                 }
             }
             color[v] = 2; // marked B
         }
 
+
+        ArrayUtils.print(color);
+        ArrayUtils.print(distance);
+        ArrayUtils.print(previous);
         System.out.println(bfs);
-
-
 
 
     }
@@ -103,15 +111,18 @@ public abstract class Graph {
         };
 
 
-        Graph g = new AdjacencyListGraph(4);
-//        Graph g = new AdjacencyMatrixGraph(4);
+        Graph g = new AdjacencyListGraph(5);
+//        Graph g = new AdjacencyMatrixGraph(5);
 
         g.addEdge(0, 1);
         g.addEdge(0, 2);
         g.addEdge(1, 2);
-        g.addEdge(2, 0);
+//        g.addEdge(2, 0);
         g.addEdge(2, 3);
-        g.addEdge(3, 3);
+        g.addEdge(3, 4);
+//        g.addEdge(2, 4);
+        g.addEdge(1, 4);
+        g.addEdge(1, 3);
         System.out.println(g);
 
         g.BFS(2);

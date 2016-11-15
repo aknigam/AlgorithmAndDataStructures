@@ -1,5 +1,7 @@
 package com.algo.graph;
 
+import com.algo.util.GraphUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class AdjacencyMatrixGraph extends  Graph{
     public void addEdge(int sourceVertex, int destVertex) {
         if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)){
             g[sourceVertex][destVertex] = 1;
+            g[destVertex][sourceVertex] = 1;
         }
     }
 
@@ -36,6 +39,7 @@ public class AdjacencyMatrixGraph extends  Graph{
     public void addEdge(int sourceVertex, int destVertex, int weight) {
         if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)){
             g[sourceVertex][destVertex] = weight;
+            g[destVertex][sourceVertex] = weight;
         }
     }
 

@@ -1,4 +1,4 @@
-package com.algo.graph;
+package com.algo.util;
 
 /**
  * Created by a.nigam on 14/11/16.
@@ -40,9 +40,5 @@ public class GraphUtils {
         return vertex>=0 && vertex < V;
     }
 
-    public static void initArray(int[] a, int i) {
-        for (int j = 0; j < a.length; j++) {
-            a[j] = i;
-        }
-    }
+
 }

@@ -1,5 +1,7 @@
 package com.algo.graph;
 
+import com.algo.util.GraphUtils;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class AdjacencyListGraph extends Graph{
     public void addEdge(int sourceVertex, int destVertex) {
         if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)) {
             g[sourceVertex].add(destVertex);
+            g[destVertex].add(sourceVertex);
         }
     }
 
