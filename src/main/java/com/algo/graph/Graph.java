@@ -3,6 +3,7 @@ package com.algo.graph;
 
 import com.algo.util.ArrayUtils;
 import com.algo.util.GraphUtils;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +31,10 @@ public abstract class Graph {
     First index in the 2-D array represents the row
      */
 
+    public void DFS(){
+
+    }
+
     public void BFS(int s){
 
         if(!GraphUtils.isValidVertex(V, s)){
@@ -42,28 +47,29 @@ public abstract class Graph {
         ArrayUtils.initArray(distance , Integer.MAX_VALUE);
 
         int[] color = new int[V];
-        ArrayUtils.initArray(color , -1); // 0 == W, 1 == G, 2 == B
+        ArrayUtils.initArray(color , 0); // 0 == W, 1 == G, 2 == B
 
         LinkedList<Integer> q =  new LinkedList<Integer>();
 
         StringBuilder bfs = new StringBuilder();
 
 
-        color[s] = 0;
+//        color[s] = 1; // MARKED AS G
         distance[s] = 0;
         q.add(s);
 
         while (!q.isEmpty()){
+            System.out.printf("Queue-> "+ q);
             int v = q.poll();
 
-            color[v] = 1; // marked G
+//            color[v] = 1; // marked G
             bfs.append(v).append("\t");
             List<Integer> adj =  getAdjacentvertices(v);
             for (int i = 0; i < adj.size(); i++) {
                 int u = adj.get(i);
 
-                if(color[u] == -1) {
-                    color[u] = 0;
+                if(color[u] == 0) {
+                    color[u] = 1;
                     distance[u] = distance[v]+1;
                     previous[u] = v;
                     q.add(u);
@@ -77,6 +83,7 @@ public abstract class Graph {
         ArrayUtils.print(distance);
         ArrayUtils.print(previous);
 
+        System.out.println("BFS");
         System.out.println(bfs);
 
 
@@ -85,6 +92,14 @@ public abstract class Graph {
             System.out.printf("");
         }
 
+
+    }
+
+
+    public void _22_2_7_findDiameter(int s){
+
+    }
+    public void _22_2_7_BFS(int s){
 
     }
 
@@ -135,6 +150,7 @@ public abstract class Graph {
         g.addUndirectedEdge(1, 3);
         g.addUndirectedEdge(2, 3);
         g.addUndirectedEdge(3, 4);
+
 
         System.out.println(g);
 
