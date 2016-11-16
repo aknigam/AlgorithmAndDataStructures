@@ -36,7 +36,7 @@ public abstract class Graph {
             return;
         }
         int[] previous = new int[V];
-        ArrayUtils.initArray(previous , 0);
+        ArrayUtils.initArray(previous , -1);
 
         int[] distance = new int[V];
         ArrayUtils.initArray(distance , Integer.MAX_VALUE);
@@ -76,7 +76,29 @@ public abstract class Graph {
         ArrayUtils.print(color);
         ArrayUtils.print(distance);
         ArrayUtils.print(previous);
+
         System.out.println(bfs);
+
+
+        for (int i = 0; i < V; i++) {
+            printBFSTreePath(previous, s, i);
+            System.out.printf("");
+        }
+
+
+    }
+
+    protected void printBFSTreePath(int[] previous, int s, int d){
+
+        StringBuilder sb = new StringBuilder();
+        while(true){
+            sb.append(d).append("\t");
+            d = previous[d];
+            if(d == -1){
+                break;
+            }
+        }
+        System.out.println(sb);
 
 
     }
@@ -103,30 +125,17 @@ public abstract class Graph {
     }
 
     public static void main(String[] args) {
-        int size = 3;
-        int[][] a = new int[][]{
-                {0,1,0,1,0,0},
-                {0,0,0,0,1,0},
-                {0,0,0,0,1,1},
-                {0,1,0,0,0,0},
-                {0,0,0,1,0,0},
-                {0,0,0,0,0,1}
 
-        };
-
-
-//        Graph g = new AdjacencyListGraph(5);
         Graph g = new AdjacencyMatrixGraph(5);
 
         g.addUndirectedEdge(0, 1);
         g.addUndirectedEdge(0, 2);
         g.addUndirectedEdge(1, 2);
-//        g.addUndirectedEdge(2, 0);
-        g.addUndirectedEdge(2, 3);
-        g.addUndirectedEdge(3, 4);
-//        g.addUndirectedEdge(2, 4);
         g.addUndirectedEdge(1, 4);
         g.addUndirectedEdge(1, 3);
+        g.addUndirectedEdge(2, 3);
+        g.addUndirectedEdge(3, 4);
+
         System.out.println(g);
 
         g.BFS(2);
