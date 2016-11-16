@@ -1,5 +1,7 @@
 package com.algo.util;
 
+import com.algo.graph.Vertex;
+
 /**
  * Created by a.nigam on 14/11/16.
  */
@@ -17,5 +19,11 @@ public class ArrayUtils {
             sb.append(a[i]).append("\t");
         }
         System.out.println(sb);
+    }
+
+    public static void initArray(Vertex[] vlist, Vertex o) {
+        for (int i = 0; i < vlist.length; i++) {
+            vlist[i] = o;
+        }
     }
 }

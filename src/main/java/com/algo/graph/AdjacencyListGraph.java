@@ -8,49 +8,62 @@ import java.util.List;
 /**
  * Created by a.nigam on 15/11/16.
  */
-public class AdjacencyListGraph extends Graph{
+public class AdjacencyListGraph<E> extends Graph<E>{
 
-    LinkedList<Integer>[] g;
+    LinkedList<Vertex<E>>[] g;
     public AdjacencyListGraph(int noOfvertices){
         super(noOfvertices);
         g = new LinkedList[noOfvertices];
 
         for (int i = 0; i < noOfvertices; i++) {
-            g[i] = new LinkedList<Integer>();
+            g[i] = new LinkedList<Vertex<E>>();
         }
 
     }
 
     @Override
-    public void addUndirectedEdge(int sourceVertex, int destVertex) {
+    public void addUndirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex) {
         addDirectedEdge(sourceVertex, destVertex);
         addDirectedEdge(destVertex, sourceVertex);
     }
 
     @Override
-    public void addDirectedEdge(int sourceVertex, int destVertex) {
-        if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)) {
-            g[sourceVertex].add(destVertex);
+    public void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex) {
+        if(GraphUtils.isValidVertex(V, sourceVertex.index) && GraphUtils.isValidVertex(V, destVertex.index)) {
+            g[sourceVertex.index].add(destVertex);
+            if(vlist[sourceVertex.index] ==  null){
+                vlist[sourceVertex.index] = sourceVertex;
+            }
+            if(vlist[destVertex.index] ==  null){
+                vlist[destVertex.index] = destVertex;
+            }
         }
     }
 
     @Override
-    public void addUndirectedEdge(int sourceVertex, int destVertex, int weight) {
+    public void addUndirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight) {
         addDirectedEdge(sourceVertex, destVertex, weight);
         addDirectedEdge(destVertex, sourceVertex, weight);
     }
 
     @Override
-    public void addDirectedEdge(int sourceVertex, int destVertex, int weight) {
-        if(GraphUtils.isValidVertex(V, sourceVertex) && GraphUtils.isValidVertex(V, destVertex)) {
-            g[sourceVertex].add(destVertex);
+    public void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight) {
+        if(GraphUtils.isValidVertex(V, sourceVertex.index) && GraphUtils.isValidVertex(V, destVertex.index)) {
+            g[sourceVertex.index].add(destVertex);
+            if(vlist[sourceVertex.index] ==  null){
+                vlist[sourceVertex.index] = sourceVertex;
+            }
+            if(vlist[destVertex.index] ==  null){
+                vlist[destVertex.index] = destVertex;
+            }
         }
     }
 
     @Override
-    protected List<Integer> getAdjacentvertices(int v) {
-        return g[v];
+    protected List<Vertex<E>> getAdjacentvertices(Vertex<E> v) {
+        return g[v.index];
     }
+
 
 
     @Override

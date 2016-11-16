@@ -3,94 +3,142 @@ package com.algo.graph;
 
 import com.algo.util.ArrayUtils;
 import com.algo.util.GraphUtils;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
+
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by a.nigam on 14/11/16.
  */
-public abstract class Graph {
+public abstract class Graph<E> {
 
     final int V; // no of vertices
 
+
+    Vertex<E>[] vlist;
+
+    int time =0;
     public Graph(int noOfvertices) {
         V = noOfvertices;
+        vlist = new Vertex[noOfvertices];
+        ArrayUtils.initArray(vlist, null);
     }
 
-    public abstract void addUndirectedEdge(int sourceVertex , int destVertex);
+    public abstract void addUndirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex);
 
-    public abstract void addDirectedEdge(int sourceVertex , int destVertex);
+    public abstract void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex);
 
-    public abstract void addUndirectedEdge(int sourceVertex, int destVertex, int weight);
+    public abstract void addUndirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight);
 
-    public abstract void addDirectedEdge(int sourceVertex, int destVertex, int weight);
+    public abstract void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight);
+
+    protected abstract List<Vertex<E>> getAdjacentvertices(Vertex<E> v);
+
+    public Iterator<Vertex<E>> vertextIterator(){
+        return Arrays.asList(vlist).iterator();
+    }
 
     /**
     First index in the 2-D array represents the row
      */
 
     public void DFS(){
+        Iterator<Vertex<E>> itr = vertextIterator();
+        while (itr.hasNext()){
+            Vertex<E> v = itr.next();
+            v.color = 0;
+        }
+        time = 0;
+        itr = vertextIterator();
+
+        StringBuilder dfs =  new StringBuilder();
+        while (itr.hasNext()){
+            Vertex<E> v = itr.next();
+            if(v.color == 0){
+                dfs.append(v.data).append("\t");
+                dfsInternal(v, dfs);
+            }
+        }
+
+        System.out.println(dfs);
+
+
 
     }
 
-    public void BFS(int s){
+    protected void dfsInternal(Vertex<E> v, StringBuilder dfs){
 
-        if(!GraphUtils.isValidVertex(V, s)){
+        v.color = 1;
+        v.st = ++ time;
+        v.d = time;
+        List<Vertex<E>> adj = getAdjacentvertices(v);
+        System.out.println(v+"-->\t"+adj);
+        for (int i = 0; i < adj.size(); i++) {
+
+            Vertex<E> u = adj.get(i);
+
+            if(u.color == 0){
+                u.p = v;
+                dfs.append(u.data).append("\t");
+                dfsInternal(u, dfs);
+
+            }
+
+        }
+        v.color = 2;
+        v.et = ++time;
+
+
+    }
+
+    public void BFS(Vertex<E> s){
+
+        if(!GraphUtils.isValidVertex(V, s.index)){
             return;
         }
-        int[] previous = new int[V];
-        ArrayUtils.initArray(previous , -1);
 
-        int[] distance = new int[V];
-        ArrayUtils.initArray(distance , Integer.MAX_VALUE);
 
-        int[] color = new int[V];
-        ArrayUtils.initArray(color , 0); // 0 == W, 1 == G, 2 == B
-
-        LinkedList<Integer> q =  new LinkedList<Integer>();
+        LinkedList<Vertex<E>> q =  new LinkedList<Vertex<E>>();
 
         StringBuilder bfs = new StringBuilder();
 
 
-//        color[s] = 1; // MARKED AS G
-        distance[s] = 0;
+        s.color = 1; // MARKED AS G
+        s.d = 0;
         q.add(s);
 
         while (!q.isEmpty()){
             System.out.printf("Queue-> "+ q);
-            int v = q.poll();
+            Vertex<E> v = q.poll();
 
-//            color[v] = 1; // marked G
+//            color[vlist] = 1; // marked G
             bfs.append(v).append("\t");
-            List<Integer> adj =  getAdjacentvertices(v);
+            List<Vertex<E>> adj =  getAdjacentvertices(v);
             for (int i = 0; i < adj.size(); i++) {
-                int u = adj.get(i);
+                Vertex<E> vrtx = adj.get(i);
+                int u = vrtx.index;
 
-                if(color[u] == 0) {
-                    color[u] = 1;
-                    distance[u] = distance[v]+1;
-                    previous[u] = v;
-                    q.add(u);
+                if(vrtx.color == 0) {
+                    vrtx.color = 1;
+                    vrtx.d  = v.d+1;
+                    vrtx.p = v;
+                    q.add(vrtx);
                 }
             }
-            color[v] = 2; // marked B
+            v.color = 2; // marked B
         }
 
 
-        ArrayUtils.print(color);
-        ArrayUtils.print(distance);
-        ArrayUtils.print(previous);
 
-        System.out.println("BFS");
+
+        System.out.println("\nBFS");
         System.out.println(bfs);
 
 
-        for (int i = 0; i < V; i++) {
-            printBFSTreePath(previous, s, i);
-            System.out.printf("");
-        }
+
 
 
     }
@@ -103,13 +151,13 @@ public abstract class Graph {
 
     }
 
-    protected void printBFSTreePath(int[] previous, int s, int d){
+    protected void printBFSTreePath(Vertex<E> s, Vertex<E> d){
 
         StringBuilder sb = new StringBuilder();
         while(true){
             sb.append(d).append("\t");
-            d = previous[d];
-            if(d == -1){
+            d = d.p;
+            if(d == null || d.index == -1){
                 break;
             }
         }
@@ -118,7 +166,7 @@ public abstract class Graph {
 
     }
 
-    protected abstract List<Integer> getAdjacentvertices(int v);
+
 
 
     static int[][] geTransposeEffecint(int[][] a){
@@ -139,23 +187,121 @@ public abstract class Graph {
         return b;
     }
 
-    public static void main(String[] args) {
+    static void dfsDemo(){
 
-        Graph g = new AdjacencyMatrixGraph(5);
 
-        g.addUndirectedEdge(0, 1);
-        g.addUndirectedEdge(0, 2);
-        g.addUndirectedEdge(1, 2);
-        g.addUndirectedEdge(1, 4);
-        g.addUndirectedEdge(1, 3);
-        g.addUndirectedEdge(2, 3);
-        g.addUndirectedEdge(3, 4);
+        Graph g = new AdjacencyListGraph(5);
+
+
+        Vertex v0 = new Vertex(0, 0);
+        Vertex v1 = new Vertex(1, 1);
+        Vertex v2 = new Vertex(2, 2);
+        Vertex v3 = new Vertex(3, 3);
+        Vertex v4 = new Vertex(4, 4);
+
+        g.addUndirectedEdge(v0, v1);
+        g.addUndirectedEdge(v0, v2);
+        g.addUndirectedEdge(v1, v2);
+        g.addUndirectedEdge(v1, v4);
+        g.addUndirectedEdge(v1, v3);
+        g.addUndirectedEdge(v2, v3);
+        g.addUndirectedEdge(v3, v4);
 
 
         System.out.println(g);
 
-        g.BFS(2);
+        g.DFS();
+        GraphUtils.printColors(g);
+        GraphUtils.printDistance(g);
+        GraphUtils.printBFSPrevious(g);
+    }
+
+    static void bfsdemo(){
+        Graph g = new AdjacencyListGraph(5);
+
+
+        Vertex v0 = new Vertex(0, 0);
+        Vertex v1 = new Vertex(1, 1);
+        Vertex v2 = new Vertex(2, 2);
+        Vertex v3 = new Vertex(3, 3);
+        Vertex v4 = new Vertex(4, 4);
+
+        g.addUndirectedEdge(v0, v1);
+        g.addUndirectedEdge(v0, v2);
+        g.addUndirectedEdge(v1, v2);
+        g.addUndirectedEdge(v1, v4);
+        g.addUndirectedEdge(v1, v3);
+        g.addUndirectedEdge(v2, v3);
+        g.addUndirectedEdge(v3, v4);
+
+
+        System.out.println(g);
+
+        g.BFS(v2);
+        GraphUtils.printColors(g);
+        GraphUtils.printDistance(g);
+        GraphUtils.printBFSPrevious(g);
+
+
+
+        System.out.println("Print attributes");
+
+
+
+        g.printBFSTreePath(v2, v0);
+        g.printBFSTreePath(v2, v1);
+        g.printBFSTreePath(v2, v2);
+        g.printBFSTreePath(v2, v3);
+        g.printBFSTreePath(v2, v4);
 
     }
+    public static void main(String[] args) {
+
+        Graph g = new AdjacencyMatrixGraph(6);
+
+
+        Vertex u = new Vertex(0, "u");
+        Vertex v = new Vertex(1, "v");
+        Vertex w = new Vertex(2, "w");
+        Vertex x = new Vertex(3, "x");
+        Vertex y = new Vertex(4, "y");
+        Vertex z = new Vertex(5, "z");
+
+
+        g.addDirectedEdge(u, v);
+        g.addDirectedEdge(u, x);
+        g.addDirectedEdge(x, v);
+        g.addDirectedEdge(y, x);
+        g.addDirectedEdge(v, y);
+        g.addDirectedEdge(w, y);
+        g.addDirectedEdge(w, z);
+        g.addDirectedEdge(z, z);
+
+
+        System.out.println(g);
+
+        g.DFS();
+        GraphUtils.printColors(g);
+        GraphUtils.printDistance(g);
+        GraphUtils.printBFSPrevious(g);
+        GraphUtils.printTimes(g);
+        /*
+        g.BFS(v2);
+
+        System.out.println("Print attributes");
+
+
+
+        g.printBFSTreePath(v2, v0);
+        g.printBFSTreePath(v2, v1);
+        g.printBFSTreePath(v2, v2);
+        g.printBFSTreePath(v2, v3);
+        g.printBFSTreePath(v2, v4);
+        */
+
+
+    }
+
+
 
 }
