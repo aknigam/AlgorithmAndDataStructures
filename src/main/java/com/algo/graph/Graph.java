@@ -18,7 +18,7 @@ public abstract class Graph<E> {
     final int V; // no of vertices
 
 
-    Vertex<E>[] vlist;
+    public Vertex<E>[] vlist;
 
     int time =0;
     public Graph(int noOfvertices) {
@@ -55,22 +55,25 @@ public abstract class Graph<E> {
         itr = vertextIterator();
 
         StringBuilder dfs =  new StringBuilder();
+        StringBuilder parenthesisStructure =  new StringBuilder();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
             if(v.color == 0){
-                dfs.append(v.data).append("\t");
-                dfsInternal(v, dfs);
+                dfsInternal(v, dfs, parenthesisStructure);
             }
         }
 
         System.out.println(dfs);
+        System.out.println(parenthesisStructure);
 
 
 
     }
 
-    protected void dfsInternal(Vertex<E> v, StringBuilder dfs){
+    protected void dfsInternal(Vertex<E> v, StringBuilder dfs, StringBuilder parenthesisStructure){
 
+        parenthesisStructure.append("(").append(v.data);
+        dfs.append(v.data).append("\t");
         v.color = 1;
         v.st = ++ time;
         v.d = time;
@@ -82,14 +85,16 @@ public abstract class Graph<E> {
 
             if(u.color == 0){
                 u.p = v;
-                dfs.append(u.data).append("\t");
-                dfsInternal(u, dfs);
+
+                dfsInternal(u, dfs, parenthesisStructure);
 
             }
+
 
         }
         v.color = 2;
         v.et = ++time;
+        parenthesisStructure.append(v.data).append(")");
 
 
     }
@@ -255,7 +260,7 @@ public abstract class Graph<E> {
         g.printBFSTreePath(v2, v4);
 
     }
-    public static void main(String[] args) {
+    public static void dfsdemo1() {
 
         Graph g = new AdjacencyMatrixGraph(6);
 
@@ -285,21 +290,13 @@ public abstract class Graph<E> {
         GraphUtils.printDistance(g);
         GraphUtils.printBFSPrevious(g);
         GraphUtils.printTimes(g);
-        /*
-        g.BFS(v2);
-
-        System.out.println("Print attributes");
+        GraphUtils.printBraceNotation(g);
 
 
+    }
 
-        g.printBFSTreePath(v2, v0);
-        g.printBFSTreePath(v2, v1);
-        g.printBFSTreePath(v2, v2);
-        g.printBFSTreePath(v2, v3);
-        g.printBFSTreePath(v2, v4);
-        */
-
-
+    public static void main(String[] args) {
+        dfsdemo1();
     }
 
 

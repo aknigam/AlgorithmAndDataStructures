@@ -3,6 +3,8 @@ package com.algo.util;
 import com.algo.graph.Graph;
 import com.algo.graph.Vertex;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -90,5 +92,26 @@ public class GraphUtils {
             sb.append(v.data+"["+v.st+","+v.et+"]").append("\t");
         }
         System.out.println(sb);
+    }
+
+    public static <E> void printBraceNotation(Graph<E> g) {
+        Vertex<E>[] vlist = g.vlist;
+        Arrays.sort(vlist, new Comparator<Vertex<E>>() {
+            public int compare(Vertex<E> o1, Vertex<E> o2) {
+                return o1.st > o2.st? 1:0;
+            }
+        });
+        StringBuilder sb = new StringBuilder();
+
+        String b = "(";
+        for (int i = 0; i < vlist.length; i++) {
+
+        }
+
+        Arrays.sort(vlist, new Comparator<Vertex<E>>() {
+            public int compare(Vertex<E> o1, Vertex<E> o2) {
+                return o1.st < o2.st? 1:0;
+            }
+        });
     }
 }
