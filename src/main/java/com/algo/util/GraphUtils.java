@@ -66,7 +66,7 @@ public class GraphUtils {
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            sb.append(v.d).append("\t");
+            sb.append(v.d+"-"+v.cc).append("\t");
         }
         System.out.println(sb);
     }
@@ -84,7 +84,7 @@ public class GraphUtils {
     }
 
     public static <E> void printTimes(Graph<E> g) {
-        System.out.println("Previous");
+        System.out.println("Times");
         StringBuilder sb = new StringBuilder();
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
@@ -113,5 +113,19 @@ public class GraphUtils {
                 return o1.st < o2.st? 1:0;
             }
         });
+    }
+
+
+    public static <E> void printCC(Graph<E> g) {
+
+        System.out.println("Previous");
+        StringBuilder sb = new StringBuilder();
+        Iterator<Vertex<E>> itr = g.vertextIterator();
+        while (itr.hasNext()){
+            Vertex<E> v = itr.next();
+            sb.append(v.data+"["+v.st+","+v.et+"]").append("\t");
+        }
+        System.out.println(sb);
+
     }
 }

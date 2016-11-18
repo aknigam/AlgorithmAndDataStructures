@@ -16,6 +16,7 @@ public class AdjacencyMatrixGraph<E> extends  Graph<E>{
 
     public AdjacencyMatrixGraph(int noOfvertices){
         super(noOfvertices);
+        type = 0;
         g = new int[noOfvertices][noOfvertices];
         GraphUtils.initGraph(g, 0);
 

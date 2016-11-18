@@ -10,8 +10,9 @@ public class Vertex<E> {
     public int color; // 0 == W, 1 == G, 2 == B
     public int d;// distance
     public Vertex<E> p; // previous - used in BFS
-    public int st;
-    public int et;
+    public int st; // DFS start time
+    public int et; // DFS end time
+    public int cc =0; // connected component. Refer 22.3-12
 
     public Vertex(int i, E d) {
         index = i;
@@ -20,6 +21,7 @@ public class Vertex<E> {
 
     @Override
     public String toString() {
-        return data.toString();
+
+        return data.toString();//+ "["+ st+"-"+et+"]";
     }
 }

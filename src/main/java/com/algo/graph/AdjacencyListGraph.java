@@ -10,9 +10,11 @@ import java.util.List;
  */
 public class AdjacencyListGraph<E> extends Graph<E>{
 
+
     LinkedList<Vertex<E>>[] g;
     public AdjacencyListGraph(int noOfvertices){
         super(noOfvertices);
+        type = 1;
         g = new LinkedList[noOfvertices];
 
         for (int i = 0; i < noOfvertices; i++) {
@@ -70,7 +72,7 @@ public class AdjacencyListGraph<E> extends Graph<E>{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < V; i++) {
-            sb.append(i).append("-->").append(g[i]).append("\n");
+            sb.append(vlist[i].data).append("-->").append(g[i]).append("\n");
         }
         return sb.toString();
     }
