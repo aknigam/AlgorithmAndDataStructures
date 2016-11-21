@@ -23,23 +23,23 @@ public class BinarySearch<T extends Integer> {
 
         BinaryTreeNode n = drawBinaryTreeOfHeight(a, 2, 0, a.length - 1, "root");
         BTreePrinter.printTreeNode(n);
+
+        System.out.println("In order traversal start ");
+        inOrderTreeWalkNonRecursive(n);
+
         StringBuilder sb = new StringBuilder();
-        inOrderTreeWalkNonRecursive(n , sb);
-        System.out.println(sb);
-        sb = new StringBuilder();
         inOrderTreeWalk(n , sb);
         System.out.println(sb);
 
-        sb = new StringBuilder();
-        preOrderTreeWalkNonRecursive(n , sb);
-        System.out.println(sb);
+        System.out.println("In order traversal end ");
+        System.out.println("\n\nPre order traversal start ");
+
+        preOrderTreeWalkNonRecursive(n);
+
         sb = new StringBuilder();
         preOrder(n , sb);
         System.out.println(sb);
-
-
-
-
+        System.out.println("\n\nPre order traversal end ");
 
 
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 3, 0, a.length-1, "root"));
@@ -136,35 +136,37 @@ public class BinarySearch<T extends Integer> {
     // left -> right -> root
     public static void postOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
 
+        /*
+
+        left
+        right
+        root
+
+         */
         if (root == null) {
             return;
         }
         Deque<BinaryTreeNode> st = new ArrayDeque<>();
-
-
-        boolean isLeft = true;
-
+        boolean peek = false;
         while (true) {
 
             if(root != null){
                 st.push(root);
                 root = root.left;
-                isLeft = true;
-
             }
             else{
                 if(st.isEmpty()){
                     break;
                 }
-                if(isLeft) {
-                    root = st.peek();
-                    root = root.right;
-                    isLeft = false;
-                }else{
+
+                if(peek == true){
                     root = st.pop();
                     sb.append(root.data).append(" ");
-                    isLeft = true;
-                    root = null;
+                }
+                else {
+                    root = st.peek();
+                    peek = true;
+                    root = root.right;
                 }
 
             }
@@ -173,8 +175,9 @@ public class BinarySearch<T extends Integer> {
 
     }
     // root -> left -> right
-    public static void preOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
+    public static void preOrderTreeWalkNonRecursive(BinaryTreeNode root) {
 
+        StringBuilder sb = new StringBuilder();
         if (root == null) {
             return;
         }
@@ -199,6 +202,8 @@ public class BinarySearch<T extends Integer> {
             }
         }
 
+        System.out.println(sb);
+
     }
     public static void preOrder(BinaryTreeNode root, StringBuilder sb) {
         if(root==null){
@@ -210,8 +215,9 @@ public class BinarySearch<T extends Integer> {
 
     }
     // left -> root -> right
-    public static void inOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
+    public static void inOrderTreeWalkNonRecursive(BinaryTreeNode root) {
 
+        StringBuilder sb = new StringBuilder();
         if (root == null) {
             return;
         }
@@ -234,6 +240,7 @@ public class BinarySearch<T extends Integer> {
 
             }
         }
+        System.out.println(sb);
 
     }
     public static void inOrderTreeWalk(BinaryTreeNode node, StringBuilder sb){
