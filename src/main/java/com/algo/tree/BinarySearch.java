@@ -1,7 +1,8 @@
 package com.algo.tree;
 
 
-
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class BinarySearch<T extends Integer> {
 
@@ -10,18 +11,41 @@ public class BinarySearch<T extends Integer> {
 //        System.out.println((int) Math.pow(2, 4)-1);
 //        int[] a ={1,4,6,45,78,90, 91, 95, 98, 99, 100, 102, 103, 104, 105};
 //        int[] a ={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-          int[] a ={1, 4, 5, 10, 16, 17, 21};
+//          int[] a ={1, 4, 5, 10, 16, 17, 21};
+        int[] a ={1, 2, 3, 4, 5, 6, 7};
 //        System.out.printf(String.valueOf(adjustHeightIfLess(a, 2, 0, 16)));
 
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 30, 0, a.length-1, "root"));
 //        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 3, 0, a.length - 1, "root");
 //        System.out.println(n);
 //        BTreePrinter.printTreeNode(n);
-        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 2, 0, a.length-1, "root"));
-        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 3, 0, a.length-1, "root"));
-        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 4, 0, a.length-1, "root"));
-        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 5, 0, a.length-1, "root"));
-        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 6, 0, a.length-1, "root"));
+//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 2, 0, a.length-1, "root"));
+
+        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 2, 0, a.length - 1, "root");
+        BTreePrinter.printTreeNode(n);
+        StringBuilder sb = new StringBuilder();
+        inOrderTreeWalkNonRecursive(n , sb);
+        System.out.println(sb);
+        sb = new StringBuilder();
+        inOrderTreeWalk(n , sb);
+        System.out.println(sb);
+
+        sb = new StringBuilder();
+        preOrderTreeWalkNonRecursive(n , sb);
+        System.out.println(sb);
+        sb = new StringBuilder();
+        preOrder(n , sb);
+        System.out.println(sb);
+
+
+
+
+
+
+//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 3, 0, a.length-1, "root"));
+//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 4, 0, a.length-1, "root"));
+//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 5, 0, a.length-1, "root"));
+//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 6, 0, a.length-1, "root"));
 
     }
 
@@ -108,19 +132,127 @@ public class BinarySearch<T extends Integer> {
     public void generateBinaryTree(int[] a, int rootIndex){
 
     }
-    public void inorderTreeWalk(BinaryTreeNode node, StringBuilder sb){
+
+    // left -> right -> root
+    public static void postOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
+
+        if (root == null) {
+            return;
+        }
+        Deque<BinaryTreeNode> st = new ArrayDeque<>();
+
+
+        boolean isLeft = true;
+
+        while (true) {
+
+            if(root != null){
+                st.push(root);
+                root = root.left;
+                isLeft = true;
+
+            }
+            else{
+                if(st.isEmpty()){
+                    break;
+                }
+                if(isLeft) {
+                    root = st.peek();
+                    root = root.right;
+                    isLeft = false;
+                }else{
+                    root = st.pop();
+                    sb.append(root.data).append(" ");
+                    isLeft = true;
+                    root = null;
+                }
+
+            }
+            System.out.println(sb);
+        }
+
+    }
+    // root -> left -> right
+    public static void preOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
+
+        if (root == null) {
+            return;
+        }
+        Deque<BinaryTreeNode> st = new ArrayDeque<>();
+
+
+        while (true) {
+
+            if(root!= null){
+                sb.append(root.data).append(" ");
+                st.push(root);
+                root = root.left;
+            }
+            else{
+
+                if(st.isEmpty()){
+                    break;
+                }
+                root = st.pop();
+                root = root.right;
+
+            }
+        }
+
+    }
+    public static void preOrder(BinaryTreeNode root, StringBuilder sb) {
+        if(root==null){
+            return;
+        }
+        sb.append(root.data).append(" ");
+        preOrder(root.left, sb);
+        preOrder(root.right, sb);
+
+    }
+    // left -> root -> right
+    public static void inOrderTreeWalkNonRecursive(BinaryTreeNode root, StringBuilder sb) {
+
+        if (root == null) {
+            return;
+        }
+        Deque<BinaryTreeNode> st = new ArrayDeque<>();
+
+        while (true) {
+
+            if(root != null){
+
+                st.push(root);
+                root = root.left;
+            }
+            else{
+                if(st.isEmpty()){
+                    break;
+                }
+                root = st.pop();
+                sb.append(root.data).append("\t");
+                root = root.right;
+
+            }
+        }
+
+    }
+    public static void inOrderTreeWalk(BinaryTreeNode node, StringBuilder sb){
 
         if(node == null){
             return;
         }
 
-        inorderTreeWalk(node.left, sb);
+        inOrderTreeWalk(node.left, sb);
         sb.append(node.data).append(",\t");
-        inorderTreeWalk(node.right, sb);
+        inOrderTreeWalk(node.right, sb);
 
 
     }
-	public static BinaryTreeNode dummyTree() {
+
+
+
+
+    public static BinaryTreeNode dummyTree() {
 		BinaryTreeNode node = new BinaryTreeNode(2);
 		buildTree(2, 2,node, node.data);
 		return node;

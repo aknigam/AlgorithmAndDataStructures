@@ -1,9 +1,15 @@
 package com.algo.graph;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by a.nigam on 16/11/16.
  */
-public class Vertex<E> {
+public class Vertex<E> implements Comparable<Vertex<E>>{
+
+
+    Map<Vertex<E>, Integer> weight = new HashMap<>();
 
     int index;
     public E data;
@@ -22,6 +28,13 @@ public class Vertex<E> {
     @Override
     public String toString() {
 
-        return data.toString();//+ "["+ st+"-"+et+"]";
+        return data.toString()+"("+(p==null ? "" : p.data)+"-"+d+")";//+ "["+ st+"-"+et+"]";
     }
+
+    @Override
+    public int compareTo(Vertex<E> o) {
+
+        return this.d > o.d?0:1;
+    }
+
 }

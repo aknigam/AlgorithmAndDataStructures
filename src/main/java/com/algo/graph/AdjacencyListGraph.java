@@ -51,6 +51,8 @@ public class AdjacencyListGraph<E> extends Graph<E>{
     @Override
     public void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight) {
         if(GraphUtils.isValidVertex(V, sourceVertex.index) && GraphUtils.isValidVertex(V, destVertex.index)) {
+
+            destVertex.weight.put(sourceVertex, weight);
             g[sourceVertex.index].add(destVertex);
             if(vlist[sourceVertex.index] ==  null){
                 vlist[sourceVertex.index] = sourceVertex;
@@ -72,7 +74,11 @@ public class AdjacencyListGraph<E> extends Graph<E>{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < V; i++) {
-            sb.append(vlist[i].data).append("-->").append(g[i]).append("\n");
+            sb.append(vlist[i].data).append("-->"); // append(g[i]).append("\n");
+            for (Vertex<E> e : g[i]){
+                sb.append(e.data).append("("+e.weight.get(vlist[i])+")");
+            }
+            sb.append("\n");
         }
         return sb.toString();
     }

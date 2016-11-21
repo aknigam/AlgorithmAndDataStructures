@@ -8,7 +8,8 @@ public abstract class GenericBinaryTreeNode<T> {
 
     @Override
     public String toString() {
-        return "[" + (getLeft() == null ? "" : getLeft()) + " " + getData() + " " + (getRight() == null ? "" : getRight()) + "]";
+        return getData().toString();
+//        return "[" + (getLeft() == null ? "" : getLeft()) + " " + getData() + " " + (getRight() == null ? "" : getRight()) + "]";
     }
 
     protected abstract T getData();

@@ -12,6 +12,7 @@ import static com.algo.graph.GraphFactory.*;
 /**
  * Created by a.nigam on 14/11/16.
  * http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/strongComponent.htm
+ * All-pair shortest path problem explaination: https://home.cse.ust.hk/~dekai/271/notes/L13/L13.pdf
  */
 public abstract class Graph<E> {
 
@@ -143,7 +144,9 @@ public abstract class Graph<E> {
                 // TREE edge
                 attr.te.add(v.data+"-"+u.data);
                 u.p = v;
+                // recursive call ---------------------------------------------start>>
                 dfsInternal(u, attr);
+                // recursive call ---------------------------------------------end>>
             }
             else if(u.color == 1) {
                 // BACK edge
@@ -175,12 +178,29 @@ public abstract class Graph<E> {
 
     }
 
+    public void dagSingleSourceShortestPath(){
+        /*
+        DAG-SHORTEST-PATHS .G; w; s/
+        1 topologically sort the vertices of G
+        2 INITIALIZE-SINGLE-SOURCE.G;s/
+            for each vertex u, taken in topologically sorted order
+                for each vertex v E G:Adj[u]
+                    relax(u, v, w)
+         */
+    }
+    public void singleSourceSHortestPath(Vertex<E> s){
+
+
+
+
+    }
     public void BFS(Vertex<E> s){
 
         if(!GraphUtils.isValidVertex(V, s.index)){
             return;
         }
 
+        DFSAlgoAttributes<E> attr = new DFSAlgoAttributes<E>();
 
         LinkedList<Vertex<E>> q =  new LinkedList<Vertex<E>>();
 
@@ -199,15 +219,21 @@ public abstract class Graph<E> {
             bfs.append(v).append("\t");
             List<Vertex<E>> adj =  getAdjacentvertices(v);
             for (int i = 0; i < adj.size(); i++) {
-                Vertex<E> vrtx = adj.get(i);
-                int u = vrtx.index;
+                Vertex<E> u = adj.get(i);
 
-                if(vrtx.color == 0) {
-                    vrtx.color = 1;
-                    vrtx.d  = v.d+1;
-                    vrtx.p = v;
-                    q.add(vrtx);
+                if(u.color == 0) {
+                    u.color = 1;
+                    u.d  = v.d+1;
+                    u.p = v;
+                    q.add(u);
+
+                    attr.te.add(v.data+"-"+u.data);
                 }
+                else if(u.color == 1){
+                    attr.ce.add(v.data+"-"+u.data);
+                }
+
+
             }
             v.color = 2; // marked B
         }
@@ -217,6 +243,13 @@ public abstract class Graph<E> {
 
         System.out.println("\nBFS");
         System.out.println(bfs);
+
+        System.out.println("Edges start");
+        System.out.println("T-E\t"+attr.te.toString());
+        System.out.println("F-E\t"+attr.fe.toString());
+        System.out.println("B-E\t"+attr.be.toString());
+        System.out.println("C-E\t"+attr.ce.toString());
+        System.out.println("Edges end");
 
 
 
@@ -243,6 +276,25 @@ public abstract class Graph<E> {
 
 
 
+
+
+    public void stronglyConnectedComponents(){
+
+        DFSAlgoAttributes dfs1Result = DFS(new DFSAlgoAttributes());
+
+
+
+        Graph<E> gt = getTranspose();
+
+        DFSAlgoAttributes<E> dfs2Request = new DFSAlgoAttributes<E>();
+        dfs2Request.itr = dfs1Result.topologicalSort.descendingIterator();
+        System.out.println("SCG -->> !!!!!");
+        gt.DFS(dfs2Request);
+
+
+
+    }
+
     public Graph<E> getTranspose(){
 
         Graph<E> t = new AdjacencyListGraph<E>(vlist.length);
@@ -265,21 +317,60 @@ public abstract class Graph<E> {
 
     }
 
-    public void stronglyConnectedComponents(){
+    public void MinimumSpanningTree(Vertex<E> s){
 
-        DFSAlgoAttributes dfs1Result = DFS(new DFSAlgoAttributes());
+        int totalWeight = 0;
+        StringBuilder sb = new StringBuilder();
 
+        for (int i = 0; i < vlist.length; i++) {
+            vlist[i].color = 0;
+//            vlist[i].d = Integer.MAX_VALUE;
+            vlist[i].p = null;
+        }
 
+        PriorityQueue<Edge<E>> q = new PriorityQueue<>();
 
-        Graph<E> gt = getTranspose();
+//        vlist[0].color = 1;
+        s.d = 0;
+        s.p = null;
+        q.add(new Edge<E>((Vertex<E>) null, s, -1));
+        Vertex<E> p = null;
+        while(!q.isEmpty()){
 
-        DFSAlgoAttributes<E> dfs2Request = new DFSAlgoAttributes<E>();
-        dfs2Request.itr = dfs1Result.topologicalSort.descendingIterator();
-        System.out.println("SCG -->> !!!!!");
-        gt.DFS(dfs2Request);
+            System.out.println(p+"- "+ q);
+            Edge<E> e = q.poll();
+            Vertex<E> v = e.dest;
+            if(v.color == 2) {
+                continue;
+            }
+            if(p !=  null) {
+                v.p = p;
+                v.d = p.d + e.weight;
+            }
+            p = v;
+            if(e.src== null) {
+                sb.append(v.data).append("["+v.d+"]").append("(-)").append("\t");
+                totalWeight = totalWeight + e.weight;
+            }else{
+                sb.append(v.data).append("["+v.d+"]").append("(" + (e.src == null ? "-" : e.src.data) + ")").append("\t");
+                totalWeight = totalWeight + e.weight;
+            }
 
+            List<Vertex<E>> adj = getAdjacentvertices(v);
+            for (int i = 0; i < adj.size(); i++) {
 
+                Vertex<E> u = adj.get(i);
+                if(u.color == 0 ){
+                    u.p = v;
+                    q.add(new Edge<E>(v, u, u.weight.get(v)));
+                }
+            }
+            v.color = 2;
 
+        }
+
+        System.out.println(sb);
+        System.out.println(totalWeight);
     }
 
     /**
@@ -291,8 +382,10 @@ public abstract class Graph<E> {
      */
 
     public static void main(String[] args) {
-        Graph g = getGraph0();
-        g.BFS(g.vlist[0]);
+        Graph g = getMST24_2Graph();
+        g.MinimumSpanningTree(g.vlist[0]);
+
+
 
 
 
