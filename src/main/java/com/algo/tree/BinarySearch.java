@@ -143,35 +143,7 @@ public class BinarySearch<T extends Integer> {
         root
 
          */
-        if (root == null) {
-            return;
-        }
-        Deque<BinaryTreeNode> st = new ArrayDeque<>();
-        boolean peek = false;
-        while (true) {
 
-            if(root != null){
-                st.push(root);
-                root = root.left;
-            }
-            else{
-                if(st.isEmpty()){
-                    break;
-                }
-
-                if(peek == true){
-                    root = st.pop();
-                    sb.append(root.data).append(" ");
-                }
-                else {
-                    root = st.peek();
-                    peek = true;
-                    root = root.right;
-                }
-
-            }
-            System.out.println(sb);
-        }
 
     }
     // root -> left -> right

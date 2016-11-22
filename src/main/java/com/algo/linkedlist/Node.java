@@ -2,20 +2,20 @@ package com.algo.linkedlist;
 
 public class Node {
 
-	int i;
+	int data;
 	Node next;
 
 	public Node(int j, Node next) {
-		i = j;
+		data = j;
 		this.next = next;
 	}
 
 	@Override
 	public String toString() {
 		if (next == null)
-			return "" + i;
+			return "" + data;
 		else {
-			return i + "\t" + next.toString();
+			return data + "\t" + next.toString();
 		}
 	}
 }

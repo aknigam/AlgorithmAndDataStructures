@@ -4,7 +4,7 @@ package com.algo.linkedlist;
 
 import java.util.LinkedList;
 
-public class LinkedListAlog {
+public class LinkedListAlgos {
 
 	public static void run(String[] args) {
 		LinkedList<Integer> a = new LinkedList<Integer>();
@@ -78,7 +78,67 @@ public class LinkedListAlog {
 		return rr;
 	}
 
+	/**
+	 * Split the list into two such that
+	 * 1. all even index nodes in one list with same order
+	 * 2. all odd index nodes in another list reversed
+	 * @param n
+     */
+	public static void split(Node n){
+
+		if(n == null){
+			return;
+		}
+		Node even = new Node(n.data, null);
+		Node currentEven = even;
+		if(n.next == null){
+			System.out.println(even);
+			return;
+		}
+		Node oddReversed = new Node(n.next.data,  null);
+		n = n.next.next;
+		int index = 2;
+		while (n != null){
+			if(index++%2 == 0){
+				currentEven = addToTail(currentEven, n.data);
+			}
+			else{
+				oddReversed = addToHead(oddReversed, n.data);
+			}
+			n=  n.next;
+		}
+
+		System.out.println(even);
+		System.out.println(oddReversed);
+
+	}
+
+	private static Node addToHead(Node head, int data) {
+		if(head == null){
+			head = new Node(data, null);
+			return head;
+		}
+		return new Node(data, head);
+
+	}
+
+	private static Node addToTail(Node evenLast, int data) {
+		if(evenLast == null){
+			return new Node(data, null);
+		}
+		evenLast.next = new Node(data, null);
+		return evenLast.next;
+	}
+
+
 	public static void main(String[] args) {
+		Node n = new Node(0, new Node(1, new Node(2, new Node(3, new Node(4, new Node(5, null))))));
+//		System.out.println(n);
+		split(new Node(0, new Node(1, new Node(2, new Node(3, null)))));
+
+	}
+
+	public static void recursiveReverseDemo() {
 		System.out.println(getDummyNode());
 		frontBack(getDummyNode());
 		System.out.println(recursiveReverse(getDummyNode()));
