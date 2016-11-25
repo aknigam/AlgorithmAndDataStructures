@@ -13,7 +13,7 @@ public class ArrayUtils {
         }
     }
 
-    public static void print(int[] a) {
+    public static void print(Object[] a) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < a.length; i++) {
             sb.append(a[i]).append("\t");
@@ -24,6 +24,43 @@ public class ArrayUtils {
     public static void initArray(Vertex[] vlist, Vertex o) {
         for (int i = 0; i < vlist.length; i++) {
             vlist[i] = o;
+        }
+    }
+
+    public static void print2DIntArray(int[][] a) {
+        StringBuilder sb = new StringBuilder();
+        for (int r = 1; r <= a.length; r++) {
+            for (int c = 1; c <= a.length; c++) {
+                sb.append(a[r-1][c-1]).append(" ");
+            }
+            sb.append("\n");
+
+        }
+        System.out.println(sb);
+    }
+    public static void print2DStringArray(String[][] a) {
+        StringBuilder sb = new StringBuilder();
+        for (int r = 1; r <= a.length; r++) {
+            for (int c = 1; c <= a.length; c++) {
+                sb.append(a[r-1][c-1]).append(" ");
+            }
+            sb.append("\n");
+
+        }
+        System.out.println(sb);
+    }
+
+    public static void swap2dArrayElements(String[][] a, int i, int j, int i1, int j1, boolean debug) {
+        if(debug)
+            System.out.println("Swapping "+i +","+j +") - ("+i1+","+j1+")");
+        String temp = a[i][j];
+        a[i][j] = a[i1][j1];
+        a[i1][j1] = temp;
+    }
+
+    public static void initBoolArray(boolean[] row, boolean b) {
+        for (int i = 0; i < row.length; i++) {
+            row[i] = b;
         }
     }
 }

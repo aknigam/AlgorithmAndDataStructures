@@ -6,6 +6,8 @@ package com.algo.tree;
 public abstract class GenericBinaryTreeNode<T> {
 
 
+
+
     @Override
     public String toString() {
         return getData().toString();
@@ -17,4 +19,6 @@ public abstract class GenericBinaryTreeNode<T> {
     protected abstract GenericBinaryTreeNode<T> getLeft();
 
     protected abstract GenericBinaryTreeNode<T> getRight();
+
+
 }

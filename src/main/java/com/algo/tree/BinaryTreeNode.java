@@ -8,6 +8,7 @@ package com.algo.tree;
 public class BinaryTreeNode extends GenericBinaryTreeNode<Integer> {
 
     Integer data;
+    private BinaryTreeNode parent;
 
     public Integer getData() {
         return data;
@@ -43,5 +44,13 @@ public class BinaryTreeNode extends GenericBinaryTreeNode<Integer> {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public void setParent(BinaryTreeNode parent) {
+        this.parent = parent;
+    }
+
+    public BinaryTreeNode getParent() {
+        return parent;
     }
 }

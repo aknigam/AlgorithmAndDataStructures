@@ -8,38 +8,17 @@ public class BinarySearch<T extends Integer> {
 
 	public static void main(String[] args) throws InterruptedException {
 
-//        System.out.println((int) Math.pow(2, 4)-1);
 //        int[] a ={1,4,6,45,78,90, 91, 95, 98, 99, 100, 102, 103, 104, 105};
 //        int[] a ={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-//          int[] a ={1, 4, 5, 10, 16, 17, 21};
+//        int[] a ={1, 4, 5, 10, 16, 17, 21};
         int[] a ={1, 2, 3, 4, 5, 6, 7};
-//        System.out.printf(String.valueOf(adjustHeightIfLess(a, 2, 0, 16)));
 
-//        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 30, 0, a.length-1, "root"));
+        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 30, 0, a.length-1, "root"));
 //        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 3, 0, a.length - 1, "root");
 //        System.out.println(n);
 //        BTreePrinter.printTreeNode(n);
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 2, 0, a.length-1, "root"));
 
-        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 2, 0, a.length - 1, "root");
-        BTreePrinter.printTreeNode(n);
-
-        System.out.println("In order traversal start ");
-        inOrderTreeWalkNonRecursive(n);
-
-        StringBuilder sb = new StringBuilder();
-        inOrderTreeWalk(n , sb);
-        System.out.println(sb);
-
-        System.out.println("In order traversal end ");
-        System.out.println("\n\nPre order traversal start ");
-
-        preOrderTreeWalkNonRecursive(n);
-
-        sb = new StringBuilder();
-        preOrder(n , sb);
-        System.out.println(sb);
-        System.out.println("\n\nPre order traversal end ");
 
 
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 3, 0, a.length-1, "root"));
@@ -48,6 +27,7 @@ public class BinarySearch<T extends Integer> {
 //        BTreePrinter.printTreeNode(drawBinaryTreeOfHeight(a, 6, 0, a.length-1, "root"));
 
     }
+
 
     public static void buildDummyBinaryTree(){
         BinaryTreeNode n= new BinaryTreeNode(1);
@@ -275,6 +255,33 @@ public class BinarySearch<T extends Integer> {
 			return (rightOk);
 		}
 	}
+
+    /************************************************************************************
+     *              d   e   m   o
+     *************************************************************************************/
+    private static void treeWalkDemo() {
+        int[] a ={1, 2, 3, 4, 5, 6, 7};
+        BinaryTreeNode n = drawBinaryTreeOfHeight(a, 2, 0, a.length - 1, "root");
+        BTreePrinter.printTreeNode(n);
+
+        System.out.println("In order traversal start ");
+        inOrderTreeWalkNonRecursive(n);
+
+        StringBuilder sb = new StringBuilder();
+        inOrderTreeWalk(n , sb);
+        System.out.println(sb);
+
+        System.out.println("In order traversal end ");
+        System.out.println("\n\nPre order traversal start ");
+
+        preOrderTreeWalkNonRecursive(n);
+
+        sb = new StringBuilder();
+        preOrder(n , sb);
+        System.out.println(sb);
+        System.out.println("\n\nPre order traversal end ");
+    }
+
 
 
 

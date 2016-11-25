@@ -17,7 +17,7 @@ public class BTreePrinter {
 
     private static <T extends Comparable<?>> void printTreeNodeInternal(List<BinaryTreeNode> TreeNodes, int level, int maxLevel) {
         if (TreeNodes.isEmpty() || BTreePrinter.isAllElementsNull(TreeNodes)) {
-            System.out.println("Empty tree");
+//            System.out.println("Empty tree");
             return;
         }
 
