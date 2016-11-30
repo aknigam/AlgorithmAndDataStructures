@@ -197,4 +197,44 @@ public class GraphFactory {
         return g;
     }
 
+    public static Graph getMatrixAsGraph(int m, int n) {
+
+        int size = m * n;
+        Graph g = new AdjacencyListGraph(size);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+            }
+        }
+
+
+        Vertex a = new Vertex(2, "a");
+        Vertex b = new Vertex(1, "b");
+        Vertex c = new Vertex(0, "c");
+        Vertex d = new Vertex(3, "d");
+        Vertex e = new Vertex(4, "e");
+        Vertex f = new Vertex(5, "f");
+        Vertex g1 = new Vertex(6, "g");
+        Vertex h = new Vertex(7, "h");
+
+
+        g.addDirectedEdge(a, b);
+        g.addDirectedEdge(b, c);
+        g.addDirectedEdge(b, e);
+        g.addDirectedEdge(b, f);
+        g.addDirectedEdge(c ,d);
+        g.addDirectedEdge(c ,g1);
+        g.addDirectedEdge(d, c);
+        g.addDirectedEdge(d, h);
+        g.addDirectedEdge(h, h);
+        g.addDirectedEdge(g1, h);
+        g.addDirectedEdge(g1, f);
+        g.addDirectedEdge(f, g1);
+        g.addDirectedEdge(e, f);
+        g.addDirectedEdge(e, a);
+
+
+        return g;
+    }
+
 }

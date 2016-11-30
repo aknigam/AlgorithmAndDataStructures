@@ -382,8 +382,10 @@ public abstract class Graph<E> {
      */
 
     public static void main(String[] args) {
-        Graph g = getMST24_2Graph();
-        g.MinimumSpanningTree(g.vlist[0]);
+//        Graph g = getMST24_2Graph();
+//        g.MinimumSpanningTree(g.vlist[0]);
+
+        dfsmain(args);
 
 
 
@@ -393,7 +395,8 @@ public abstract class Graph<E> {
 
 
     public static void dfsmain(String[] args) {
-        Graph g = getGraph4();
+//        Graph g = getGraph4();
+        Graph g = getMST24_2Graph();
 
 
         System.out.println(g);
