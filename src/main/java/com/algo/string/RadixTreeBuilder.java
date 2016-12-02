@@ -47,7 +47,7 @@ public class RadixTreeBuilder {
             sb.append(")------ "+ t.edges.get(i).value()+" ------(");
             printRadixTree(t.edges.get(i).child, level+1 , sb);
         }
-//        System.out.println(sb);
+
         sb.append(level+"\n");
         for (int i = 0; i < (level-1) * 17; i++) {
             sb.append(" ");
@@ -78,46 +78,106 @@ public class RadixTreeBuilder {
             root = new RadixTreeNode("");
         }
 
-        public void addKey(String s){
+        public void addKey(String key) {
 
-            if(s == null || s.trim().isEmpty()){
+            if (key == null || key.trim().isEmpty()) {
                 return;
             }
 
             RadixTreeNode node = root;
 
-            for (int j = 0; j < s.length(); j++) {
 
-                char c = s.charAt(j);
+            for (int j = 0; j < key.length(); ) {
+
+
+                char c = key.charAt(j);
 
                 List<RadixTreeEdge> e = node.edges; // these edges are in the sorted order
                 int i;
                 boolean alreadyExists = false;
 
-
+                RadixTreeEdge edge = null;
                 for (i = 0; i < e.size(); i++) {
-
-                    if(e.get(i).value() == c){
+                    edge = e.get(i);
+                    if (edge.value().charAt(0) == c) {
                         alreadyExists = true;
-                        node = e.get(i).child;
                         break;
-                    }
-                    else if(e.get(i).value() > c){
+                    } else if (edge.value().charAt(0) > c) {
                         break;
                     }
                 }
-                if(!alreadyExists){
-                    RadixTreeEdge edge = new RadixTreeEdge(c);
-                    if(j == s.length() -1){
-                        edge.child = new RadixTreeNode(s);
-                    }else {
-                        edge.child = new RadixTreeNode("");
+                if (alreadyExists) {
+                    String edgeVal = edge.value();
+                    if (edgeVal.equals(key)) {
+                        return;
+                    }
+                    int k;
+                    for (k = 1; k < edgeVal.length() && k < key.length(); k++) {
+                        if (edgeVal.charAt(k) != key.charAt(k)) {
+                            break;
+                        }
+                    }
+                    // case 1
+                    if ((k <= (edgeVal.length() - 1)) && (k <= (key.length() - 1))) {
+                        edge.setValue(edgeVal.substring(0, k));
+
+                        RadixTreeEdge e1 = new RadixTreeEdge(edgeVal.substring(k));
+                        e1.child = edge.child;
+                        RadixTreeNode insertedNode = null;
+                        if(k == (key.length() -1)) {
+                            insertedNode = new RadixTreeNode(node.prefix + edge.value());
+                        }else {
+                            insertedNode = new RadixTreeNode("");
+                        }
+                        edge.child = insertedNode;
+
+                        RadixTreeEdge e2 = new RadixTreeEdge(key.substring(k));
+                        e2.child = new RadixTreeNode(key);
+                        if (edgeVal.charAt(k) < key.charAt(k)) {
+                            insertedNode.addEdge(e1);
+                            insertedNode.addEdge(e2);
+                        } else {
+                            insertedNode.addEdge(e2);
+                            insertedNode.addEdge(e1);
+                        }
+                    }
+                    // case 2
+                    else if (k <= (edgeVal.length() - 1)) {
+
+
+                        edge.setValue(edgeVal.substring(0, k));
+
+                        RadixTreeEdge e1 = new RadixTreeEdge(edgeVal.substring(k));
+                        e1.child = edge.child;
+                        RadixTreeNode insertedNode = new RadixTreeNode(node.prefix + edgeVal.substring(k));
+                        edge.child = insertedNode;
+                        insertedNode.addEdge(e1);
+
+
+                    }
+                    // case 3
+                    else {
+                        // need to move down the tree
+                        node = edge.child;
+//                        j = k;
+                        key = key.substring(k);
+                        continue;
+
                     }
 
-                    e.add(i, edge);
-                    node = edge.child;
+                    return;
+
+
+                } else {
+                    RadixTreeEdge edge1 = new RadixTreeEdge(key);
+                    edge1.child = new RadixTreeNode(key);
+                    e.add(i, edge1);
+
+
                 }
+
             }
+
 
         }
 
@@ -154,17 +214,22 @@ public class RadixTreeBuilder {
 
                 return prefix ;
             }
+
+            public void addEdge(RadixTreeEdge e1) {
+
+                edges.add(e1);
+            }
         }
 
         static class RadixTreeEdge {
-            char c;
+            String c;
             RadixTreeNode child;
 
-            public RadixTreeEdge(char c) {
+            public RadixTreeEdge(String c) {
                 this.c = c;
             }
 
-            public char value(){
+            public String value(){
                 return c;
             }
 
@@ -172,6 +237,10 @@ public class RadixTreeBuilder {
             @Override
             public String toString() {
                 return String.valueOf(c);
+            }
+
+            public void setValue(String value) {
+                this.c = value;
             }
         }
 
