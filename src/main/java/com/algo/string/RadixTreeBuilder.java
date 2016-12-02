@@ -15,7 +15,8 @@ public class RadixTreeBuilder {
     public static void main(String[] args) {
 
         String[] keys = new String[]{
-                "A", "to", "tea", "ted", "ten", "i", "in", "inn", "anand", "aanchal","nisha"
+//                "A", "to", "tea", "ted", "ten", "i", "in", "inn", "anand", "aanchal","nisha"
+                "romane", "romanus", "romulus", "rubens", "ruber", "rubicon", "rubicundus"
         } ;
 
         RadixTree t = buildRadixTree(keys);
@@ -44,7 +45,7 @@ public class RadixTreeBuilder {
         }
 
         for (int i = 0; i < t.edges.size(); i++) {
-            sb.append(")------ "+ t.edges.get(i).value()+" ------(");
+            sb.append(")------ "+ t.edges.get(i).value()+"["+t.edges.get(i).child.prefix+"]-------(");
             printRadixTree(t.edges.get(i).child, level+1 , sb);
         }
 
@@ -85,6 +86,7 @@ public class RadixTreeBuilder {
             }
 
             RadixTreeNode node = root;
+            String prefix = node.prefix;
 
 
             for (int j = 0; j < key.length(); ) {
@@ -124,15 +126,15 @@ public class RadixTreeBuilder {
                         RadixTreeEdge e1 = new RadixTreeEdge(edgeVal.substring(k));
                         e1.child = edge.child;
                         RadixTreeNode insertedNode = null;
-                        if(k == (key.length() -1)) {
-                            insertedNode = new RadixTreeNode(node.prefix + edge.value());
+                        if(k == ((prefix+key).length() -1)) {
+                            insertedNode = new RadixTreeNode(prefix + edge.value());
                         }else {
                             insertedNode = new RadixTreeNode("");
                         }
                         edge.child = insertedNode;
 
                         RadixTreeEdge e2 = new RadixTreeEdge(key.substring(k));
-                        e2.child = new RadixTreeNode(key);
+                        e2.child = new RadixTreeNode(prefix+key);
                         if (edgeVal.charAt(k) < key.charAt(k)) {
                             insertedNode.addEdge(e1);
                             insertedNode.addEdge(e2);
@@ -149,7 +151,7 @@ public class RadixTreeBuilder {
 
                         RadixTreeEdge e1 = new RadixTreeEdge(edgeVal.substring(k));
                         e1.child = edge.child;
-                        RadixTreeNode insertedNode = new RadixTreeNode(node.prefix + edgeVal.substring(k));
+                        RadixTreeNode insertedNode = new RadixTreeNode(prefix + edgeVal.substring(k));
                         edge.child = insertedNode;
                         insertedNode.addEdge(e1);
 
@@ -159,8 +161,9 @@ public class RadixTreeBuilder {
                     else {
                         // need to move down the tree
                         node = edge.child;
-//                        j = k;
                         key = key.substring(k);
+                        prefix = prefix+edge.value();
+
                         continue;
 
                     }
