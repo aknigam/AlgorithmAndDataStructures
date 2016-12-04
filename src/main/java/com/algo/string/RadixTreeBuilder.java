@@ -10,7 +10,7 @@ public class RadixTreeBuilder {
 
 
 
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     public static void main(String[] args) {
 
@@ -20,6 +20,12 @@ public class RadixTreeBuilder {
         } ;
 
         RadixTree t = buildRadixTree(keys);
+        System.out.println(t.lookupIterative("ru"));
+        System.out.println(t.lookupIterative("roma"));
+        System.out.println(t.lookupIterative("romane"));
+        System.out.println(t.lookupIterative("romane1"));
+        System.out.println(t.lookupIterative("tromane"));
+
 
         t.printKeysLexicographically();
 
@@ -79,6 +85,63 @@ public class RadixTreeBuilder {
             root = new RadixTreeNode("");
         }
 
+        public boolean lookup(String s){
+            return lookUpInternal(s, root);
+        }
+
+        private boolean lookUpInternal(String s, RadixTreeNode node) {
+            if(node == null || node.edges.size() == 0){
+                return false;
+            }
+
+            for (int i = 0; i < node.edges.size(); i++) {
+                RadixTreeEdge edge = node.edges.get(i);
+
+                String edgeVal = edge.value();
+
+                if(edgeVal.length() >= s.length() && edgeVal.indexOf(s) != -1){
+                    return true;
+                }
+                else if(s.indexOf(edgeVal)!= -1){
+                    return lookUpInternal(s.substring(edgeVal.length()), edge.child);
+                }
+            }
+            return false;
+        }
+
+        public boolean lookupIterative(String s){
+
+            String key = s;
+            RadixTreeNode node = root;
+            List<RadixTreeEdge> edges;
+
+            while (node != null && node.edges.size() >0){
+
+                edges = node.edges;
+                int j;
+                for (j = 0; j < edges.size(); j++) {
+                    RadixTreeEdge edge = node.edges.get(j);
+                    String edgeVal = edge.value();
+
+                    if(edgeVal.length() >= key.length() && edgeVal.indexOf(key) != -1){
+                        return true;
+                    }
+                    else if(key.indexOf(edgeVal)!= -1){
+                        node = edge.child;
+                        key = key.substring(edgeVal.length());
+                        break;
+                    }
+
+                }
+                if(j == edges.size()){
+                    return false;
+                }
+
+            }
+            return false;
+        }
+
+
         public void addKey(String key) {
 
             if (key == null || key.trim().isEmpty()) {
@@ -126,6 +189,7 @@ public class RadixTreeBuilder {
                         RadixTreeEdge e1 = new RadixTreeEdge(edgeVal.substring(k));
                         e1.child = edge.child;
                         RadixTreeNode insertedNode = null;
+
                         if(k == ((prefix+key).length() -1)) {
                             insertedNode = new RadixTreeNode(prefix + edge.value());
                         }else {

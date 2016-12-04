@@ -14,7 +14,8 @@ public class TrieBuilder {
     public static void main(String[] args) {
 
         String[] keys = new String[]{
-                "A", "to", "tea", "ted", "ten", "i", "in", "inn", "anand", "aanchal","nisha"
+//                "A", "to", "tea", "ted", "ten", "i", "in", "inn", "anand", "aanchal","nisha"
+                "romane", "romanus", "romulus", "rubens", "ruber", "rubicon", "rubicundus"
         } ;
 
         Trie t = buildTrie(keys);
@@ -76,6 +77,8 @@ public class TrieBuilder {
         public Trie(){
             root = new TrieNode("");
         }
+
+
 
         public void addKey(String s){
 
