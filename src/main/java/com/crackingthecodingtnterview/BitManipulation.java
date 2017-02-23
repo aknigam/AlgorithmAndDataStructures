@@ -8,9 +8,16 @@ import java.util.Arrays;
  */
 public class BitManipulation {
 
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public static void main(String[] args) {
+        swapOddEvenBits(21);
+    }
+
+    public static void updateBitsDemo() {
+        updateBits(1024, 21, 2, 6);
+    }
+    public static void findMissingIntegerDemo() {
 
         int[] bitSums = new int[7];
         BitInteger[] b = new BitInteger[32];
@@ -103,6 +110,11 @@ public class BitManipulation {
 
     }
     public static int swapOddEvenBits(int a){
+        if(debug){
+            System.out.println(Integer.toBinaryString(0xaaaaaaaa)+"\t0xaaaaaaaa");
+            System.out.println(Integer.toBinaryString(0x55555555)+"\t0x55555555");
+        }
+
         int l = (a & 0xaaaaaaaa) >> 1;
         int r = (a & 0x55555555) << 1;
         return  l | r;
@@ -121,8 +133,6 @@ public class BitManipulation {
             c2 = c2 + (b & 1);
             b = b >> 1;
         }
-
-
 
         return Math.abs(c1 - c2);
 
@@ -148,9 +158,11 @@ public class BitManipulation {
 
         int max = ~0;
         if(debug){
+            System.out.println(Integer.toBinaryString(n)+"\tN" );
+            System.out.println(Integer.toBinaryString(m)+"\tM" );
             System.out.println(Integer.toBinaryString(1 << j));
             System.out.println(Integer.toBinaryString((1 << j) -1));
-            System.out.println(Integer.toBinaryString(~0 -(1 << j) -1));
+            System.out.println(Integer.toBinaryString(max -(1 << j) -1)+"\tLeft");
         }
         int left = max - ((1 << j) - 1);
 
@@ -164,7 +176,7 @@ public class BitManipulation {
         int mask =  left | right;
 
         if(debug){
-            System.out.println(Integer.toBinaryString(mask));
+            System.out.println(Integer.toBinaryString(mask)+"\tMask");
             System.out.println(Integer.toBinaryString((m << i)));
 
         }

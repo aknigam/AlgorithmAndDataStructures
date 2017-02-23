@@ -6,7 +6,7 @@ package com.algo.sorting;
 public abstract class AbstractBaseSort {
 
 
-
+    protected static boolean debug = true;
 
     protected abstract void sort(int[] arr) ;
 

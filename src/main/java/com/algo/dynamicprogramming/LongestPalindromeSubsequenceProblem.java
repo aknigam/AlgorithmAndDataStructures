@@ -8,7 +8,7 @@ public class LongestPalindromeSubsequenceProblem {
     public static void main(String[] args) {
 
 //        char[] c = "sns".toCharArray();
-        char[] c = "charracter".toCharArray();
+        char[] c = "abcbabcbabcba".toCharArray();
         String lp = topDownLongestPalindrom(c, 0, c.length -1);
 
         System.out.println(lp);

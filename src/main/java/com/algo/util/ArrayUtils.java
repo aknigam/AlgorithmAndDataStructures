@@ -13,7 +13,20 @@ public class ArrayUtils {
         }
     }
 
+    public static <T> void initArraygeneric(T[] a, T i) {
+        for (int j = 0; j < a.length; j++) {
+            a[j] = i;
+        }
+    }
     public static void print(Object[] a) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            sb.append(a[i]).append("\t");
+        }
+        System.out.println(sb);
+    }
+
+    public static <T> void printGeneric(T[] a) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < a.length; i++) {
             sb.append(a[i]).append("\t");

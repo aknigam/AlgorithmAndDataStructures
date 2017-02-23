@@ -13,6 +13,22 @@ package com.algo.sorting;
  *
  */
 public class CountingSort extends AbstractBaseSort{
+
+    public static void main(String[] args) {
+
+        CountingSort sort = new CountingSort();
+        int arr[] =  {9,8,7,6,5,4,3,2,1,0};
+
+
+        System.out.println("Original array");
+        sort.printArray(arr);
+
+        sort.sort(arr);
+
+        System.out.println("Sorted array");
+        sort.printArray(arr);
+    }
+
     @Override
     protected void sort(int[] arr) {
 

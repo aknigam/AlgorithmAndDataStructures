@@ -39,7 +39,7 @@ public abstract class Graph<E> {
 
     public abstract void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex, int weight);
 
-    protected abstract List<Vertex<E>> getAdjacentvertices(Vertex<E> v);
+    public abstract List<Vertex<E>> getAdjacentvertices(Vertex<E> v);
 
     public Iterator<Vertex<E>> vertextIterator(){
         return Arrays.asList(vlist).iterator();
@@ -99,7 +99,7 @@ public abstract class Graph<E> {
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
             if(v.index == -1)
-                continue;;
+                continue;
             if(v.color == 0){
                 request.cc++;
 
@@ -107,7 +107,7 @@ public abstract class Graph<E> {
                 request.topologicalSort.add(new Vertex<String>(-1, "|"));
             }
         }
-
+        System.out.println("DFS results -----------------");
         System.out.println(request.dfs);
         System.out.println(request.parenthesisStructure);
         System.out.println(request.topologicalSort);
@@ -212,7 +212,7 @@ public abstract class Graph<E> {
         q.add(s);
 
         while (!q.isEmpty()){
-            System.out.printf("Queue-> "+ q);
+            System.out.println("Queue-> "+ q);
             Vertex<E> v = q.poll();
 
 //            color[vlist] = 1; // marked G
@@ -221,7 +221,8 @@ public abstract class Graph<E> {
             for (int i = 0; i < adj.size(); i++) {
                 Vertex<E> u = adj.get(i);
 
-                if(u.color == 0) {
+                if(u.color == 0){
+//                if(u.d == Integer.MIN_VALUE) {
                     u.color = 1;
                     u.d  = v.d+1;
                     u.p = v;
@@ -232,8 +233,6 @@ public abstract class Graph<E> {
                 else if(u.color == 1){
                     attr.ce.add(v.data+"-"+u.data);
                 }
-
-
             }
             v.color = 2; // marked B
         }
@@ -382,10 +381,12 @@ public abstract class Graph<E> {
      */
 
     public static void main(String[] args) {
-//        Graph g = getMST24_2Graph();
-//        g.MinimumSpanningTree(g.vlist[0]);
+        Graph g = getMST23_5Graph();
+        g.MinimumSpanningTree(g.vlist[0]);
 
-        dfsmain(args);
+//        g.BFS(g.vlist[0]);
+//        dfsmain(args);
+
 
 
 
@@ -396,7 +397,7 @@ public abstract class Graph<E> {
 
     public static void dfsmain(String[] args) {
 //        Graph g = getGraph4();
-        Graph g = getMST24_2Graph();
+        Graph g = getGraph4();
 
 
         System.out.println(g);
@@ -408,6 +409,9 @@ public abstract class Graph<E> {
         GraphUtils.printTimes(g);
         GraphUtils.printBraceNotation(g);
         GraphUtils.printCC(g);
+
+        System.out.println("Strongly connected components ----------->");
+        g.stronglyConnectedComponents();
     }
 
 

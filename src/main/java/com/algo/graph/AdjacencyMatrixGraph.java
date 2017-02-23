@@ -69,7 +69,7 @@ public class AdjacencyMatrixGraph<E> extends  Graph<E>{
     }
 
     @Override
-    protected List<Vertex<E>> getAdjacentvertices(Vertex<E> v) {
+    public List<Vertex<E>> getAdjacentvertices(Vertex<E> v) {
         List<Vertex<E>> l = new ArrayList<Vertex<E>>();
         for (int i = 0; i < V; i++) {
             if(g[v.index][i] != 0 ){

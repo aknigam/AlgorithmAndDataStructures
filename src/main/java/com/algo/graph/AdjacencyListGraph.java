@@ -64,7 +64,7 @@ public class AdjacencyListGraph<E> extends Graph<E>{
     }
 
     @Override
-    protected List<Vertex<E>> getAdjacentvertices(Vertex<E> v) {
+    public List<Vertex<E>> getAdjacentvertices(Vertex<E> v) {
         return g[v.index];
     }
 

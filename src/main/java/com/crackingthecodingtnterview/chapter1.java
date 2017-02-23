@@ -9,9 +9,9 @@ import java.util.Arrays;
  */
 public class chapter1 {
 
-    private static boolean debug = false;
+    private static boolean debug = true;
 
-    public static void main(String[] args) {
+    public static void setRowAndColumnToZeroDemo() {
         int[][] a = {
             {0,2,3},
             {3,1,5},
@@ -216,6 +216,11 @@ public class chapter1 {
         str[tail] =  0;
 
     }
+
+    public static void main(String[] args) {
+        _1_1_hasUniqueCharachers("anand");
+    }
+
     public static void _1_1_hasUniqueCharachers(String str) {
         int checker =0;
         System.out.println(str.length());

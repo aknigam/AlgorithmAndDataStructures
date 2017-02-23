@@ -14,7 +14,7 @@ public class Vertex<E> implements Comparable<Vertex<E>>{
     int index;
     public E data;
     public int color; // 0 == W, 1 == G, 2 == B
-    public int d;// distance
+    public int d = Integer.MIN_VALUE;// distance
     public Vertex<E> p; // previous - used in BFS
     public int st; // DFS start time
     public int et; // DFS end time
