@@ -380,7 +380,7 @@ public abstract class Graph<E> {
      ********************************************************************************
      */
 
-    public static void main(String[] args) {
+    public static void mainMinimumSpanningTree(String[] args) {
         Graph g = getMST23_5Graph();
         g.MinimumSpanningTree(g.vlist[0]);
 
@@ -395,14 +395,44 @@ public abstract class Graph<E> {
     }
 
 
-    public static void dfsmain(String[] args) {
-//        Graph g = getGraph4();
-        Graph g = getGraph4();
+    public static void mainBFS(String[] args) {
+
+        Graph g = new AdjacencyMatrixGraph(5);
+
+
+        Vertex a = new Vertex(0, "a");
+        Vertex b = new Vertex(1, "b");
+        Vertex c = new Vertex(2, "c");
+        Vertex d = new Vertex(3, "d");
+        Vertex e = new Vertex(4, "e");
+
+
+
+        g.addDirectedEdge(a, b);
+        g.addDirectedEdge(a, d);
+        g.addDirectedEdge(a, c);
+        g.addDirectedEdge(b, d);
+        g.addDirectedEdge(b, e);
+        g.addDirectedEdge(c, d);
+        g.addDirectedEdge(d, e);
+
+
+        System.out.println(g);
+
+        g.BFS(a);
+
+    }
+    // a    b	d	e	c
+    // a    b   c   d   e
+    public static void main(String[] args) {
+
+        Graph g = getGraph5();
 
 
         System.out.println(g);
 
         g.DFS(new DFSAlgoAttributes());
+
         GraphUtils.printColors(g);
         GraphUtils.printDistance(g);
         GraphUtils.printBFSPrevious(g);

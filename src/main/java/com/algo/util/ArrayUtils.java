@@ -26,12 +26,16 @@ public class ArrayUtils {
         System.out.println(sb);
     }
 
-    public static <T> void printGeneric(T[] a) {
+    public static <T> String printGeneric(T[] a) {
+        return printGeneric(a, 0, a.length).toString();
+    }
+    public static <T> StringBuilder printGeneric(T[] a, int startIndex, int endIndex) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < a.length; i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             sb.append(a[i]).append("\t");
         }
-        System.out.println(sb);
+//        System.out.println(sb);
+        return sb;
     }
 
     public static void initArray(Vertex[] vlist, Vertex o) {

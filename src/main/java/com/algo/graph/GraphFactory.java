@@ -143,6 +143,30 @@ public class GraphFactory {
 
 
 
+
+    public static Graph getGraph5() {
+        Graph g = new AdjacencyMatrixGraph(5);
+
+
+        Vertex a = new Vertex(0, "a");
+        Vertex b = new Vertex(1, "b");
+        Vertex c = new Vertex(2, "c");
+        Vertex d = new Vertex(3, "d");
+        Vertex e = new Vertex(4, "e");
+
+
+
+        g.addDirectedEdge(a, b);
+        g.addDirectedEdge(a, d);
+        g.addDirectedEdge(a, c);
+        g.addDirectedEdge(b, d);
+        g.addDirectedEdge(b, e);
+        g.addDirectedEdge(c, d);
+        g.addDirectedEdge(d, e);
+        return  g;
+    }
+
+
     private static Graph getGraph2() {
         Graph g = new AdjacencyMatrixGraph(5);
 
