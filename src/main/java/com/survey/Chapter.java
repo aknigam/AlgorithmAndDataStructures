@@ -23,6 +23,12 @@ public class Chapter extends QuestionContainer {
     private SurveyNode nextSurveyNode;
 //    private boolean chapterStarted = true;
 
+
+    @Override
+    public String toString() {
+        return chapterName;
+    }
+
     public Chapter(int id, String name) {
         this.id = id;
         this.chapterName = name;
