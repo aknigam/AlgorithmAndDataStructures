@@ -1,6 +1,7 @@
 package com.survey.node;
 
 import com.survey.Chapter;
+import com.survey.QuestionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,12 @@ public class QuestionNode extends AbstractSurveyNode{
     String chapterLoopValue;
     private String chapterName;
 
+    public int getIndex() {
+        return index;
+    }
+
+    private QuestionType questionType = QuestionType.SINGLE_CHOICE;
+
     public Chapter getChapter() {
         return chapter;
     }
@@ -34,10 +41,14 @@ public class QuestionNode extends AbstractSurveyNode{
         return question;
     }
 
+    public QuestionNode(int id){
+        super(id);
+
+    }
+
     public QuestionNode(String question, int id){
         super(id);
         this.question = question;
-
     }
 
     public String getName(){
@@ -75,5 +86,13 @@ public class QuestionNode extends AbstractSurveyNode{
 
     public void setChapterName(String chapterName) {
         this.chapterName = chapterName;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
     }
 }

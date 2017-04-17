@@ -23,6 +23,8 @@ public class Survey extends QuestionContainer{
     private SurveyStartNode startNode = new SurveyStartNode();
     private SurveyEndNode endNode = new SurveyEndNode();
 
+
+
     public SurveyEndNode getEndNode() {
         return endNode;
     }
@@ -32,8 +34,9 @@ public class Survey extends QuestionContainer{
     }
 
 
-    public void addChapter(int fromNodeQuestionId, Chapter chapter) {
+    public void addChapter(QuestionNode fromNodeQuestion, Chapter chapter) {
 
+        int fromNodeQuestionId = fromNodeQuestion.getId();
         if(!isNodePresent(fromNodeQuestionId)){
             System.out.println(String.format("Node %d cannot be added becuase the source does not exists.", fromNodeQuestionId));
             return;
@@ -41,28 +44,9 @@ public class Survey extends QuestionContainer{
         QuestionNode sourceNode = getQuestionNode(fromNodeQuestionId);
         chapter.setPreviousSurveyNode(sourceNode);
         sourceNode.addChapterLink(chapter);
+        chaptersIndex.put(chapter.getId(), chapter);
 
 
     }
 
-
-    public static void main(String[] args) throws IOException {
-        UUID uuid = UUID.randomUUID();
-
-        String s = uuid.toString();
-        int noOfBytes = s.length()*2;
-        System.out.println(s+" - "+ noOfBytes);
-
-        FileWriter w = new FileWriter("UUID2.txt");
-
-        for (int i = 0; i < 1; i++) {
-            s = uuid.toString();
-            w.write(s);
-        }
-
-        w.close();
-
-
-
-    }
 }

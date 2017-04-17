@@ -49,7 +49,7 @@ public abstract class AbstractSurveyNode implements SurveyNode {
 
     public void addDirectedEdge(LinkEdge linkEdge){
         edges.add(linkEdge);
-        linkEdge.getTarget().addBackEdge(new LinkEdge(this));
+
     }
 
     @Override
@@ -59,17 +59,41 @@ public abstract class AbstractSurveyNode implements SurveyNode {
 
     @Override
     public SurveyNode getNext(RespondentSurveyContext context) {
-        return getAllPossibleNextNodes().get(0).getTarget();
+
+        for ( LinkEdge e : edges) {
+            if(e.isActive() && e.evaluate(context)){
+                return e.getTarget();
+            }
+        }
+        if(edges.size() == 1 && edges.get(0).isActive()){
+            return edges.get(0).getTarget();
+        }
+        return null;
     }
 
     @Override
     public List<LinkEdge> getAllPossibleNextNodes() {
-        return edges;
+
+        List<LinkEdge> fe = new ArrayList<>(edges.size());
+        for (LinkEdge e : edges) {
+            if(e.isActive()){
+                fe.add(e);
+            }
+        }
+        return fe;
+
     }
 
     @Override
     public List<LinkEdge> getAllPossibleBackNodes() {
-        return backEdges;
+        List<LinkEdge> be = new ArrayList<>(backEdges.size());
+        for (LinkEdge e : backEdges) {
+            if(e.isActive()){
+                be.add(e);
+            }
+        }
+
+        return be;
     }
 
 

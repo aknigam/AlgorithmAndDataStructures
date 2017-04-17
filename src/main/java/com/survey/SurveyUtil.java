@@ -2,8 +2,8 @@ package com.survey;
 
 import com.survey.node.QuestionNode;
 import com.survey.node.SurveyNode;
-import com.survey.node.SurveyStartNode;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -14,44 +14,119 @@ public class SurveyUtil {
 
     public static Chapter chapter;
 
-    public static void main(String[] args) {
+    /*
+            -------------->           -------------->
+           |               |         |               |
+    a ----> b ----> c ----> d -----> e ----> f ----> g ----> h ----> END
+    |               |                        |               |
+     -------------->                          -------------->
+
+
+     */
+    public static void main(String[] args) throws IOException {
 
         Survey survey = new Survey();
 
-        QuestionNode a= new QuestionNode("a", 1);
+        QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
+        QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
+        QuestionNode c  = new QB().withIdText(3,"c").build();
+        QuestionNode d  = new QB().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
         survey.addQuestionNode(a);
-        survey.addQuestionNode(1, new QuestionNode( "b", 2));
-        survey.addQuestionNode(2, new QuestionNode( "c", 3));
-        survey.addQuestionNode(3, new QuestionNode("d", 4));
-        survey.addQuestionNode(1, new QuestionNode("c", 3));
-        QuestionNode d = new QuestionNode("d", 4);
-        d.addChoice("x");
-        d.addChoice("y");
-        d.addChoice("z");
-        survey.addQuestionNode(2, d);
+        survey.addQuestionNode(a, b, "y");
+        survey.addQuestionNode(a, c, "x");
+        survey.addQuestionNode(b, c, "y");
+        survey.addQuestionNode(b, d, "x");
+        survey.addQuestionNode(c, d);
 
         chapter = new Chapter(10, "ch1");
         chapter.setLoopQuestion(d);
-        survey.addChapter(4, chapter);
+        survey.addChapter(d, chapter);
 
-        chapter.addQuestionNode(new QuestionNode( "e", 5));
-        chapter.addQuestionNode(5, new QuestionNode( "f", 6));
-        chapter.addQuestionNode(5, new QuestionNode( "g", 7));
-        chapter.addQuestionNode(6, new QuestionNode("g", 7));
-        chapter.addQuestionNode(7, new QuestionNode("h", 8));
-        chapter.addQuestionNode(6, new QuestionNode("h", 8));
+
+        QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
+        QuestionNode f  = new QB().withIdText(6,"f").wc("x").wc("y").build();
+        QuestionNode g  = new QB().withIdText(7,"g").build();
+        QuestionNode h  = new QB().withIdText(8,"h").build();
+
+
+        chapter.addQuestionNode(e);
+        chapter.addQuestionNode(e, f);
+        chapter.addQuestionNode(e, g);
+        chapter.addQuestionNode(f, g);
+        chapter.addQuestionNode(f, h);
+        chapter.addQuestionNode(g, h);
+
 
         chapter.setNextSurveyNode(survey.getEndNode());
 
 
 
         SurveyNode node = survey.getStartNode();
-        StringBuilder srvy = new StringBuilder();
-        srvy.append(node.toString()).append("---");
 
         int questionId = 0;
         int chapterId = 10;
+//        sampleResponse(survey, node, chapterId);
+
+        ReadConsole console = new ReadConsole();
+        console.start();
+        Respondent respondent = new Respondent();
+        RespondentSurveyContext context = new RespondentSurveyContext(1);
+
+        SurveyNode questionNode = survey.getStartNode().getNext(context);
+        StringBuilder srvy = new StringBuilder();
+        srvy.append(node.toString()).append("---");
+
+        while(questionNode != null) {
+
+
+            String question = questionNode.getName();
+            if(question.equalsIgnoreCase("a")){
+                survey.deleteNode(2);
+            }
+            srvy.append(question);
+            int id  = questionNode.getId();
+
+
+            String answer = console.recordAnswerForQuestion((QuestionNode)questionNode);
+
+            context.setCurrentQuestionId(questionNode.getId());
+            context.setAnswertoCurrentQuestion(answer, ((QuestionNode)questionNode));
+            context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId());
+            context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
+            questionNode = survey.getNext(context);
+            System.out.println(questionNode.getClass().getSimpleName());
+            if(questionNode ==  null || !(questionNode instanceof QuestionNode)){
+                System.out.println("Survey finished.");
+                break;
+            }
+        }
+        System.out.println(srvy.toString());
+
+
+
+
+        /*
+        printDfs(survey);
+
+//        survey.deleteNode(3);
+        printForwardEdges(survey);
+
+        printBackEdges(survey);
+
+        printDfs(chapter);
+        printForwardEdges(chapter);
+
+        printBackEdges(chapter);
+        */
+
+
+        
+    }
+
+    private static void sampleResponse(Survey survey, SurveyNode node, int chapterId) {
+        StringBuilder srvy = new StringBuilder();
+        srvy.append(node.toString()).append("---");
 
         try {
             srvy.append(survey.getNext(new RespondentSurveyContext(0)).toString()).append("---"); // a
@@ -78,33 +153,7 @@ public class SurveyUtil {
             srvy.append(survey.getNext(new RespondentSurveyContext(8, chapterId, String.valueOf('z'))).toString()).append("---"); // f
 
             System.out.println(srvy.toString());
-            /*
 
-            while (questionId <=3) {
-
-                RespondentSurveyContext context = new RespondentSurveyContext(questionId++);
-                node = survey.getNext(context);
-                srvy.append(node.toString()).append("---");
-                if (node == null) {
-                    break;
-                }
-            }
-            System.out.println("Question: "+ questionId);
-            char loop = 'x';
-            while (loop <= 'z') {
-                while (questionId <=7) {
-                    RespondentSurveyContext context = new RespondentSurveyContext(questionId, chapterId, String.valueOf(loop++));
-                    questionId++;
-                    node = survey.getNext(context);
-                    srvy.append(node.toString()).append("---");
-                    if (node == null) {
-                        break;
-                    }
-                }
-                questionId = 5;
-
-            }
-            */
 
         }
         catch (Exception e){
@@ -113,24 +162,6 @@ public class SurveyUtil {
         finally {
             System.out.println(srvy.toString());
         }
-
-
-        /*
-        printDfs(survey);
-
-//        survey.deleteNode(3);
-        printForwardEdges(survey);
-
-        printBackEdges(survey);
-
-        printDfs(chapter);
-        printForwardEdges(chapter);
-
-        printBackEdges(chapter);
-        */
-
-
-        
     }
 
     private static void printBackEdges(QuestionContainer survey) {
