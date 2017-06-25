@@ -37,4 +37,7 @@ public interface SurveyNode {
     void removeBackEdge(int nodeIdToDelete);
 
 
+    void setActive(boolean b);
+
+    boolean isActive();
 }

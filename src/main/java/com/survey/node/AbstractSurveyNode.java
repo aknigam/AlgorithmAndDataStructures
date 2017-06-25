@@ -15,6 +15,7 @@ public abstract class AbstractSurveyNode implements SurveyNode {
     List<LinkEdge> backEdges;
     int id;
     boolean visited = false;
+    private boolean active = true;
 
     public int getId(){
         return id;
@@ -45,6 +46,16 @@ public abstract class AbstractSurveyNode implements SurveyNode {
                 return;
             }
         }
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean status) {
+        active = status;
     }
 
     public void addDirectedEdge(LinkEdge linkEdge){

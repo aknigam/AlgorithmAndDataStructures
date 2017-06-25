@@ -131,20 +131,39 @@ public abstract class QuestionContainer implements QuestionContainerI{
 
     public abstract SurveyNode getEndNode();
 
+    // TODO: 17/04/17 do the implementation for this.
     public SurveyNode getPrevious( RespondentSurveyContext surveyContext){
-        int currentQuestionId = surveyContext.getCurrentQuestionId();
+        return getPrevious(surveyContext, surveyContext.getCurrentQuestionId());
+    }
+    public SurveyNode getPrevious( RespondentSurveyContext surveyContext, int currentQuestionId){
+        SurveyNode prevNode = null;
         SurveyNode node = getSurveyNodes().get(currentQuestionId);
         List<LinkEdge> backEdges = node.getAllPossibleBackNodes();
         if(backEdges.size() == 1){
-            return backEdges.get(0).getSource();
-        }
-        for (LinkEdge e: backEdges){
-            SurveyNode possiblePreviousNode = e.getSource();
 
-            // version check will have to be put here
-            if(surveyContext.hasRespondentAnswered(possiblePreviousNode)){
-                return possiblePreviousNode;
+            prevNode =  backEdges.get(0).getSource();
+
+        }
+        else {
+            for (LinkEdge e : backEdges) {
+                SurveyNode possiblePreviousNode = e.getSource();
+
+                // version check will have to be put here
+                if (surveyContext.hasRespondentAnswered(possiblePreviousNode)) {
+                    prevNode =  possiblePreviousNode;
+                    break;
+                }
             }
+        }
+        /*
+
+         If there are more than one previous nodes then I will choose the node which the user answered.
+         User cannot reach the current node without answering one of the possible paths.
+
+         */
+
+        if(prevNode != null && !prevNode.isActive()){
+            return getPrevious(surveyContext, prevNode.getId());
         }
         return getStartNode();
 
@@ -167,6 +186,7 @@ public abstract class QuestionContainer implements QuestionContainerI{
         for(LinkEdge e: nodeToDelete.getAllPossibleNextNodes()){
             e.setActive(false);
         }
+        nodeToDelete.setActive(false);
         getSurveyNodes().remove(nodeIdToDelete);
 
     }
