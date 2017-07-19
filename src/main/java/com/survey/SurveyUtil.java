@@ -40,30 +40,30 @@ public class SurveyUtil {
         QuestionNode c  = new QB().withIdText(3,"c").build();
         QuestionNode d  = new QB().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
-        survey.addQuestionNode(a);
-        survey.addQuestionNode(a, b, "y");
-        survey.addQuestionNode(a, c, "x");
-        survey.addQuestionNode(b, c, "y");
-        survey.addQuestionNode(b, d, "x");
-        survey.addQuestionNode(c, d);
-
-        chapter = new Chapter(10, "ch1");
-        chapter.setLoopQuestion(d);
-        survey.addChapter(d, chapter);
-
 
         QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
         QuestionNode f  = new QB().withIdText(6,"f").wc("x").wc("y").build();
         QuestionNode g  = new QB().withIdText(7,"g").build();
         QuestionNode h  = new QB().withIdText(8,"h").build();
 
+        survey.addFirstQuestionNode(a);
+        survey.addNextChoiceLinkedQuestionNode(a, b, "y");
+        survey.addNextChoiceLinkedQuestionNode(a, c, "x");
+        survey.addNextChoiceLinkedQuestionNode(b, c, "y");
+        survey.addNextChoiceLinkedQuestionNode(b, d, "x");
+        survey.addNextQuestionNode(c, d);
 
-        chapter.addQuestionNode(e);
-        chapter.addQuestionNode(e, f, "y");
-        chapter.addQuestionNode(e, g, "x");
-        chapter.addQuestionNode(f, g, "y");
-        chapter.addQuestionNode(f, h, "x");
-        chapter.addQuestionNode(g, h);
+        chapter = new Chapter(10, "ch1");
+        chapter.setLoopQuestion(d);
+        survey.addChapter(d, chapter);
+
+
+        chapter.addFirstQuestionNode(e);
+        chapter.addNextChoiceLinkedQuestionNode(e, f, "y");
+        chapter.addNextChoiceLinkedQuestionNode(e, g, "x");
+        chapter.addNextChoiceLinkedQuestionNode(f, g, "y");
+        chapter.addNextChoiceLinkedQuestionNode(f, h, "x");
+        chapter.addNextQuestionNode(g, h);
 
 
         chapter.setNextSurveyNode(survey.getEndNode());
@@ -74,19 +74,20 @@ public class SurveyUtil {
 
         ReadConsole console = new ReadConsole();
         console.start();
-        Respondent respondent = new Respondent();
+
         RespondentSurveyContext context = new RespondentSurveyContext(1);
 
         SurveyNode questionNode = survey.getStartNode().getNext(context);
         StringBuilder srvy = new StringBuilder();
-        srvy.append(node.toString()).append("---");
-        String chapterName = null;
+        srvy.append(node.toString()).append("--");
+
         String nextChapterName = null;
         while(questionNode != null) {
 
 
             String question = questionNode.getName();
             if(question.equalsIgnoreCase("a")){
+                // dynamically changing the survey
 //                survey.deleteNode(2);
             }
             srvy.append(question).append("-");
@@ -99,6 +100,7 @@ public class SurveyUtil {
             context.setAnswertoCurrentQuestion(answer, ((QuestionNode)questionNode));
             context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId());
             context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
+
             questionNode = survey.getNext(context);
 
             if(questionNode ==  null || !(questionNode instanceof QuestionNode)){

@@ -68,42 +68,36 @@ public class Chapter extends QuestionContainer {
             System.out.println("ERROR: Invalid looped question answer.");
             return null;
         }
+
         QuestionNode node = getSurveyNodes().get(currentQuestionId);
-        SurveyNode nextNode = null;
-        if(node == null){ // node does not exists in chapter. it may be the looping question
 
-            if(loopQuestion.getId() == currentQuestionId){ // it is the looping questions
-                List<String> loopQuestionAnswer = respondentSurveyContext.getAnswertoMultiChoiceQuestion(loopQuestion);
-                if(loopQuestionAnswer == null || loopQuestionAnswer.size() == 0){
-                    return null; // no looped chapter . may be we should return the question after the chapter.
-                }
-                nextNode = getStartNode().getNext(respondentSurveyContext);
-                if(nextNode instanceof QuestionNode)
-                {
-                    QuestionNode qn = (QuestionNode) nextNode;
-                    if(currentChapterLoopValue == null) {
-                        qn.setChapterLoopValue(loopQuestionAnswer.get(0));
-                    }else {
-                        qn.setChapterLoopValue(currentChapterLoopValue);
-                    }
-                    qn.setChapterId(id);
-                    qn.setChapterName(chapterName);
-                    return qn;
-                }
-            }
-            else{
-                // node not present in chapter and its not the looping question as well
-                return null;
-            }
-
-
+        // Case 1: Getting the next question after the user has answered the looping question
+        if(node == null) { // node does not exists in chapter. it may be the looping question
+            return getNextQuestionIfUserJustAnsweredLoopingQuestion( currentQuestionId, respondentSurveyContext, currentChapterLoopValue);
         }
 
-        // node is present in the chapter
+        // Case 2: node is present in the chapter
         if(currentChapterLoopValue == null){
             System.out.println("ERROR: Current chapter loop value is mandatory");
             return null;
         }
+        QuestionNode questionNode = getNextQuestionInTheChapter(node, respondentSurveyContext, currentChapterLoopValue);
+        if(questionNode != null)
+        {
+            return questionNode;
+        }
+
+        // Case 3: more looped chapters exist?
+        String nextLoopValue = getNextLoopValue(loopQuestion, currentChapterLoopValue, respondentSurveyContext );
+        if(nextLoopValue != null)
+            return getNextLoopedChapterNode(loopQuestion.getId(), nextLoopValue, respondentSurveyContext);
+
+        // Case 4: User is at the last question of all the looped chapters
+        return null;
+
+    }
+
+    private QuestionNode getNextQuestionInTheChapter(QuestionNode node, RespondentSurveyContext respondentSurveyContext, String currentChapterLoopValue) {
         List<LinkEdge> edges = node.getAllPossibleNextNodes();
         for (LinkEdge e: edges){
             if(e.evaluate(respondentSurveyContext)){
@@ -118,11 +112,40 @@ public class Chapter extends QuestionContainer {
 
             }
         }
-        // more looped chapters exist?
+        return null;
+    }
 
-        String nextLoopValue = getNextLoopValue(loopQuestion, currentChapterLoopValue, respondentSurveyContext );
-        if(nextLoopValue != null)
-            return getNextLoopedChapterNode(loopQuestion.getId(), nextLoopValue, respondentSurveyContext);
+    private QuestionNode getNextQuestionIfUserJustAnsweredLoopingQuestion( int currentQuestionId, RespondentSurveyContext respondentSurveyContext, String currentChapterLoopValue) {
+
+
+        if (loopQuestion.getId() == currentQuestionId) { // it is the looping questions
+            List<String> loopQuestionAnswer = respondentSurveyContext.getAnswertoMultiChoiceQuestion(loopQuestion);
+            if (loopQuestionAnswer == null || loopQuestionAnswer.size() == 0) {
+                // user did not provided any answer on which chapter looping can be done
+                return null; // no looped chapter . may be we should return the question after the chapter.
+            }
+            SurveyNode nextNode = getStartNode().getNext(respondentSurveyContext);
+            if (nextNode instanceof QuestionNode) {
+                QuestionNode qn = (QuestionNode) nextNode;
+                if (currentChapterLoopValue == null) {
+                    qn.setChapterLoopValue(loopQuestionAnswer.get(0));
+                } else {
+                    // else should never be executed as this is use case 1, which means chapter has just started
+                    qn.setChapterLoopValue(currentChapterLoopValue);
+                }
+                // TODO: 19/07/17 should not be modifying the node. Instead set the properties in the context directly.
+                // TODO: Another option is to clone the node.
+                qn.setChapterId(id);
+                qn.setChapterName(chapterName);
+                return qn;
+            } else {
+                // TODO: 19/07/17 handle the case when the next node is not question node. It can be chapter end node or survey end node
+            }
+        } else {
+            // node not present in chapter and its not the looping question as well
+            return null;
+        }
+
 
         return null;
 

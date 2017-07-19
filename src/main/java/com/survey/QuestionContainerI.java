@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public interface QuestionContainerI {
 
-    void addQuestionNode(QuestionNode question);
+    void addFirstQuestionNode(QuestionNode question);
 
-    void addQuestionNode(int fromNodeQuestionId, QuestionNode target);
+    void addNextQuestionNode(int fromNodeQuestionId, QuestionNode target);
 
     SurveyNode getNext( RespondentSurveyContext respondentSurveyContext);
 

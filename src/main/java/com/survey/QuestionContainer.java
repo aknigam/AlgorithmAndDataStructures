@@ -1,6 +1,5 @@
 package com.survey;
 
-import com.survey.node.AbstractSurveyNode;
 import com.survey.node.QuestionNode;
 import com.survey.node.SurveyNode;
 import com.survey.node.SurveyStartNode;
@@ -39,7 +38,7 @@ public abstract class QuestionContainer implements QuestionContainerI{
     }
 
 
-    public void addQuestionNode(QuestionNode question){
+    public void addFirstQuestionNode(QuestionNode question){
 
         SurveyNode startNode= getStartNode();
         LinkEdge link = new LinkEdge(startNode, question);
@@ -49,11 +48,11 @@ public abstract class QuestionContainer implements QuestionContainerI{
 
     }
 
-    public void addQuestionNode(QuestionNode source, QuestionNode target, String choice){
+    public void addNextChoiceLinkedQuestionNode(QuestionNode source, QuestionNode target, String choice){
 
         int fromNodeQuestionId = source.getId();
         if(!isNodePresent(fromNodeQuestionId)){
-            System.out.println(String.format("Node %d cannot be added becuase the source does not exists.", fromNodeQuestionId));
+            System.out.println(String.format("Node %d cannot be added because the source does not exists.", fromNodeQuestionId));
             return;
         }
         QuestionNode sourceNode = getQuestionNode(fromNodeQuestionId);
@@ -68,10 +67,10 @@ public abstract class QuestionContainer implements QuestionContainerI{
 
     }
 
-    public void addQuestionNode(QuestionNode source, QuestionNode target){
-        addQuestionNode(source.getId(), target);
+    public void addNextQuestionNode(QuestionNode source, QuestionNode target){
+        addNextQuestionNode(source.getId(), target);
     }
-    public void addQuestionNode(int fromNodeQuestionId, QuestionNode target){
+    public void addNextQuestionNode(int fromNodeQuestionId, QuestionNode target){
 
         if(!isNodePresent(fromNodeQuestionId)){
             System.out.println(String.format("Node %d cannot be added becuase the source does not exists.", fromNodeQuestionId));
@@ -108,14 +107,14 @@ public abstract class QuestionContainer implements QuestionContainerI{
             }
             Chapter chapter = node.getChapter();
             if (chapter != null) {
+                // chapter starts here
                 return chapter.getNext(respondentSurveyContext);
             }
         }
-        // if node is not in survey , rather it is chapter
+        // if node is not in survey , rather it is chapter. This means user is already in the chapter
         if(respondentSurveyContext.getCurrentChapterId() != 0 && respondentSurveyContext.getChapterLoopValue() != null){
 
             int chapterId = respondentSurveyContext.getCurrentChapterId();
-
 
             Chapter chapter = chaptersIndex.get(chapterId);
             if(chapter == null){
