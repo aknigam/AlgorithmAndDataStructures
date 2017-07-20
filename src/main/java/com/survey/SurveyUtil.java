@@ -35,6 +35,115 @@ public class SurveyUtil {
 
         Survey survey = new Survey();
 
+        QuestionNode a1  = new QB().withIdText(11,"a1").wc("x").wc("y").build();
+        QuestionNode a2  = new QB().withIdText(12,"a2").wc("x").wc("y").build();
+        QuestionNode a3  = new QB().withIdText(13,"a3").wc("x").wc("y").build();
+
+        QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
+        QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
+        QuestionNode c  = new QB().withIdText(3,"c").build();
+        QuestionNode d  = new QB().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
+
+
+        QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
+        QuestionNode f  = new QB().withIdText(6,"f").wc("x").wc("y").build();
+        QuestionNode g  = new QB().withIdText(7,"g").build();
+        QuestionNode h  = new QB().withIdText(8,"h").build();
+
+        survey.addFirstQuestionNode(a1);
+        survey.addNextQuestionNode(a1, a2);
+        survey.addNextQuestionNode(a2, a3);
+        survey.addNextQuestionNode(a3, a);
+        survey.addNextChoiceLinkedQuestionNode(a, b, "y");
+        survey.addNextChoiceLinkedQuestionNode(a, c, "x");
+        survey.addNextChoiceLinkedQuestionNode(b, c, "y");
+        survey.addNextChoiceLinkedQuestionNode(b, d, "x");
+        survey.addNextQuestionNode(c, d);
+
+        chapter = new Chapter(10, "ch1");
+        chapter.setLoopQuestion(d);
+        survey.addChapter(d, chapter);
+
+
+        chapter.addFirstQuestionNode(e);
+        chapter.addNextChoiceLinkedQuestionNode(e, f, "y");
+        chapter.addNextChoiceLinkedQuestionNode(e, g, "x");
+        chapter.addNextChoiceLinkedQuestionNode(f, g, "y");
+        chapter.addNextChoiceLinkedQuestionNode(f, h, "x");
+        chapter.addNextQuestionNode(g, h);
+
+        chapter.setNextSurveyNode(survey.getEndNode());
+
+        ReadConsole console = new ReadConsole();
+        console.start();
+
+        RespondentSurveyContext context = new RespondentSurveyContext(11);
+
+        SurveyNode questionNode = survey.getStartNode().getNext(context);
+
+        SurveyUIBuilder uiBuilder = new SurveyUIBuilder();
+
+        String nextChapterName = null;
+        while(questionNode != null) {
+
+
+            String question = questionNode.getName();
+            if(question.equalsIgnoreCase("a")){
+                // dynamically changing the survey
+                survey.deleteNode(2);
+                survey.addNextChoiceLinkedQuestionNode(a, d , "y");
+            }
+            if(question.equalsIgnoreCase("a1")){
+                survey.deleteNode(12);
+            }
+            uiBuilder.appendQuestion(question);
+            String answer = console.recordAnswerForQuestion((QuestionNode)questionNode);
+
+            context.setCurrentQuestionId(questionNode.getId());
+            context.setAnswertoCurrentQuestion(answer, ((QuestionNode)questionNode));
+            context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId());
+            context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
+
+            questionNode = survey.getNext(context);
+
+            if(questionNode ==  null || !(questionNode instanceof QuestionNode)){
+                System.out.println("Survey finished.");
+                break;
+            }
+            nextChapterName =((QuestionNode) questionNode).getChapterLoopValue();
+            if(nextChapterName != null ){
+
+                System.out.println("-----------------------Chapter name : "+ ((QuestionNode) questionNode).getChapterId()+"+["+ ((QuestionNode) questionNode).getChapterLoopValue()+"] started");
+                uiBuilder.setChapter(""+((QuestionNode) questionNode).getChapterId()+"+["+ ((QuestionNode) questionNode).getChapterLoopValue()+"]");
+            }
+
+        }
+        System.out.println(uiBuilder.toString());
+
+
+
+
+        /*
+        printDfs(survey);
+
+//        survey.deleteNode(3);
+        printForwardEdges(survey);
+
+        printBackEdges(survey);
+
+        printDfs(chapter);
+        printForwardEdges(chapter);
+
+        printBackEdges(chapter);
+        */
+
+
+        
+    }
+
+    private static Survey getSampleSurvey() {
+        Survey survey = new Survey();
+
         QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
         QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
         QuestionNode c  = new QB().withIdText(3,"c").build();
@@ -67,75 +176,7 @@ public class SurveyUtil {
 
 
         chapter.setNextSurveyNode(survey.getEndNode());
-
-
-
-        SurveyNode node = survey.getStartNode();
-
-        ReadConsole console = new ReadConsole();
-        console.start();
-
-        RespondentSurveyContext context = new RespondentSurveyContext(1);
-
-        SurveyNode questionNode = survey.getStartNode().getNext(context);
-        StringBuilder srvy = new StringBuilder();
-        srvy.append(node.toString()).append("--");
-
-        String nextChapterName = null;
-        while(questionNode != null) {
-
-
-            String question = questionNode.getName();
-            if(question.equalsIgnoreCase("a")){
-                // dynamically changing the survey
-//                survey.deleteNode(2);
-            }
-            srvy.append(question).append("-");
-            int id  = questionNode.getId();
-
-
-            String answer = console.recordAnswerForQuestion((QuestionNode)questionNode);
-
-            context.setCurrentQuestionId(questionNode.getId());
-            context.setAnswertoCurrentQuestion(answer, ((QuestionNode)questionNode));
-            context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId());
-            context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
-
-            questionNode = survey.getNext(context);
-
-            if(questionNode ==  null || !(questionNode instanceof QuestionNode)){
-                System.out.println("Survey finished.");
-                break;
-            }
-            nextChapterName =((QuestionNode) questionNode).getChapterLoopValue();
-            if(nextChapterName != null ){
-
-                System.out.println("-----------------------Chapter name : "+ ((QuestionNode) questionNode).getChapterId()+"+["+ ((QuestionNode) questionNode).getChapterLoopValue()+"] started");
-            }
-
-
-        }
-        System.out.println(srvy.toString());
-
-
-
-
-        /*
-        printDfs(survey);
-
-//        survey.deleteNode(3);
-        printForwardEdges(survey);
-
-        printBackEdges(survey);
-
-        printDfs(chapter);
-        printForwardEdges(chapter);
-
-        printBackEdges(chapter);
-        */
-
-
-        
+        return survey;
     }
 
     private static void printBackEdges(QuestionContainer survey) {

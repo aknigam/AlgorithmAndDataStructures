@@ -97,8 +97,11 @@ public abstract class QuestionContainer implements QuestionContainerI{
             return getStartNode().getNext(respondentSurveyContext);
 
         QuestionNode node = getSurveyNodes().get(currentQuestionId);
-
-
+        /*
+        if(!node.isActive()){
+            // hanldle this case
+        }
+        */
         if(node != null) { // node is present in survey not in chapter
             SurveyNode nextNode = node.getNext(respondentSurveyContext);
 
@@ -169,22 +172,59 @@ public abstract class QuestionContainer implements QuestionContainerI{
     }
 
 
-
+    /**
+     *
+     * Deleting a node does the following:
+     *
+     * 1. mark this node as deleted
+     * 2. Mark front edges as inactive
+     * 3. Mark back edges as inactive
+     *
+     * Planner should connect other edges accordingly. it won't happen automatically.
+     *
+     * Some of the possible things that can happen are as follow. These are <<<<1 & 2 are NOT YET IMPLEMENTED. Only 3 is implemented>>>>>
+     *
+     * 1. if there is only one edge emanating from the deleted node, then all the previous nodes get connected to the target by
+     *  adding a new bi-directional edge with similar link logic
+     *
+     * 2. If there are multiple outgoing edges then planner needs to define the new paths manually
+     *
+     * 3. Following case can be handled without any planner input
+     *
+     *      A---------------> NodeToBeDeleted ----------------> C
+     *      A-------------------------------------------------> C
+     *
+     * As a design we can keep a stack of operations so that undo can be supported.
+     *
+     */
     public void deleteNode(int nodeIdToDelete){
 
         SurveyNode nodeToDelete =getSurveyNodes().get(nodeIdToDelete);
-        if( nodeToDelete ==  null){
+        if( nodeToDelete ==  null)
+        {
             System.out.println("Node cannot be deleted because it does not exists.");
             return;
         }
-
-        for(LinkEdge e: nodeToDelete.getAllPossibleBackNodes()){
+        List<LinkEdge> backEdges = nodeToDelete.getAllPossibleBackNodes();
+        for(LinkEdge e: backEdges){
             e.setActive(false);
         }
 
-        for(LinkEdge e: nodeToDelete.getAllPossibleNextNodes()){
+        List<LinkEdge> forwardEdges= nodeToDelete.getAllPossibleNextNodes();
+        for(LinkEdge e: forwardEdges){
             e.setActive(false);
         }
+
+        if(forwardEdges.size() == 1 && backEdges.size() == 1){
+            LinkEdge edge = backEdges.get(0);
+            if(!edge.isLinkedLogicEdge()){
+                SurveyNode target = forwardEdges.get(0).getTarget();
+                LinkEdge link = new LinkEdge(edge.getSource(), target);
+                edge.getSource().addDirectedEdge(link);
+                target.addBackEdge(link);
+            }
+        }
+
         nodeToDelete.setActive(false);
         getSurveyNodes().remove(nodeIdToDelete);
 

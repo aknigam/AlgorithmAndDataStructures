@@ -15,7 +15,7 @@ public class LinkEdge {
     }
 
     private final SurveyNode source;
-    private String choice;
+    private String linkChoice;
 
     private boolean active = true;
 
@@ -26,7 +26,7 @@ public class LinkEdge {
 
     public LinkEdge(SurveyNode source , SurveyNode target, String choice){
         this(source, target);
-        this.choice = choice;
+        this.linkChoice = choice;
     }
 
     public LinkEdge( SurveyNode source , SurveyNode target){
@@ -39,10 +39,10 @@ public class LinkEdge {
     }
 
     public boolean evaluate(RespondentSurveyContext context){
-        if(choice == null)
+        if(linkChoice == null)
             return true;
         String answerToCurrentQuestion = context.getAnswertoSingleChoiceQuestion((QuestionNode) source);
-        if(answerToCurrentQuestion.equalsIgnoreCase(choice)){
+        if(answerToCurrentQuestion == null || answerToCurrentQuestion.equalsIgnoreCase(linkChoice)){
             return true;
         }
         return false;
@@ -55,5 +55,9 @@ public class LinkEdge {
 
     public boolean isActive() {
         return active;
+    }
+
+    public boolean isLinkedLogicEdge(){
+        return linkChoice != null;
     }
 }
