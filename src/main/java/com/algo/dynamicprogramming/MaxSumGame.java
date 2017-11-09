@@ -1,15 +1,19 @@
-package com.learning.algorithm;
+package com.algo.dynamicprogramming;
 
 /**
  * Created by anand.nigam on 8/6/2015.
+ * Asked in Makemytrip interview
+ *
+ * http://www.geeksforgeeks.org/dynamic-programming-set-31-optimal-strategy-for-a-game/
+ *
  */
 
 
 public class MaxSumGame {
 
 
-//	static int[] arr = {1,8,9,244, 56,32,5};
-	static int[] arr = {8, 15, 3, 7};
+	static int[] arr = {1,8,9,244, 56,32,5};
+//	static int[] arr = {8, 15, 3, 7};
 	//static int[] arr = {2, 4, 6};
 	static int n = arr.length;
 	static Boolean[][] c = new Boolean[n][n];
