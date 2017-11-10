@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by a.nigam on 02/04/17.
+ * TODO: Node CRUD operations have to be atomic in nature
  */
 public abstract class QuestionContainer implements QuestionContainerI{
 
@@ -73,7 +73,7 @@ public abstract class QuestionContainer implements QuestionContainerI{
     public void addNextQuestionNode(int fromNodeQuestionId, QuestionNode target){
 
         if(!isNodePresent(fromNodeQuestionId)){
-            System.out.println(String.format("Node %d cannot be added becuase the source does not exists.", fromNodeQuestionId));
+            System.out.println(String.format("Node %d cannot be added because the source does not exists.", fromNodeQuestionId));
             return;
         }
         QuestionNode sourceNode = getQuestionNode(fromNodeQuestionId);
@@ -92,30 +92,72 @@ public abstract class QuestionContainer implements QuestionContainerI{
 
     public SurveyNode getNext(RespondentSurveyContext respondentSurveyContext){
 
+        if(hasRespondentStartedSurvey(respondentSurveyContext)){
+            respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.IN_PROGRESS);
+            return getStartNode().getNextActiveNode(respondentSurveyContext);
+        }
+
         int currentQuestionId = respondentSurveyContext.getCurrentQuestionId();
-        if(currentQuestionId == 0)
-            return getStartNode().getNext(respondentSurveyContext);
+        QuestionNode currentNode = getSurveyNodes().get(currentQuestionId);
 
-        QuestionNode node = getSurveyNodes().get(currentQuestionId);
-        /*
-        if(!node.isActive()){
-            // hanldle this case
-        }
-        */
-        if(node != null) { // node is present in survey not in chapter
-            SurveyNode nextNode = node.getNext(respondentSurveyContext);
 
-            if (nextNode != null) {
-                return nextNode;
+        if(currentNode != null) {
+
+            /*
+            Case 1: The current node is not active
+                a) Node may or may not belong to a chapter
+            TODO: This is not completely implemented
+            */
+            if (!currentNode.isActive()) {
+                // Handle this case
+            /*
+             Where should the user start from if the current node is deleted?
+             Option 1: Go back in the respondents path and stop at a position when you find an active node to which user
+              responded or visited earlier. *****And then go to next???****
+             Option 2: There may be changes in the survey even before the node found by option 1. Or changes in a
+             different path.
+             Option 3: mark the path and
+
+             If the change is such that user may choose a different path then the user has to be brought back to the
+             starting point
+
+
+             1. if there is only one previous node then check the question that user actually answered
+
+             */
+                // get previous active node which the user has responded or return the start node.
+                return getPrevious(respondentSurveyContext, currentQuestionId);
+                /*
+                List<LinkEdge> backEdges = currentNode.getAllPossibleBackNodes(); //bug none of the back edges will be
+                // active
+                if(backEdges == null || backEdges.size() == 0){
+                    return getStartNode().getNextActiveNode(respondentSurveyContext);
+                }
+                SurveyNode nextNode = getPreviousActiveNodeInUserPath(backEdges, respondentSurveyContext);
+                */
+
+
             }
-            Chapter chapter = node.getChapter();
-            if (chapter != null) {
-                // chapter starts here
-                return chapter.getNext(respondentSurveyContext);
+            // Case 2: current node is active
+            else { // node is present in survey not in chapter
+                SurveyNode nextNode = currentNode.getNextActiveNode(respondentSurveyContext);
+
+                if (nextNode != null) {
+                    return nextNode;
+                }
+                Chapter chapter = currentNode.getChapter();
+                if (chapter != null) {
+                    // chapter starts here
+                    respondentSurveyContext.setCurrentChapterId(chapter.getId()); // todo this prevent nexted chapters
+                    return chapter.getNext(respondentSurveyContext);
+                }
+                return null;
+
             }
         }
+        // if currentNode is not null then else should not be executed
         // if node is not in survey , rather it is chapter. This means user is already in the chapter
-        if(respondentSurveyContext.getCurrentChapterId() != 0 && respondentSurveyContext.getChapterLoopValue() != null){
+        else if (respondentSurveyContext.getCurrentChapterId() != 0 && respondentSurveyContext.getChapterLoopValue() != null){
 
             int chapterId = respondentSurveyContext.getCurrentChapterId();
 
@@ -131,42 +173,52 @@ public abstract class QuestionContainer implements QuestionContainerI{
         return getEndNode();
     }
 
+    protected boolean hasRespondentStartedSurvey(RespondentSurveyContext respondentSurveyContext){
+        return  respondentSurveyContext.getRespondentStatus() == RespondentSurveyContext.RespondentStatus.NEW;
+    }
+
+
     public abstract SurveyNode getEndNode();
 
-    // TODO: 17/04/17 do the implementation for this.
+    //
     public SurveyNode getPrevious( RespondentSurveyContext surveyContext){
         return getPrevious(surveyContext, surveyContext.getCurrentQuestionId());
     }
     public SurveyNode getPrevious( RespondentSurveyContext surveyContext, int currentQuestionId){
-        SurveyNode prevNode = null;
+
         SurveyNode node = getSurveyNodes().get(currentQuestionId);
         List<LinkEdge> backEdges = node.getAllPossibleBackNodes();
-        if(backEdges.size() == 1){
 
-            prevNode =  backEdges.get(0).getSource();
-
+        if(backEdges == null || backEdges.isEmpty()) {
+            return getStartNode();
         }
-        else {
-            for (LinkEdge e : backEdges) {
-                SurveyNode possiblePreviousNode = e.getSource();
+        /*
 
-                // version check will have to be put here
-                if (surveyContext.hasRespondentAnswered(possiblePreviousNode)) {
-                    prevNode =  possiblePreviousNode;
-                    break;
+        Note: if more than 1 active nodes are found in previous which were answered by the user then return the latest
+        answered node.
+
+
+         */
+        SurveyNode possiblePreviousNode = null;
+        for (LinkEdge e : backEdges) {
+            possiblePreviousNode = e.getSource();
+
+            if (surveyContext.hasRespondentAnswered(possiblePreviousNode)) {
+                // return if the previous node and the path are active
+                if(!possiblePreviousNode.isActive() || !e.isActive()){
+                    return getPrevious(surveyContext, possiblePreviousNode.getId());
                 }
+                return possiblePreviousNode;
+
             }
         }
+
         /*
 
          If there are more than one previous nodes then I will choose the node which the user answered.
          User cannot reach the current node without answering one of the possible paths.
+        */
 
-         */
-
-        if(prevNode != null && !prevNode.isActive()){
-            return getPrevious(surveyContext, prevNode.getId());
-        }
         return getStartNode();
 
     }
@@ -226,7 +278,7 @@ public abstract class QuestionContainer implements QuestionContainerI{
         }
 
         nodeToDelete.setActive(false);
-        getSurveyNodes().remove(nodeIdToDelete);
+//        getSurveyNodes().remove(nodeIdToDelete);
 
     }
 

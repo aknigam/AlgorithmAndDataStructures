@@ -77,17 +77,32 @@ public class SurveyUtil {
         ReadConsole console = new ReadConsole();
         console.start();
 
-        RespondentSurveyContext context = new RespondentSurveyContext(11);
-
-        SurveyNode questionNode = survey.getStartNode().getNext(context);
-
+        RespondentSurveyContext context = new RespondentSurveyContext(0);
+//        SurveyNode questionNode = survey.getNext(context);
+//        SurveyNode questionNode = survey.getStartNode().getNextActiveNode(context);
+        SurveyNode questionNode = null;
         SurveyUIBuilder uiBuilder = new SurveyUIBuilder();
 
         String nextChapterName = null;
-        while(questionNode != null) {
+        while(true) {
 
+            questionNode = survey.getNext(context);
+
+            if(questionNode ==  null || !(questionNode instanceof QuestionNode)){
+                System.out.println("Survey finished.");
+                break;
+            }
+            nextChapterName = context.getChapterLoopValue();
+            if(nextChapterName != null ){
+
+                System.out.println("-----------------------Chapter name : "+ ((QuestionNode) questionNode).getChapterId()+"+["+ context.getChapterLoopValue()+"] started");
+                uiBuilder.setChapter(""+((QuestionNode) questionNode).getChapterId()+"+["+ context.getChapterLoopValue()+"]");
+            }
+            if(questionNode == null)
+                break;
 
             String question = questionNode.getName();
+
             if(question.equalsIgnoreCase("a")){
                 // dynamically changing the survey
                 survey.deleteNode(2);
@@ -96,26 +111,19 @@ public class SurveyUtil {
             if(question.equalsIgnoreCase("a1")){
                 survey.deleteNode(12);
             }
+
             uiBuilder.appendQuestion(question);
             String answer = console.recordAnswerForQuestion((QuestionNode)questionNode);
 
+
+//            questionNode = survey.getNext(context);
+
             context.setCurrentQuestionId(questionNode.getId());
             context.setAnswertoCurrentQuestion(answer, ((QuestionNode)questionNode));
-            context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId());
-            context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
+//            context.setCurrentChapterId(((QuestionNode) questionNode).getChapterId()); // todo: chapter id needs to be set in the context
+//            context.setChapterLoopValue(((QuestionNode) questionNode).getChapterLoopValue());
 
-            questionNode = survey.getNext(context);
 
-            if(questionNode ==  null || !(questionNode instanceof QuestionNode)){
-                System.out.println("Survey finished.");
-                break;
-            }
-            nextChapterName =((QuestionNode) questionNode).getChapterLoopValue();
-            if(nextChapterName != null ){
-
-                System.out.println("-----------------------Chapter name : "+ ((QuestionNode) questionNode).getChapterId()+"+["+ ((QuestionNode) questionNode).getChapterLoopValue()+"] started");
-                uiBuilder.setChapter(""+((QuestionNode) questionNode).getChapterId()+"+["+ ((QuestionNode) questionNode).getChapterLoopValue()+"]");
-            }
 
         }
         System.out.println(uiBuilder.toString());

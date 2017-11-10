@@ -15,13 +15,9 @@ public class ReadConsole {
 
     public void ReadConsole() {
         try {
-
-
             while (true) {
-
                 readLine();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

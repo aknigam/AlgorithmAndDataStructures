@@ -14,8 +14,8 @@ public class ChapterEndNode extends AbstractSurveyNode{
     }
 
     @Override
-    public SurveyNode getNext(RespondentSurveyContext context) {
-        return super.getNext(context);
+    public SurveyNode getNextActiveNode(RespondentSurveyContext context) {
+        return super.getNextActiveNode(context);
     }
 
 }

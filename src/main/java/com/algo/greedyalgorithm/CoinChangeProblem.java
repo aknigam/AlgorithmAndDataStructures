@@ -11,8 +11,6 @@ public class CoinChangeProblem {
     public static void main(String[] args) {
 
         System.out.println(110 % 25);
-
-
         int[] c = change(123);
         System.out.printf(Arrays.toString(c));
     }

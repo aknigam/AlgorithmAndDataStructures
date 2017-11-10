@@ -5,6 +5,15 @@ import com.survey.node.SurveyNode;
 
 /**
  * Created by a.nigam on 16/01/17.
+ *
+ * Active flag has to be present in a edge because of following business rules
+ *
+ * 1. If a node is inactive then all the edges coming in or going out from this node are inactive. In this case we need
+ *      check edge status
+ * 2. In this case the node is active but one of the choices is altered in such a way that a particular edge becomes
+ *      inactive
+ *
+ *
  */
 public class LinkEdge {
 

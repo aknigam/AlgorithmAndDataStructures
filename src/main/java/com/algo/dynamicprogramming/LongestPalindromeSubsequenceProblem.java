@@ -2,13 +2,15 @@ package com.algo.dynamicprogramming;
 
 /**
  * Created by a.nigam on 04/12/16.
+ * 15-2 Longest palindrome subsequence
  */
 public class LongestPalindromeSubsequenceProblem {
 
     public static void main(String[] args) {
 
 //        char[] c = "sns".toCharArray();
-        char[] c = "abcbabcbabcba".toCharArray();
+        char[] c = "abcbabcgfbabcba".toCharArray();
+//        char[] c = "character".toCharArray();
         String lp = topDownLongestPalindrom(c, 0, c.length -1);
 
         System.out.println(lp);

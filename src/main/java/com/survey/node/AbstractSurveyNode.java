@@ -4,6 +4,7 @@ import com.survey.LinkEdge;
 import com.survey.RespondentSurveyContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,17 +69,21 @@ public abstract class AbstractSurveyNode implements SurveyNode {
         backEdges.add(backEdge);
     }
 
+    /*
+    This method either returns an active node or a null. it does not returns inactive node
+     */
     @Override
-    public SurveyNode getNext(RespondentSurveyContext context) {
+    public SurveyNode getNextActiveNode(RespondentSurveyContext context) {
 
         for ( LinkEdge e : edges) {
             if(e.isActive() && e.evaluate(context)){
+                // Can the target be inactive even if the edge was active? No
                 return e.getTarget();
             }
         }
-        if(edges.size() == 1 && edges.get(0).isActive()){
-            return edges.get(0).getTarget();
-        }
+//        if(edges.size() == 1 && edges.get(0).isActive()){
+//            return edges.get(0).getTarget();
+//        }
         return null;
     }
 
@@ -97,7 +102,9 @@ public abstract class AbstractSurveyNode implements SurveyNode {
 
     @Override
     public List<LinkEdge> getAllPossibleBackNodes() {
-        List<LinkEdge> be = new ArrayList<>(backEdges.size());
+        return Collections.unmodifiableList(backEdges);
+        /*
+        List<LinkEdge> be = new ArrayList<>();
         for (LinkEdge e : backEdges) {
             if(e.isActive()){
                 be.add(e);
@@ -105,6 +112,7 @@ public abstract class AbstractSurveyNode implements SurveyNode {
         }
 
         return be;
+        */
     }
 
 

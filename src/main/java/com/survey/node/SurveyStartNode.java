@@ -13,7 +13,7 @@ public class SurveyStartNode extends AbstractSurveyNode {
     }
 
     @Override
-    public SurveyNode getNext(RespondentSurveyContext context) {
+    public SurveyNode getNextActiveNode(RespondentSurveyContext context) {
         return getAllPossibleNextNodes().get(0).getTarget();
     }
 

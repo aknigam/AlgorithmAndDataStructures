@@ -20,6 +20,22 @@ public class RespondentSurveyContext {
 
     private String chapterLoopValue;
     private Chapter chapter;
+
+    private RespondentStatus respondentStatus = RespondentStatus.NEW;
+
+    public static enum RespondentStatus{
+        NEW, IN_PROGRESS, FINISHED
+    }
+
+    public RespondentStatus getRespondentStatus() {
+        return respondentStatus;
+    }
+
+    public void setRespondentStatus(RespondentStatus respondentStatus) {
+        this.respondentStatus = respondentStatus;
+    }
+
+
 //    private List<String> multiSelectAnswer;
 
 //    private String answertoCurrentQuestion;

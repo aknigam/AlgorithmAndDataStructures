@@ -23,7 +23,7 @@ public class LongestCommonSubsequeceProblem {
     }
 
     public static String topDownMemorizedLCS(char[] x, int iXBegin, char[]y, int iYBegin){
-
+        System.out.println("Call \t["+ iYBegin+","+iXBegin+"]");
         if(iXBegin >= x.length || iYBegin >= y.length){
             return "";
         }

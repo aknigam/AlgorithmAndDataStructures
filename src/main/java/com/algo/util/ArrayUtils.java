@@ -86,4 +86,15 @@ public class ArrayUtils {
         arr[j] = arr[i];
         arr[i] = temp;
     }
+
+    public static void init2DArray(int[][] a) {
+
+        for (int r = 0; r <= a.length -1; r++) {
+            for (int c = 0; c <= a.length -1; c++) {
+                a[r][c] = 0;
+            }
+
+        }
+
+    }
 }
