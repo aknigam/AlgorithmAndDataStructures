@@ -239,7 +239,7 @@ public class BinarySearch<T extends Integer> {
 	/**
 	 * Efficient BST helper -- Given a node, and min and max values, recurs down
 	 * the tree to verify that it is a BST, and that all its nodes are within
-	 * the min..max range. Works in O(n) st -- visits each node only once.
+	 * the min..max range. Works in O(n) startTime -- visits each node only once.
 	 */
 	private boolean  isBST2(BinaryTreeNode node, T min, T max) {
 		if (node == null) {

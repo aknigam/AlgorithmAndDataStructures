@@ -15,15 +15,43 @@ import java.util.*;
  * 1. Ordered list of surveyNodes
  * 2. Chapters (Looped or simple)
  *
+ *
+ *
+ *
+ *
  */
 
 public class Survey extends QuestionContainer{
 
+    public int getVersion() {
+        return version;
+    }
+
+    // Every modification of the survey should change the version
+    private int version;
 
     private SurveyStartNode startNode = new SurveyStartNode();
     private SurveyEndNode endNode = new SurveyEndNode();
 
+    private boolean testing = true;
 
+    public boolean inTesting(){
+        return testing;
+    }
+
+    public void goLive(){
+        testing = false;
+    }
+
+    public Survey(){
+        version = 1;
+    }
+
+
+
+    public SurveyNode getNext(RespondentSurveyContext respondentSurveyContext){
+        return getNext(respondentSurveyContext, version);
+    }
 
     public SurveyEndNode getEndNode() {
         return endNode;
@@ -38,7 +66,7 @@ public class Survey extends QuestionContainer{
 
         int fromNodeQuestionId = fromNodeQuestion.getId();
         if(!isNodePresent(fromNodeQuestionId)){
-            System.out.println(String.format("Node %d cannot be added becuase the source does not exists.", fromNodeQuestionId));
+            System.out.println(String.format("Node %distance cannot be added becuase the source does not exists.", fromNodeQuestionId));
             return;
         }
         QuestionNode sourceNode = getQuestionNode(fromNodeQuestionId);

@@ -114,8 +114,8 @@ public class HardSuffixTree {
 
         /*
             printing the Suffix Tree in a format understandable by graphviz. The output is written into
-            st.dot file. In order to see the suffix tree as a PNG image, run the following command:
-            dot -Tpng -O st.dot
+            startTime.dot file. In order to see the suffix tree as a PNG image, run the following command:
+            dot -Tpng -O startTime.dot
          */
 
         String edgeString(int node) {
@@ -174,7 +174,7 @@ public class HardSuffixTree {
         in = new BufferedReader(new InputStreamReader(System.in));
         StringWriter w = new StringWriter();
         out = new PrintWriter(w);
-//        out = new PrintWriter(new FileWriter("st.dot"));
+//        out = new PrintWriter(new FileWriter("startTime.dot"));
         String line = in.readLine();
         SuffixTree st = new SuffixTree(line.length());
         for (int i = 0; i < line.length(); i++)

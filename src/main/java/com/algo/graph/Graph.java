@@ -57,7 +57,7 @@ public abstract class Graph<E> {
 
         LinkedList<Vertex<E>> topologicalSort = new LinkedList<Vertex<E>>();
 
-        List<String> te = new ArrayList<String>();
+        List<String> treeEdge = new ArrayList<String>();
         List<String> be = new ArrayList<String>();
         List<String> fe = new ArrayList<String>();
         List<String> ce = new ArrayList<String>();
@@ -81,7 +81,7 @@ public abstract class Graph<E> {
         Iterator<Vertex<E>> itr = vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            v.color = 0; // WHITE
+            v.color = VertexColor.White; // WHITE
         }
 
 
@@ -100,7 +100,7 @@ public abstract class Graph<E> {
             Vertex<E> v = itr.next();
             if(v.index == -1)
                 continue;
-            if(v.color == 0){
+            if(v.color == VertexColor.White){
                 request.cc++;
 
                 dfsInternal(v, request);
@@ -110,11 +110,11 @@ public abstract class Graph<E> {
         System.out.println("DFS results -----------------");
         System.out.println(request.dfs);
         System.out.println(request.parenthesisStructure);
-        System.out.println(request.topologicalSort);
+        System.out.println("topologicalSort\t"+request.topologicalSort);
 
         System.out.println(request.pathCount);
         System.out.println("Edges start");
-        System.out.println("T-E\t"+request.te.toString());
+        System.out.println("Tree Edges\t"+request.treeEdge.toString());
         System.out.println("F-E\t"+request.fe.toString());
         System.out.println("B-E\t"+request.be.toString());
         System.out.println("C-E\t"+request.ce.toString());
@@ -128,32 +128,32 @@ public abstract class Graph<E> {
 
     protected void dfsInternal(Vertex<E> v, DFSAlgoAttributes attr){
 
-        v.cc = attr.cc;
+        v.connectedComponents = attr.cc;
         attr.parenthesisStructure.append("(").append(v.data);
         attr.dfs.append(v.data).append("\t");
-        v.color = 1; // GRAY
-        v.st = ++ attr.time;
-        v.d = attr.time;
+        v.color = VertexColor.Gray; // GRAY
+        v.startTime = ++ attr.time;
+        v.distance = attr.time;
 
         List<Vertex<E>> adj = getAdjacentvertices(v);
         System.out.println(v+"-->\t"+adj);
         for (int i = 0; i < adj.size(); i++) {
 
             Vertex<E> u = adj.get(i);
-            if(u.color == 0) {
+            if(u.color == VertexColor.White) {
                 // TREE edge
-                attr.te.add(v.data+"-"+u.data);
-                u.p = v;
+                attr.treeEdge.add(v.data+"-"+u.data);
+                u.previous = v;
                 // recursive call ---------------------------------------------start>>
                 dfsInternal(u, attr);
                 // recursive call ---------------------------------------------end>>
             }
-            else if(u.color == 1) {
+            else if(u.color == VertexColor.Gray) {
                 // BACK edge
                 attr.be.add(v.data+"-"+u.data);
             }
-            else if(u.color == 2) {
-                if(v.cc != u.cc){
+            else if(u.color == VertexColor.Black) {
+                if(v.connectedComponents != u.connectedComponents){
                     // CROSS edge
                     attr.ce.add(v.data+"-"+u.data);
                 }
@@ -169,8 +169,8 @@ public abstract class Graph<E> {
             }
             */
         }
-        v.color = 2; // BLACK
-        v.et = ++attr.time;
+        v.color = VertexColor.Black; // BLACK
+        v.endTime = ++attr.time;
         attr.parenthesisStructure.append(v.data).append(")");
 
         attr.topologicalSort.add(v);
@@ -207,8 +207,8 @@ public abstract class Graph<E> {
         StringBuilder bfs = new StringBuilder();
 
 
-        s.color = 1; // MARKED AS G
-        s.d = 0;
+        s.color = VertexColor.Gray; // MARKED AS G
+        s.distance = 0;
         q.add(s);
 
         while (!q.isEmpty()){
@@ -221,20 +221,20 @@ public abstract class Graph<E> {
             for (int i = 0; i < adj.size(); i++) {
                 Vertex<E> u = adj.get(i);
 
-                if(u.color == 0){
-//                if(u.d == Integer.MIN_VALUE) {
-                    u.color = 1;
-                    u.d  = v.d+1;
-                    u.p = v;
+                if(u.color == VertexColor.White){
+//                if(u.distance == Integer.MIN_VALUE) {
+                    u.color = VertexColor.Gray;
+                    u.distance = v.distance +1;
+                    u.previous = v;
                     q.add(u);
 
-                    attr.te.add(v.data+"-"+u.data);
+                    attr.treeEdge.add(v.data+"-"+u.data);
                 }
-                else if(u.color == 1){
+                else if(u.color == VertexColor.Gray){
                     attr.ce.add(v.data+"-"+u.data);
                 }
             }
-            v.color = 2; // marked B
+            v.color = VertexColor.Black; // marked B
         }
 
 
@@ -244,7 +244,7 @@ public abstract class Graph<E> {
         System.out.println(bfs);
 
         System.out.println("Edges start");
-        System.out.println("T-E\t"+attr.te.toString());
+        System.out.println("T-E\t"+attr.treeEdge.toString());
         System.out.println("F-E\t"+attr.fe.toString());
         System.out.println("B-E\t"+attr.be.toString());
         System.out.println("C-E\t"+attr.ce.toString());
@@ -262,7 +262,7 @@ public abstract class Graph<E> {
         StringBuilder sb = new StringBuilder();
         while(true){
             sb.append(d).append("\t");
-            d = d.p;
+            d = d.previous;
             if(d == null || d.index == -1){
                 break;
             }
@@ -322,16 +322,16 @@ public abstract class Graph<E> {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < vlist.length; i++) {
-            vlist[i].color = 0;
-//            vlist[i].d = Integer.MAX_VALUE;
-            vlist[i].p = null;
+            vlist[i].color = VertexColor.White;
+//            vlist[i].distance = Integer.MAX_VALUE;
+            vlist[i].previous = null;
         }
 
         PriorityQueue<Edge<E>> q = new PriorityQueue<>();
 
 //        vlist[0].color = 1;
-        s.d = 0;
-        s.p = null;
+        s.distance = 0;
+        s.previous = null;
         q.add(new Edge<E>((Vertex<E>) null, s, -1));
         Vertex<E> p = null;
         while(!q.isEmpty()){
@@ -339,19 +339,19 @@ public abstract class Graph<E> {
             System.out.println(p+"- "+ q);
             Edge<E> e = q.poll();
             Vertex<E> v = e.dest;
-            if(v.color == 2) {
+            if(v.color == VertexColor.Black) {
                 continue;
             }
             if(p !=  null) {
-                v.p = p;
-                v.d = p.d + e.weight;
+                v.previous = p;
+                v.distance = p.distance + e.weight;
             }
             p = v;
             if(e.src== null) {
-                sb.append(v.data).append("["+v.d+"]").append("(-)").append("\t");
+                sb.append(v.data).append("["+v.distance +"]").append("(-)").append("\t");
                 totalWeight = totalWeight + e.weight;
             }else{
-                sb.append(v.data).append("["+v.d+"]").append("(" + (e.src == null ? "-" : e.src.data) + ")").append("\t");
+                sb.append(v.data).append("["+v.distance +"]").append("(" + (e.src == null ? "-" : e.src.data) + ")").append("\t");
                 totalWeight = totalWeight + e.weight;
             }
 
@@ -359,12 +359,12 @@ public abstract class Graph<E> {
             for (int i = 0; i < adj.size(); i++) {
 
                 Vertex<E> u = adj.get(i);
-                if(u.color == 0 ){
-                    u.p = v;
+                if(u.color == VertexColor.White ){
+                    u.previous = v;
                     q.add(new Edge<E>(v, u, u.weight.get(v)));
                 }
             }
-            v.color = 2;
+            v.color = VertexColor.Black;
 
         }
 
@@ -403,7 +403,7 @@ public abstract class Graph<E> {
         Vertex a = new Vertex(0, "a");
         Vertex b = new Vertex(1, "b");
         Vertex c = new Vertex(2, "c");
-        Vertex d = new Vertex(3, "d");
+        Vertex d = new Vertex(3, "distance");
         Vertex e = new Vertex(4, "e");
 
 
@@ -422,11 +422,11 @@ public abstract class Graph<E> {
         g.BFS(a);
 
     }
-    // a    b	d	e	c
-    // a    b   c   d   e
+    // a    b	distance	e	c
+    // a    b   c   distance   e
     public static void main(String[] args) {
 
-        Graph g = getGraph5();
+        Graph g = getGraph6();
 
 
         System.out.println(g);

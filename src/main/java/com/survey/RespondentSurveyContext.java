@@ -18,8 +18,18 @@ public class RespondentSurveyContext {
 
     private int currentChapterId;
 
+    private int version;
+
     private String chapterLoopValue;
     private Chapter chapter;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
     private RespondentStatus respondentStatus = RespondentStatus.NEW;
 

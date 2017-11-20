@@ -78,11 +78,11 @@ public class MergeSortWiki extends AbstractBaseSort {
             String as = Arrays.toString(a);
             String line= null;
             if(a[a.length -1] == 0) {
-                line = String.format("T-1-Begin: %d \t End: %d ..>\tA  \t\t B\t ", s, e);
-//                line = String.format("T-1-Begin: %d \t End: %d ..>\tA %s \t\t B\t %s", s, e, as, bs);
+                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tA  \t\t B\t ", s, e);
+//                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tA %s \t\t B\t %s", s, e, as, bs);
             }else {
-                line = String.format("T-1-Begin: %d \t End: %d ..>\tB  \t\t A\t ", s, e);
-//                line = String.format("T-1-Begin: %d \t End: %d ..>\tB %s \t\t A\t %s", s, e, as, bs);
+                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tB  \t\t A\t ", s, e);
+//                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tB %s \t\t A\t %s", s, e, as, bs);
             }
 
             System.out.println(level+tabs+line);
@@ -105,11 +105,11 @@ public class MergeSortWiki extends AbstractBaseSort {
             String as = Arrays.toString(a);
             String line= null;
             if(a[a.length -1] == 0) {
-                line = String.format("T-1-Begin: %d \t End: %d ..>\tA  \t\t B\t ", s, e);
-//                line = String.format("T-1-Begin: %d \t End: %d ..>\tA %s \t\t B\t %s", s, e, as, bs);
+                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tA  \t\t B\t ", s, e);
+//                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tA %s \t\t B\t %s", s, e, as, bs);
             }else {
-                line = String.format("T-1-Begin: %d \t End: %d ..>\tB  \t\t A\t ", s, e);
-//                line = String.format("T-1-Begin: %d \t End: %d ..>\tB %s \t\t A\t %s", s, e, as, bs);
+                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tB  \t\t A\t ", s, e);
+//                line = String.format("T-1-Begin: %distance \t End: %distance ..>\tB %s \t\t A\t %s", s, e, as, bs);
             }
 
             System.out.println(level+tabs+line);
@@ -126,11 +126,11 @@ public class MergeSortWiki extends AbstractBaseSort {
             String as = Arrays.toString(a);
             String line = null;
             if(a[a.length -1] == 0) {
-                line = String.format("B-1-Begin: %d \t End: %d ..>\tB  \t\t A\t ", iBegin, iEnd);
-//                line = String.format("B-1-Begin: %d \t End: %d ..>\tB %s \t\t A\t %s", iBegin, iEnd, as, bs);
+                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tB  \t\t A\t ", iBegin, iEnd);
+//                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tB %s \t\t A\t %s", iBegin, iEnd, as, bs);
             }else {
-                line = String.format("B-1-Begin: %d \t End: %d ..>\tA  \t\t B", iBegin, iEnd);
-//                line = String.format("B-1-Begin: %d \t End: %d ..>\tA %s \t\t B\t %s", iBegin, iEnd, as, bs);
+                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tA  \t\t B", iBegin, iEnd);
+//                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tA %s \t\t B\t %s", iBegin, iEnd, as, bs);
             }
 
             System.out.println(level+tabs+line);
@@ -156,11 +156,11 @@ public class MergeSortWiki extends AbstractBaseSort {
             String as = Arrays.toString(a);
             String line = null;
             if(a[a.length -1] == 0) {
-                line = String.format("B-1-Begin: %d \t End: %d ..>\tB  \t\t A\t ", iBegin, iEnd);
-//                line = String.format("B-1-Begin: %d \t End: %d ..>\tB %s \t\t A\t %s", iBegin, iEnd, as, bs);
+                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tB  \t\t A\t ", iBegin, iEnd);
+//                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tB %s \t\t A\t %s", iBegin, iEnd, as, bs);
             }else {
-                line = String.format("B-1-Begin: %d \t End: %d ..>\tA  \t\t B", iBegin, iEnd);
-//                line = String.format("B-1-Begin: %d \t End: %d ..>\tA %s \t\t B\t %s", iBegin, iEnd, as, bs);
+                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tA  \t\t B", iBegin, iEnd);
+//                line = String.format("B-1-Begin: %distance \t End: %distance ..>\tA %s \t\t B\t %s", iBegin, iEnd, as, bs);
             }
             System.out.println(level+tabs+line);
         }

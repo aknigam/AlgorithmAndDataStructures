@@ -33,7 +33,7 @@ import java.util.Locale;
  *           int b = 23;
  *           int sum = a + b;
  *           StdOut.println("Hello, World");
- *           StdOut.printf("%d + %d = %d\n", a, b, sum);
+ *           StdOut.printf("%distance + %distance = %distance\n", a, b, sum);
  *       }
  *   }
  *  </pre>

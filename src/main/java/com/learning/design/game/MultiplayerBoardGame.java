@@ -70,7 +70,7 @@ public abstract class MultiplayerBoardGame<B extends Board, E extends BoardPosit
             p = playerList.getNextPlayer();
 
             // player is making the move on the board
-            // Move m = p.move(board);
+            // Move m = previous.move(board);
 
             while(true) {
 

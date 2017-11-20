@@ -142,10 +142,28 @@ public class GraphFactory {
     }
 
 
+    /*
+
+     -------------->                  -------------->
+    |               |                |               |
+    a ----> b ----> c ----> d -----> e ----> f ----> g ----> h ----> END
+    |               |       |                 |               |
+     -----> i ----->        |                  -------------->
+    |                       |
+    |                       |
+     ----> j ---> k-->l---->
+
+    a[1,24]	b[2,15]	c[3,14]	d[4,13]	e[5,12]	f[6,11]	g[7,10]	h[8,9]
+
+    i[16,17]	j[18,23]	k[19,22]	l[20,21]
+
+    	topologicalSort	[h, g, f, e, d, c, b, i, l, k, j, a, |]
 
 
-    public static Graph getGraph5() {
-        Graph g = new AdjacencyMatrixGraph(5);
+     */
+
+    public static Graph getGraph6() {
+        Graph g = new AdjacencyMatrixGraph(12);
 
 
         Vertex a = new Vertex(0, "a");
@@ -153,6 +171,61 @@ public class GraphFactory {
         Vertex c = new Vertex(2, "c");
         Vertex d = new Vertex(3, "d");
         Vertex e = new Vertex(4, "e");
+        Vertex f = new Vertex(5, "f");
+        Vertex g1 = new Vertex(6, "g");
+        Vertex h = new Vertex(7, "h");
+        Vertex i = new Vertex(8, "i");
+        Vertex j = new Vertex(9, "j");
+        Vertex k = new Vertex(10, "k");
+        Vertex l = new Vertex(11, "l");
+
+
+
+        g.addDirectedEdge(a, b);
+        g.addDirectedEdge(a, i);
+            g.addDirectedEdge(i, c);
+
+        g.addDirectedEdge(a, j);
+            g.addDirectedEdge(j, k);
+                g.addDirectedEdge(k, l);
+                    g.addDirectedEdge(l, d);
+        g.addDirectedEdge(a, c);
+
+        g.addDirectedEdge(b, c);
+
+        g.addDirectedEdge(c, d);
+        g.addDirectedEdge(d, e);
+
+        g.addDirectedEdge(e, f);
+        g.addDirectedEdge(e, g1);
+
+        g.addDirectedEdge(f, g1);
+        g.addDirectedEdge(f, h);
+
+        g.addDirectedEdge(g1, h);
+
+        g.addDirectedEdge(i, c);
+
+        g.addDirectedEdge(j, k);
+        g.addDirectedEdge(k, l);
+        g.addDirectedEdge(l, d);
+
+        g.addDirectedEdge(b, e);
+        g.addDirectedEdge(c, d);
+
+        return  g;
+    }
+
+
+    public static Graph getGraph5() {
+        Graph g = new AdjacencyMatrixGraph(5);
+
+
+        Vertex a = new Vertex(4, "a");
+        Vertex b = new Vertex(3, "b");
+        Vertex c = new Vertex(2, "c");
+        Vertex d = new Vertex(1, "d");
+        Vertex e = new Vertex(0, "e");
 
 
 
@@ -171,7 +244,7 @@ public class GraphFactory {
         Graph g = new AdjacencyMatrixGraph(5);
 
 
-        Vertex p = new Vertex(0, "p");
+        Vertex p = new Vertex(0, "previous");
         Vertex o = new Vertex(1, "o");
         Vertex r = new Vertex(2, "r");
         Vertex y = new Vertex(3, "y");

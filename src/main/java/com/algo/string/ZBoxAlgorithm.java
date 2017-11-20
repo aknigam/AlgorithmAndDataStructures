@@ -10,7 +10,7 @@ public class ZBoxAlgorithm {
 
     public static void main(String[] args) {
         char[] s = new char[]{'a','a','b','a','a','b','c','a','x','a','a','b','a','a','b','c','y'};
-//        char[] s = new char[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q'};
+//        char[] s = new char[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','previous','q'};
         int[] z = preProcesspattern(s).z;
         System.out.println(Arrays.toString(z)); // [0, 1, 0, 3, 1, 0, 0, 1, 0, 7, 1, 0, 3, 1, 0, 0, 0]
 

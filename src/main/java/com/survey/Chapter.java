@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class Chapter extends QuestionContainer {
 
+    private final Survey survey;
+
     public int getId() {
         return id;
     }
@@ -28,9 +30,10 @@ public class Chapter extends QuestionContainer {
         return chapterName;
     }
 
-    public Chapter(int id, String name) {
+    public Chapter(int id, String name, Survey survey) {
         this.id = id;
         this.chapterName = name;
+        this.survey = survey;
 
     }
 
@@ -52,7 +55,7 @@ public class Chapter extends QuestionContainer {
             respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.NEW);
             String chapterLoopValue = getChapterLoopValue(respondentSurveyContext);
             respondentSurveyContext.setChapterLoopValue(chapterLoopValue);
-            node = super.getNext(respondentSurveyContext);
+            node = super.getNext(respondentSurveyContext, survey.getVersion());
             if (node != null) {
                 return node;
             }
@@ -63,7 +66,7 @@ public class Chapter extends QuestionContainer {
         // Case 2: Current node is inside the chapter -->> Find next
         if(userInsideTheChapter(respondentSurveyContext))
         {
-            node = super.getNext(respondentSurveyContext);
+            node = super.getNext(respondentSurveyContext, survey.getVersion());
             if (node != null) {
                 return node;
             }
@@ -76,7 +79,7 @@ public class Chapter extends QuestionContainer {
             if(chapterLoopValue != null) {
                 respondentSurveyContext.setChapterLoopValue(chapterLoopValue);
                 respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.NEW);
-                node = super.getNext(respondentSurveyContext);
+                node = super.getNext(respondentSurveyContext, survey.getVersion());
                 if (node != null) {
                     return node;
                 }

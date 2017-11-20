@@ -42,7 +42,7 @@ public class SurveyUtil {
         QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
         QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
         QuestionNode c  = new QB().withIdText(3,"c").build();
-        QuestionNode d  = new QB().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
+        QuestionNode d  = new QB().withIdText(4,"distance").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
 
         QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
@@ -60,7 +60,7 @@ public class SurveyUtil {
         survey.addNextChoiceLinkedQuestionNode(b, d, "x");
         survey.addNextQuestionNode(c, d);
 
-        chapter = new Chapter(10, "ch1");
+        chapter = new Chapter(10, "ch1", survey);
         chapter.setLoopQuestion(d);
         survey.addChapter(d, chapter);
 
@@ -78,8 +78,7 @@ public class SurveyUtil {
         console.start();
 
         RespondentSurveyContext context = new RespondentSurveyContext(0);
-//        SurveyNode questionNode = survey.getNext(context);
-//        SurveyNode questionNode = survey.getStartNode().getNextActiveNode(context);
+
         SurveyNode questionNode = null;
         SurveyUIBuilder uiBuilder = new SurveyUIBuilder();
 
@@ -155,7 +154,7 @@ public class SurveyUtil {
         QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
         QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
         QuestionNode c  = new QB().withIdText(3,"c").build();
-        QuestionNode d  = new QB().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
+        QuestionNode d  = new QB().withIdText(4,"distance").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
 
         QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
@@ -170,7 +169,7 @@ public class SurveyUtil {
         survey.addNextChoiceLinkedQuestionNode(b, d, "x");
         survey.addNextQuestionNode(c, d);
 
-        chapter = new Chapter(10, "ch1");
+        chapter = new Chapter(10, "ch1", survey);
         chapter.setLoopQuestion(d);
         survey.addChapter(d, chapter);
 

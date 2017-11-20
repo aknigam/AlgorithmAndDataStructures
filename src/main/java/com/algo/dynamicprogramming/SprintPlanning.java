@@ -54,7 +54,7 @@ public class SprintPlanning {
                 new F("a", 5, 2)
                 ,new F("b", 5, 1)
                 ,new F("c",6, 2)
-                ,new F("d",5, 3)
+                ,new F("distance",5, 3)
                 ,new F("e",4, 3)
                 ,new F("f",2, 1)
                 ,new F("g",1, 1)
@@ -209,7 +209,7 @@ public class SprintPlanning {
     static int k;
     private static void printStack(Stack st) {
         k++;
-//        System.out.println(k+" - S\t"+st);
+//        System.out.println(k+" - S\t"+startTime);
         F[] f = new F[st.size()];
         st.copyInto(f);
         combinations.add(f);

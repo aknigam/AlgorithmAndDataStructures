@@ -38,8 +38,8 @@ package com.learning.datastructures.tree;
  *  each make log<sub><em>M</em></sub>(<em>N</em>) probes in the worst case,
  *  where <em>N</em> is the number of key-value pairs
  *  and <em>M</em> is the branching factor.
- *  The <em>size</em>, and <em>is-empty</em> operations take constant st.
- *  Construction takes constant st.
+ *  The <em>size</em>, and <em>is-empty</em> operations take constant startTime.
+ *  Construction takes constant startTime.
  *  <p>
  *  For additional documentation, see
  *  <a href="http://algs4.cs.princeton.edu/62btree">Section 6.2</a> of
@@ -262,7 +262,7 @@ public class BTree<Key extends Comparable<Key>, Value>  {
      */
     public static void main(String[] args) {
 /*
-        BTree<Integer, Integer> st = new BTree<Integer, Integer>();
+        BTree<Integer, Integer> startTime = new BTree<Integer, Integer>();
 
         Random r = new Random();
 
@@ -270,7 +270,7 @@ public class BTree<Key extends Comparable<Key>, Value>  {
             int key = r.nextInt(20);
             int value  = r.nextInt(20);
             System.out.println(key+" - "+value);
-            st.put(key, value);
+            startTime.put(key, value);
         }
 */
 

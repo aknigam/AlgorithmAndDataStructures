@@ -40,7 +40,7 @@ public class HeapSort extends AbstractBaseSort{
 
         while (l < heapSize || r < heapSize) {
 
-//            System.out.println("Root - left - right:\t\t"+a[p]+"("+p+")\t"+ a[l]+"("+l+") \t"+a[r]+"("+r+")");
+//            System.out.println("Root - left - right:\t\t"+a[previous]+"("+previous+")\t"+ a[l]+"("+l+") \t"+a[r]+"("+r+")");
             if (l < heapSize && a[l] > a[p]) {
                 largest = l;
             }else{

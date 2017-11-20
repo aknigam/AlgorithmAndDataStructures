@@ -66,7 +66,7 @@ public class GraphUtils {
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            sb.append(v.d+"-"+v.cc).append("\t");
+            sb.append(v.distance +"-"+v.connectedComponents).append("\t");
         }
         System.out.println(sb);
     }
@@ -77,7 +77,7 @@ public class GraphUtils {
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            sb.append(v.p).append("\t");
+            sb.append(v.previous).append("\t");
         }
         System.out.println(sb);
 
@@ -89,7 +89,7 @@ public class GraphUtils {
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            sb.append(v.data+"["+v.st+","+v.et+"]").append("\t");
+            sb.append(v.data+"["+v.startTime +","+v.endTime +"]").append("\t");
         }
         System.out.println(sb);
     }
@@ -98,7 +98,7 @@ public class GraphUtils {
         Vertex<E>[] vlist = g.vlist;
         Arrays.sort(vlist, new Comparator<Vertex<E>>() {
             public int compare(Vertex<E> o1, Vertex<E> o2) {
-                return o1.st > o2.st? 1:0;
+                return o1.startTime > o2.startTime ? 1:0;
             }
         });
         StringBuilder sb = new StringBuilder();
@@ -110,7 +110,7 @@ public class GraphUtils {
 
         Arrays.sort(vlist, new Comparator<Vertex<E>>() {
             public int compare(Vertex<E> o1, Vertex<E> o2) {
-                return o1.st < o2.st? 1:0;
+                return o1.startTime < o2.startTime ? 1:0;
             }
         });
     }
@@ -123,7 +123,7 @@ public class GraphUtils {
         Iterator<Vertex<E>> itr = g.vertextIterator();
         while (itr.hasNext()){
             Vertex<E> v = itr.next();
-            sb.append(v.data+"["+v.st+","+v.et+"]").append("\t");
+            sb.append(v.data+"["+v.startTime +","+v.endTime +"]").append("\t");
         }
         System.out.println(sb);
 

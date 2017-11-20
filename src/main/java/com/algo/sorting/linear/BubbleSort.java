@@ -13,7 +13,7 @@ import com.algo.sorting.AbstractBaseSort;
 
  Auxiliary Space: O(1)
 
- Boundary Cases: Bubble sort takes minimum st (Order of n) when elements are already sorted.
+ Boundary Cases: Bubble sort takes minimum startTime (Order of n) when elements are already sorted.
 
  Sorting In Place: Yes
 

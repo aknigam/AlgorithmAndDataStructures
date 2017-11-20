@@ -41,7 +41,7 @@ public class BitOperationSamples {
 
         int arr[] = {12, 12, 14, 90, 14, 14, 14};
         int n = arr.length;
-        System.out.println("The odd occurring element is %d "+ findOdd(arr, n));
+        System.out.println("The odd occurring element is %distance "+ findOdd(arr, n));
 
     }
 }

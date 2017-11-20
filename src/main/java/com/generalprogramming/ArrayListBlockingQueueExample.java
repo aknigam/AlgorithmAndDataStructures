@@ -9,7 +9,7 @@ public class ArrayListBlockingQueueExample {
 		A a12 = new A("a");
 		A a3 = new A("b");
 		A a4 = new A("c");
-		A a5 = new A("d");
+		A a5 = new A("distance");
 		long time = System.currentTimeMillis();
 
 		// ArrayBlockingQueue<A> queue = new ArrayBlockingQueue<A>(1000006);

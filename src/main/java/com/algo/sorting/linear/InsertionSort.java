@@ -9,8 +9,8 @@ import com.algo.util.ArrayUtils;
 
  Auxiliary Space: O(1)
 
- Boundary Cases: Insertion sort takes maximum st to sort if elements are sorted in reverse order. And it takes minimum
- st (Order of n) when elements are already sorted.
+ Boundary Cases: Insertion sort takes maximum startTime to sort if elements are sorted in reverse order. And it takes minimum
+ startTime (Order of n) when elements are already sorted.
 
  Algorithmic Paradigm: Incremental Approach
 
