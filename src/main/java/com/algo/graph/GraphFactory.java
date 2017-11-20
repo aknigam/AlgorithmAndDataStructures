@@ -113,6 +113,7 @@ public class GraphFactory {
         g.addUndirectedEdge(v1, v3);
         g.addUndirectedEdge(v2, v3);
         g.addUndirectedEdge(v3, v4);
+//        g.addUndirectedEdge(v3, v4);
 
         return g;
 
