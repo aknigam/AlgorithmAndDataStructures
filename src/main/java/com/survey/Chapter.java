@@ -75,7 +75,8 @@ public class Chapter extends QuestionContainer {
         // Case 3: User has reached the end of currently looped chapter -->> a. set the next looped value -->> find next
         if(respondentSurveyContext.getRespondentStatus() == RespondentSurveyContext.RespondentStatus.FINISHED)
         {
-            String chapterLoopValue = getNextLoopValue(loopQuestion,respondentSurveyContext.getChapterLoopValue(), respondentSurveyContext );
+            String chapterLoopValue = getNextLoopValue(loopQuestion,respondentSurveyContext.getChapterLoopValue(),
+                    respondentSurveyContext );
             if(chapterLoopValue != null) {
                 respondentSurveyContext.setChapterLoopValue(chapterLoopValue);
                 respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.NEW);

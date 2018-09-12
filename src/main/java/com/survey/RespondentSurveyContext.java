@@ -18,7 +18,7 @@ public class RespondentSurveyContext {
 
     private int currentChapterId;
 
-    private int version;
+    private int version = 1;
 
     private String chapterLoopValue;
     private Chapter chapter;
