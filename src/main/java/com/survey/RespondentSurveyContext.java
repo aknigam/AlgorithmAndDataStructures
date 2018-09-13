@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.survey.RespondentSurveyContext.RespondentStatus.NEW;
+
 /**
  * Created by a.nigam on 16/01/17.
  */
@@ -22,6 +24,9 @@ public class RespondentSurveyContext {
 
     private String chapterLoopValue;
     private Chapter chapter;
+    private int page; // default value is 0
+
+    private Map<Integer, RespondentStatus> chapterCompletionStatusMap = new HashMap<>();
 
     public int getVersion() {
         return version;
@@ -31,7 +36,24 @@ public class RespondentSurveyContext {
         this.version = version;
     }
 
-    private RespondentStatus respondentStatus = RespondentStatus.NEW;
+    private RespondentStatus respondentStatus = NEW;
+
+    public int getCurrentPage() {
+        return page;
+    }
+
+    public void setCurrentPage(int page) {
+        this.page = page;
+    }
+
+    public void setRespondentChapterStatus(int chapterId, RespondentStatus status) {
+        chapterCompletionStatusMap.put(chapterId, status);
+    }
+
+    public RespondentStatus getRespondentChapterStatus(int chapterId) {
+        RespondentStatus status = chapterCompletionStatusMap.get(chapterId);
+        return status == null ? NEW : status;
+    }
 
     public static enum RespondentStatus{
         NEW, IN_PROGRESS, FINISHED

@@ -87,6 +87,8 @@ public abstract class AbstractSurveyNode implements SurveyNode {
         return null;
     }
 
+
+
     @Override
     public List<LinkEdge> getAllPossibleNextNodes() {
 
@@ -144,4 +146,6 @@ public abstract class AbstractSurveyNode implements SurveyNode {
     public String toString() {
         return getName();
     }
+
+
 }

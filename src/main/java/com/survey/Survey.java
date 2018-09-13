@@ -2,10 +2,6 @@ package com.survey;
 
 import com.survey.node.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-
 /**
  * Created by a.nigam on 16/01/17.
  *
@@ -33,6 +29,8 @@ public class Survey extends QuestionContainer{
     private SurveyStartNode startNode = new SurveyStartNode();
     private SurveyEndNode endNode = new SurveyEndNode();
 
+
+
     private boolean testing = true;
 
     public boolean inTesting(){
@@ -44,6 +42,7 @@ public class Survey extends QuestionContainer{
     }
 
     public Survey(){
+        super(-1);
         version = 1;
     }
 
@@ -62,16 +61,16 @@ public class Survey extends QuestionContainer{
     }
 
 
-    public void addChapter(QuestionNode fromNodeQuestion, Chapter chapter) {
+    public void addChapter(PageNode fromNodeQuestion, Chapter chapter) {
 
         int fromNodeQuestionId = fromNodeQuestion.getId();
         if(!isNodePresent(fromNodeQuestionId)){
             System.out.println(String.format("Node %distance cannot be added becuase the source does not exists.", fromNodeQuestionId));
             return;
         }
-        QuestionNode sourceNode = getQuestionNode(fromNodeQuestionId);
-        chapter.setPreviousSurveyNode(sourceNode);
-        sourceNode.addChapterLink(chapter);
+        PageNode sourcePageNode = getPageNode(fromNodeQuestionId);
+        chapter.setPreviousSurveyNode(sourcePageNode);
+        sourcePageNode.addChapterLink(chapter);
         chaptersIndex.put(chapter.getId(), chapter);
 
 

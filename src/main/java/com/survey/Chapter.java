@@ -12,11 +12,6 @@ public class Chapter extends QuestionContainer {
 
     private final Survey survey;
 
-    public int getId() {
-        return id;
-    }
-
-    private final int id;
     private final String chapterName;
     private QuestionNode loopQuestion;
     private SurveyStartNode chapterStartNode = new SurveyStartNode();
@@ -31,7 +26,7 @@ public class Chapter extends QuestionContainer {
     }
 
     public Chapter(int id, String name, Survey survey) {
-        this.id = id;
+        super(id);
         this.chapterName = name;
         this.survey = survey;
 
@@ -50,9 +45,10 @@ public class Chapter extends QuestionContainer {
 
         SurveyNode node = null;
         // Case 1: User is at the looping question and is about to enter the chapter. -->> set the current looping value ->> find next
-        if(isUserAtLoopingQuestion(respondentSurveyContext))
+        // User has just entered the chapter 1st page questions have to be shown
+        if(isUserAtBeginingOfChapter(respondentSurveyContext))
         {
-            respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.NEW);
+            respondentSurveyContext.setRespondentChapterStatus(getId(),  RespondentSurveyContext.RespondentStatus.NEW);
             String chapterLoopValue = getChapterLoopValue(respondentSurveyContext);
             respondentSurveyContext.setChapterLoopValue(chapterLoopValue);
             node = super.getNext(respondentSurveyContext, survey.getVersion());
@@ -60,32 +56,32 @@ public class Chapter extends QuestionContainer {
                 return node;
             }
 
-            respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.FINISHED);
+            respondentSurveyContext.setRespondentChapterStatus(getId(), RespondentSurveyContext.RespondentStatus.FINISHED);
         }
 
         // Case 2: Current node is inside the chapter -->> Find next
-        if(userInsideTheChapter(respondentSurveyContext))
+        if(isPageInsideTheChapter(respondentSurveyContext))
         {
             node = super.getNext(respondentSurveyContext, survey.getVersion());
             if (node != null) {
                 return node;
             }
-            respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.FINISHED);
+            respondentSurveyContext.setRespondentChapterStatus(getId(), RespondentSurveyContext.RespondentStatus.FINISHED);
         }
         // Case 3: User has reached the end of currently looped chapter -->> a. set the next looped value -->> find next
-        if(respondentSurveyContext.getRespondentStatus() == RespondentSurveyContext.RespondentStatus.FINISHED)
+        if(respondentSurveyContext.getRespondentChapterStatus(getId()) == RespondentSurveyContext.RespondentStatus.FINISHED)
         {
             String chapterLoopValue = getNextLoopValue(loopQuestion,respondentSurveyContext.getChapterLoopValue(),
                     respondentSurveyContext );
             if(chapterLoopValue != null) {
                 respondentSurveyContext.setChapterLoopValue(chapterLoopValue);
-                respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.NEW);
+                respondentSurveyContext.setRespondentChapterStatus(getId(), RespondentSurveyContext.RespondentStatus.NEW);
                 node = super.getNext(respondentSurveyContext, survey.getVersion());
                 if (node != null) {
                     return node;
                 }
             }
-            respondentSurveyContext.setRespondentStatus(RespondentSurveyContext.RespondentStatus.FINISHED);
+            respondentSurveyContext.setRespondentChapterStatus(getId(), RespondentSurveyContext.RespondentStatus.FINISHED);
         }
         // User is at the last question of last looped chapter --> return next survey node
         return getNextSurveyNode();
@@ -94,9 +90,27 @@ public class Chapter extends QuestionContainer {
 
     }
 
-    private boolean userInsideTheChapter(RespondentSurveyContext respondentSurveyContext) {
-        return getSurveyNodes().get(respondentSurveyContext.getCurrentQuestionId()) != null && respondentSurveyContext.getChapterLoopValue() != null ;
+    private boolean isUserAtBeginingOfChapter(RespondentSurveyContext respondentSurveyContext) {
+        int currentPage = respondentSurveyContext.getCurrentPage();
+
+        return doesPageComesBefore(currentPage);
     }
+
+
+
+    private boolean userInsideTheChapter(RespondentSurveyContext respondentSurveyContext) {
+        return getPageNodes().get(respondentSurveyContext.getCurrentQuestionId()) != null && respondentSurveyContext.getChapterLoopValue() != null ;
+    }
+
+
+    private boolean isPageInsideTheChapter(RespondentSurveyContext respondentSurveyContext) {
+
+        return isPageWithinContainer( respondentSurveyContext.getCurrentPage());
+
+    }
+
+
+
 
     private String getChapterLoopValue(RespondentSurveyContext respondentSurveyContext) {
         List<String> loopQuestionAnswer = respondentSurveyContext.getAnswertoMultiChoiceQuestion(loopQuestion);
@@ -161,8 +175,12 @@ public class Chapter extends QuestionContainer {
 
 
 
+    protected RespondentSurveyContext.RespondentStatus getStatus(RespondentSurveyContext respondentSurveyContext){
+        return respondentSurveyContext.getRespondentChapterStatus(getId());
+    }
 
-
-
-
+    @Override
+    protected boolean isChapter() {
+        return true;
+    }
 }

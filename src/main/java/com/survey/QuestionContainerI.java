@@ -1,11 +1,10 @@
 package com.survey;
 
+import com.survey.node.PageNode;
 import com.survey.node.QuestionNode;
 import com.survey.node.SurveyNode;
 import com.survey.node.SurveyStartNode;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,27 +12,16 @@ import java.util.Map;
  */
 public interface QuestionContainerI {
 
-    void addFirstQuestionNode(QuestionNode question);
-
-    void addNextQuestionNode(int fromNodeQuestionId, QuestionNode target);
-
     SurveyNode getNext( RespondentSurveyContext respondentSurveyContext);
-
-    SurveyNode getPrevious( RespondentSurveyContext surveyContext);
 
     SurveyNode getEndNode();
 
     SurveyStartNode getStartNode();
 
-    void deleteNode(int nodeIdToDelete);
 
-    void insertQuestionNode(int beforeQuestionId, QuestionNode questionNode, int afterQuestionNodeId);
-
-    void addToIndex(QuestionNode question);
-
-    QuestionNode getQuestionNode(int fromNodeQuestionId);
+    PageNode getPageNode(int fromNodeQuestionId);
 
     boolean isNodePresent(Integer questionId);
 
-    Map<Integer, QuestionNode> getSurveyNodes();
+    Map<Integer, PageNode> getPageNodes();
 }

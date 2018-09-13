@@ -141,40 +141,40 @@ public class ChapterTest {
 
      */
     private void prepare() {
-        survey = new Survey();
-
-        a  = new QB().withIdText(1,"a.").wc("x").wc("y").build();
-        b = new QB().withIdText(2, "b.").wc("x").wc("y").build();
-        c  = new QB().withIdText(3,"c.").build();
-        d  = new QB().withIdText(4,"distance.").wc("x").wc("y").wc("z").wc("u").wc("v").withType(QuestionType.MULTIPLE_CHOICE).build();
-
-        survey.addFirstQuestionNode(a);
-        survey.addNextChoiceLinkedQuestionNode(a, b, "y");
-        survey.addNextChoiceLinkedQuestionNode(a, c, "x");
-        survey.addNextChoiceLinkedQuestionNode(b, c, "y");
-        survey.addNextChoiceLinkedQuestionNode(b, d, "x");
-        survey.addNextQuestionNode(c, d);
-
-        chapter = new Chapter(10, "ch1", survey);
-        chapter.setLoopQuestion(d);
-        survey.addChapter(d, chapter);
-
-
-        QuestionNode e  = new QB().withIdText(5,"e.").wc("x").wc("y").build();
-        QuestionNode f  = new QB().withIdText(6,"f.").wc("x").wc("y").build();
-        QuestionNode g  = new QB().withIdText(7,"g.").build();
-        QuestionNode h  = new QB().withIdText(8,"h.").build();
-
-
-        chapter.addFirstQuestionNode(e);
-        chapter.addNextChoiceLinkedQuestionNode(e, f, "y");
-        chapter.addNextChoiceLinkedQuestionNode(e, g, "x");
-        chapter.addNextChoiceLinkedQuestionNode(f, g, "y");
-        chapter.addNextChoiceLinkedQuestionNode(f, h, "x");
-        chapter.addNextQuestionNode(g, h);
-
-
-        chapter.setNextSurveyNode(survey.getEndNode());
+//        survey = new Survey();
+//
+//        a  = new QB().withIdText(1,"a.").wc("x").wc("y").build();
+//        b = new QB().withIdText(2, "b.").wc("x").wc("y").build();
+//        c  = new QB().withIdText(3,"c.").build();
+//        d  = new QB().withIdText(4,"distance.").wc("x").wc("y").wc("z").wc("u").wc("v").withType(QuestionType.MULTIPLE_CHOICE).build();
+//
+//        survey.addFirstQuestionNode(a);
+//        survey.addNextChoiceLinkedQuestionNode(a, b, "y");
+//        survey.addNextChoiceLinkedQuestionNode(a, c, "x");
+//        survey.addNextChoiceLinkedQuestionNode(b, c, "y");
+//        survey.addNextChoiceLinkedQuestionNode(b, d, "x");
+//        survey.addNextQuestionNode(c, d);
+//
+//        chapter = new Chapter(10, "ch1", survey);
+//        chapter.setLoopQuestion(d);
+//        survey.addChapter(d, chapter);
+//
+//
+//        QuestionNode e  = new QB().withIdText(5,"e.").wc("x").wc("y").build();
+//        QuestionNode f  = new QB().withIdText(6,"f.").wc("x").wc("y").build();
+//        QuestionNode g  = new QB().withIdText(7,"g.").build();
+//        QuestionNode h  = new QB().withIdText(8,"h.").build();
+//
+//
+//        chapter.addFirstQuestionNode(e);
+//        chapter.addNextChoiceLinkedQuestionNode(e, f, "y");
+//        chapter.addNextChoiceLinkedQuestionNode(e, g, "x");
+//        chapter.addNextChoiceLinkedQuestionNode(f, g, "y");
+//        chapter.addNextChoiceLinkedQuestionNode(f, h, "x");
+//        chapter.addNextQuestionNode(g, h);
+//
+//
+//        chapter.setNextSurveyNode(survey.getEndNode());
     }
 
 
