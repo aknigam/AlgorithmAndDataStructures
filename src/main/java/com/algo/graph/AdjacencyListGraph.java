@@ -11,7 +11,9 @@ import java.util.List;
 public class AdjacencyListGraph<E> extends Graph<E>{
 
 
-    LinkedList<Vertex<E>>[] g;
+    private LinkedList<Vertex<E>>[] g;
+
+
     public AdjacencyListGraph(int noOfvertices){
         super(noOfvertices);
         type = 1;
@@ -31,14 +33,25 @@ public class AdjacencyListGraph<E> extends Graph<E>{
 
     @Override
     public void addDirectedEdge(Vertex<E> sourceVertex, Vertex<E> destVertex) {
+        if(destVertex == null) {
+            addVertex(sourceVertex);
+            return;
+        }
         if(GraphUtils.isValidVertex(V, sourceVertex.index) && GraphUtils.isValidVertex(V, destVertex.index)) {
             g[sourceVertex.index].add(destVertex);
+
             if(vlist[sourceVertex.index] ==  null){
                 vlist[sourceVertex.index] = sourceVertex;
             }
             if(vlist[destVertex.index] ==  null){
                 vlist[destVertex.index] = destVertex;
             }
+        }
+    }
+
+    private void addVertex(Vertex<E> vertex) {
+        if(vlist[vertex.index] ==  null){
+            vlist[vertex.index] = vertex;
         }
     }
 

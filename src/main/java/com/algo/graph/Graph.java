@@ -17,9 +17,12 @@ import static com.algo.graph.GraphFactory.*;
 public abstract class Graph<E> {
 
     private static final String BY_INDEX_ITERAION = "BY_INDEX";
+    private static boolean debug = true;
     int type = -1; // 0 matrix, 1 list
 
     final int V; // no of vertices
+
+    private DFSAlgoAttributes results;
 
 
     public Vertex<E>[] vlist;
@@ -58,7 +61,8 @@ public abstract class Graph<E> {
         LinkedList<Vertex<E>> topologicalSort = new LinkedList<Vertex<E>>();
 
         List<String> treeEdge = new ArrayList<String>();
-        List<String> be = new ArrayList<String>();
+        List<String> backEdeges = new ArrayList<String>();
+        List<Edge> backEdges = new ArrayList<>();
         List<String> fe = new ArrayList<String>();
         List<String> ce = new ArrayList<String>();
 
@@ -74,8 +78,14 @@ public abstract class Graph<E> {
         public Iterator<Vertex<E>> getItr() {
             return itr;
         }
+
+
     }
 
+    public DFSAlgoAttributes performDFS(){
+        results = new DFSAlgoAttributes();
+        return DFS(results);
+    }
     public DFSAlgoAttributes DFS(DFSAlgoAttributes request){
 
         Iterator<Vertex<E>> itr = vertextIterator();
@@ -104,21 +114,21 @@ public abstract class Graph<E> {
                 request.cc++;
 
                 dfsInternal(v, request);
-                request.topologicalSort.add(new Vertex<String>(-1, "|"));
+//                request.topologicalSort.add(new Vertex<String>(-1, "|"));
             }
         }
-        System.out.println("DFS results -----------------");
-        System.out.println(request.dfs);
-        System.out.println(request.parenthesisStructure);
-        System.out.println("topologicalSort\t"+request.topologicalSort);
+        debug("DFS results -----------------");
+        debug(request.dfs);
+        debug(request.parenthesisStructure);
+        debug("topologicalSort\t"+request.topologicalSort);
 
-        System.out.println(request.pathCount);
-        System.out.println("Edges start");
-        System.out.println("Tree Edges\t"+request.treeEdge.toString());
-        System.out.println("F-E\t"+request.fe.toString());
-        System.out.println("B-E\t"+request.be.toString());
-        System.out.println("C-E\t"+request.ce.toString());
-        System.out.println("Edges end");
+        debug(request.pathCount);
+        debug("Edges start");
+        debug("Tree Edges\t"+request.treeEdge.toString());
+        debug("F-E\t"+request.fe.toString());
+        debug("B-E\t"+request.backEdeges.toString());
+        debug("C-E\t"+request.ce.toString());
+        debug("Edges end");
 
         return request;
 
@@ -136,7 +146,7 @@ public abstract class Graph<E> {
         v.distance = attr.time;
 
         List<Vertex<E>> adj = getAdjacentvertices(v);
-        System.out.println(v+"-->\t"+adj);
+        debug(v+"-->\t"+adj);
         for (int i = 0; i < adj.size(); i++) {
 
             Vertex<E> u = adj.get(i);
@@ -150,7 +160,8 @@ public abstract class Graph<E> {
             }
             else if(u.color == VertexColor.Gray) {
                 // BACK edge
-                attr.be.add(v.data+"-"+u.data);
+                attr.backEdeges.add(v.data+"-"+u.data);
+                attr.backEdges.add(new Edge<>(v, u, -1));
             }
             else if(u.color == VertexColor.Black) {
                 if(v.connectedComponents != u.connectedComponents){
@@ -212,7 +223,7 @@ public abstract class Graph<E> {
         q.add(s);
 
         while (!q.isEmpty()){
-            System.out.println("Queue-> "+ q);
+            debug("Queue-> "+ q);
             Vertex<E> v = q.poll();
 
 //            color[vlist] = 1; // marked G
@@ -240,15 +251,15 @@ public abstract class Graph<E> {
 
 
 
-        System.out.println("\nBFS");
-        System.out.println(bfs);
+        debug("\nBFS");
+        debug(bfs);
 
-        System.out.println("Edges start");
-        System.out.println("T-E\t"+attr.treeEdge.toString());
-        System.out.println("F-E\t"+attr.fe.toString());
-        System.out.println("B-E\t"+attr.be.toString());
-        System.out.println("C-E\t"+attr.ce.toString());
-        System.out.println("Edges end");
+        debug("Edges start");
+        debug("T-E\t"+attr.treeEdge.toString());
+        debug("F-E\t"+attr.fe.toString());
+        debug("B-E\t"+attr.backEdeges.toString());
+        debug("C-E\t"+attr.ce.toString());
+        debug("Edges end");
 
 
 
@@ -267,7 +278,7 @@ public abstract class Graph<E> {
                 break;
             }
         }
-        System.out.println(sb);
+        debug(sb);
 
 
     }
@@ -287,7 +298,7 @@ public abstract class Graph<E> {
 
         DFSAlgoAttributes<E> dfs2Request = new DFSAlgoAttributes<E>();
         dfs2Request.itr = dfs1Result.topologicalSort.descendingIterator();
-        System.out.println("SCG -->> !!!!!");
+        debug("SCG -->> !!!!!");
         gt.DFS(dfs2Request);
 
 
@@ -336,7 +347,7 @@ public abstract class Graph<E> {
         Vertex<E> p = null;
         while(!q.isEmpty()){
 
-            System.out.println(p+"- "+ q);
+            debug(p+"- "+ q);
             Edge<E> e = q.poll();
             Vertex<E> v = e.dest;
             if(v.color == VertexColor.Black) {
@@ -368,8 +379,8 @@ public abstract class Graph<E> {
 
         }
 
-        System.out.println(sb);
-        System.out.println(totalWeight);
+        debug(sb);
+        debug(totalWeight);
     }
 
     /**
@@ -417,7 +428,7 @@ public abstract class Graph<E> {
         g.addDirectedEdge(d, e);
 
 
-        System.out.println(g);
+        debug(g);
 
         g.BFS(a);
 
@@ -429,10 +440,12 @@ public abstract class Graph<E> {
         Graph g = getGraph6();
 
 
-        System.out.println(g);
+        debug(g);
 
-        g.DFS(new DFSAlgoAttributes());
+//        DFSAlgoAttributes attributes = g.performDFS();
 
+        List be = g.getBackEdges();
+        info("Back edges -> \n"+be);
         GraphUtils.printColors(g);
         GraphUtils.printDistance(g);
         GraphUtils.printBFSPrevious(g);
@@ -440,10 +453,54 @@ public abstract class Graph<E> {
         GraphUtils.printBraceNotation(g);
         GraphUtils.printCC(g);
 
-        System.out.println("Strongly connected components ----------->");
-        g.stronglyConnectedComponents();
+        debug("Strongly connected components ----------->");
+//        g.stronglyConnectedComponents();
     }
 
+    public List<Edge<E>> getBackEdges() {
+        if(results == null) {
+            performDFS();
+        }
+        List backEdges = results.backEdges;
+        if(backEdges != null && backEdges.size() > 0) {
+            debug("graph has cycle");
+            return backEdges;
+        }
+        else{
+            debug("graph does not have cycle");
+        }
+
+
+        return backEdges;
+    }
+
+    public LinkedList<Vertex<E>> getTopologicalSort() {
+        return  results.topologicalSort;
+    }
+
+    public boolean hasCycle() {
+        if(results == null) {
+            performDFS();
+        }
+        if(results.backEdges != null && results.backEdges.size() > 0) {
+            debug("graph has cycle");
+        }
+        else{
+            debug("graph does not have cycle");
+        }
+        return  results.backEdges != null && results.backEdges.size() >0;
+
+
+    }
+
+    private static void debug(Object val) {
+        if(debug)
+        System.out.println(val);
+    }
+
+    private static void info(Object val) {
+        System.out.println(val);
+    }
 
 
     public void _22_2_7_findDiameter(int s){
@@ -453,5 +510,7 @@ public abstract class Graph<E> {
 
     }
 
-
+    public DFSAlgoAttributes getResults() {
+        return results;
+    }
 }

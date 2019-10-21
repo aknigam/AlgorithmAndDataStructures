@@ -14,7 +14,7 @@ public class GeneralAlgosPart2 {
 
 		A2Sub as1 = new A2Sub();
 		System.out.println(as1.i + " " + as1.j + " " + as1.run() + " " + as1.run1() + " " + as1.x());
-		System.runFinalizersOnExit(true);
+//		System.runFinalizersOnExit(true);
 	}
 
 }

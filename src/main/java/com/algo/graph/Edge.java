@@ -1,6 +1,6 @@
 package com.algo.graph;
 
-import java.util.Comparator;
+
 
 /**
  * Created by a.nigam on 18/11/16.
@@ -33,5 +33,17 @@ public class Edge<E> implements Comparable<Edge<E>>{
     @Override
     public String toString() {
         return dest.data+"("+weight+") ";
+    }
+
+    public Vertex<E> getSrc() {
+        return src;
+    }
+
+    public Vertex<E> getDest() {
+        return dest;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 }

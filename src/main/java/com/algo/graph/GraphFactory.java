@@ -164,7 +164,8 @@ public class GraphFactory {
      */
 
     public static Graph getGraph6() {
-        Graph g = new AdjacencyMatrixGraph(12);
+        Graph g = new AdjacencyListGraph(
+                12);
 
 
         Vertex a = new Vertex(0, "a");
@@ -185,6 +186,8 @@ public class GraphFactory {
         g.addDirectedEdge(a, b);
         g.addDirectedEdge(a, i);
             g.addDirectedEdge(i, c);
+//        g.addDirectedEdge(j, a); introduces cycle
+//        g.addDirectedEdge(g1, b);
 
         g.addDirectedEdge(a, j);
             g.addDirectedEdge(j, k);
@@ -208,11 +211,11 @@ public class GraphFactory {
         g.addDirectedEdge(i, c);
 
         g.addDirectedEdge(j, k);
-        g.addDirectedEdge(k, l);
-        g.addDirectedEdge(l, d);
 
-        g.addDirectedEdge(b, e);
-        g.addDirectedEdge(c, d);
+
+
+//        g.addDirectedEdge(b, e);
+//        g.addDirectedEdge(c, d);
 
         return  g;
     }
