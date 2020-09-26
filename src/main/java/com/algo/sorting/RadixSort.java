@@ -47,7 +47,7 @@ public class RadixSort extends AbstractBaseSort{
             int digitAtindex = (arr[i]/exp)%base;
             count[digitAtindex] = count[digitAtindex]+1;
         }
-//        printArray(count);
+        printArray(count);
 
         // calcualte prior sum
         for (int i = 1; i < base; i++) {
