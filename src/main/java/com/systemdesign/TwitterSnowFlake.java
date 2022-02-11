@@ -1,11 +1,19 @@
 package com.systemdesign;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class TwitterSnowFlake {
+
+    private static ConcurrentHashMap<Long, AtomicInteger> counterTimeMap=  new ConcurrentHashMap<>();
+//    private static HashMap<Long, AtomicInteger> counterTimeMap=  new HashMap<>();
+    private static ConcurrentHashMap<String, Object> uniques=  new ConcurrentHashMap<>();
+
 
     public static void test(String[] args) {
 
@@ -28,16 +36,25 @@ public class TwitterSnowFlake {
 
     public static void main(String[] args) throws InterruptedException {
 
+        long start = System.currentTimeMillis();
         long epoch =  System.currentTimeMillis() - 30*365*24*60*60*1000;
         Worker w = new Worker(1, epoch);
         StringBuilder s= new StringBuilder();
         List<Thread> threads = new ArrayList<>();
-        for (int j = 0; j < 500; j++) {
+        for (int j = 0; j < 5000; j++) {
             Thread t = new Thread(() -> {
                 String name = Thread.currentThread().getName();
                 for (int i = 0; i < 5; i++) {
 //                    s.append("["+name+"]\t" +w.generateId()+"\n");
-                    System.out.println("["+name+"]\t" +w.generateId());
+                    String id = w.generateId();
+                    if(uniques.get(id) != null) {
+                        System.out.println("Duplicate -> "+id);
+                    }
+                    else {
+                        uniques.put(id, new Object());
+                    }
+
+//                    System.out.println("["+name+"]\t" +id);
 //                    if(i % 2 == 0) {
 //                        try {
 //                            Thread.sleep(5);
@@ -56,8 +73,9 @@ public class TwitterSnowFlake {
                 threads) {
             t.join();
         }
-
-        System.out.println(s);
+        long time = System.currentTimeMillis() - start;
+        System.out.println(time +" -> " + uniques.size());
+//        System.out.println(s);
 
 
 
@@ -124,14 +142,21 @@ public class TwitterSnowFlake {
             private AtomicLong timestamp;
             private AtomicInteger counter;
 
+
+
             TimestampCounter(){
-                timestamp = new AtomicLong(System.currentTimeMillis() - epoch);
+                long ts = System.currentTimeMillis() - epoch;
+                timestamp = new AtomicLong(ts);
                 counter = new AtomicInteger(-1);
+                counterTimeMap.putIfAbsent(ts, counter);
             }
 
             public int giveNextCounter(long ts){
 
+                counterTimeMap.putIfAbsent(ts, new AtomicInteger(-1));
+                return counterTimeMap.get(ts).incrementAndGet();
 
+            /*
                 if (this.timestamp.get() != ts) {
                     this.timestamp.set(ts);
                     this.counter.set(-1);
@@ -144,6 +169,8 @@ public class TwitterSnowFlake {
                     }
                     return counter.incrementAndGet();
                 }
+
+             */
 
 
             }
