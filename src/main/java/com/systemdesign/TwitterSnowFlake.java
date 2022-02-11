@@ -131,16 +131,20 @@ public class TwitterSnowFlake {
 
             public int giveNextCounter(long ts){
 
-                if(this.timestamp.get() == ts) {
+
+                if (this.timestamp.get() != ts) {
+                    this.timestamp.set(ts);
+                    this.counter.set(-1);
+                    int currVal = counter.get();
+                    return counter.incrementAndGet();
+                }
+                else  {
                     if(counter.get() >= 4096) {
                         throw new RuntimeException("Millisecond counter limit exceeded");
                     }
+                    return counter.incrementAndGet();
                 }
-                else  {
-                    this.timestamp.compareAndSet(this.timestamp.get(), ts);
-                    this.counter.set(-1);
-                }
-                return counter.incrementAndGet();
+
 
             }
         }
