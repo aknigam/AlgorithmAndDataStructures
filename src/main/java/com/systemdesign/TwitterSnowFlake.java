@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class TwitterSnowFlake {
 
+    // this can be cleaned regularly to keep the number of entries limited
     private static ConcurrentHashMap<Long, AtomicInteger> counterTimeMap=  new ConcurrentHashMap<>();
 //    private static HashMap<Long, AtomicInteger> counterTimeMap=  new HashMap<>();
     private static ConcurrentHashMap<String, Object> uniques=  new ConcurrentHashMap<>();
@@ -41,10 +42,10 @@ public class TwitterSnowFlake {
         Worker w = new Worker(1, epoch);
         StringBuilder s= new StringBuilder();
         List<Thread> threads = new ArrayList<>();
-        for (int j = 0; j < 5000; j++) {
+        for (int j = 0; j < 1000000; j++) {
             Thread t = new Thread(() -> {
                 String name = Thread.currentThread().getName();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 10; i++) {
 //                    s.append("["+name+"]\t" +w.generateId()+"\n");
                     String id = w.generateId();
                     if(uniques.get(id) != null) {
@@ -74,7 +75,19 @@ public class TwitterSnowFlake {
             t.join();
         }
         long time = System.currentTimeMillis() - start;
-        System.out.println(time +" -> " + uniques.size());
+        System.out.println(time +" -> " + counterTimeMap.size());
+
+        int max = -1;
+        for (Map.Entry<Long, AtomicInteger> e:
+             counterTimeMap.entrySet()) {
+            int val = e.getValue().get();
+            if(val > max) {
+                max = val;
+            }
+        }
+
+        System.out.println("Max -> "+ max);
+
 //        System.out.println(s);
 
 
