@@ -1,16 +1,13 @@
 package com.systemdesign;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class RateLimiting {
 
     private Map<UUID, Request> userRequestLog = new HashMap<>();
 
     private long rateLimitDurationInMillis = 2000;
-    private int allowedRequests = 10;
+    private int allowedRequests = 20;
 
     // 5 requests per second for a user
     public static void main(String[] args) throws InterruptedException {
@@ -19,31 +16,38 @@ public class RateLimiting {
         RateLimiting rl = new RateLimiting();
         UUID userId = UUID.randomUUID();
 
+        List<Request> allRequests =  new ArrayList<>();
+
         long start = System.currentTimeMillis();
         for (int i = 1; i < 100; i++) {
-            int count = random.nextInt(3);
-            Request nr = new Request(count> 0 ? count : 1, System.currentTimeMillis());
+            int count = random.nextInt(10);
+            Request nr = new Request(count> 0 ? count : 1, System.currentTimeMillis(), i);
+            allRequests.add(nr);
             rl.handleNewRequest(nr, userId);
-            sleep(random.nextInt(350));
+//            sleep(random.nextInt(350));
+            sleep(250);
         }
 
         long elapsed = System.currentTimeMillis() - start;
 
-
         System.out.println("Time ---- >> "+ elapsed);
 
-        Request tr = rl.getUserRequest(userId);
-        int i=1;
-        while (true) {
+        for (Request tr :  allRequests) {
             long since = (tr.timestamp - start);
             int count = tr.isRejected ? -tr.requestsCount : tr.requestsCount;
-            System.out.println( since  +" , "+ count);
-            if (tr.previous == null) {
-                break;
-            }
-            tr = tr.previous;
-            continue;
+            System.out.println(tr.sequence+", "+ since + " , " + count);
         }
+
+
+        Request r = rl.userRequestLog.get(userId);
+        int count =0;
+        while (r.previous != null) {
+            count++;
+            r = r.previous;
+        }
+
+        System.out.println(count);
+
 
     }
 
@@ -57,52 +61,64 @@ public class RateLimiting {
 
     public void handleNewRequest(Request nr, UUID userId){
         Request r = userRequestLog.get(userId);
-        if(r == null) {
-            nr.isRejected = false;
-            userRequestLog.put(userId, nr);
-            return;
-        }
 
-        nr.previous = r;
-        nr.next = null;
-        r.next = nr;
-        r = nr;
-        userRequestLog.put(userId, r);
-
-        Request tr = r;
-        long endTime = r.timestamp;
-        int noOfRequestsInCurrentWindow = r.requestsCount;
-
-        for (int i = 0; i < 45; i++) {
-            Request prev = tr.previous;
+        long endTime = nr.timestamp;
+        int noOfRequestsInCurrentWindow = nr.requestsCount;
+        Request prev = r;
+        // ITERATE OVER ALL THE PAST REQUESTS IN THE CURRENT TIME WINDOW
+        while (true) {
+            // this also handles first request as well
             if(prev == null) {
-                r.isRejected = rateLimitDurationInMillis == 0;
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
                 break;
             }
 
             long timeElapsed =  endTime - prev.timestamp;
-            
+            // IF TIME ELAPSED SINCE PREVIOUS REQUEST IS LESS THAN THE WINDOW SIZE then INCREMENT THE COUNT AND CHECK
+            // AGAINST ALLOWED LIMIT
             if(timeElapsed <= rateLimitDurationInMillis) {
-                if(!prev.isRejected) {
-                    noOfRequestsInCurrentWindow = noOfRequestsInCurrentWindow + prev.requestsCount;
+                // IF PREVIOUS WAS NOT REJECTED THEN INCREASE THE COUNT
+                noOfRequestsInCurrentWindow = noOfRequestsInCurrentWindow + prev.requestsCount;
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                if(nr.isRejected){
+                    break;
                 }
-                r.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                prev = prev.previous;
+
             }
             else {
-                r.isRejected = false;
-            }
-            // break the chain here. no need to go further
-            if(r.isRejected) {
-//                if(prev.previous != null) {
-//                    prev.previous.next = null;
-//                    prev.previous = null;
-//                }
+                // if current window is more than the max window size then set status and break;
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
                 break;
-
             }
-            tr = prev;
 
         }
+
+//        if(prev != null) {
+//            // then break the link;
+//            Request nxt = prev.next;
+//            prev.next = null;
+//            if(nxt != null) {
+//                nxt.previous = null;
+//            }
+//        }
+
+
+        // ADD TO THE ALLOWED REQUEST LIST IF THE REQUEST WAS NOT REJECTED
+        if(!nr.isRejected) {
+            if (r != null) {
+                nr.previous = r;
+                nr.next = null;
+                r.next = nr;
+            }
+            userRequestLog.put(userId, nr);
+        }
+        else {
+
+        }
+//        else {
+//            System.out.println("\t request rejected: "+ nr);
+//        }
 
     }
 
@@ -116,16 +132,21 @@ public class RateLimiting {
 
 
     static class Request{
+        private final int sequence;
         int requestsCount;
         long timestamp;
         boolean isRejected;
 
+        int allowedRequests;
+        int rejectedRequestsCount;
+
         Request next;
         Request previous;
 
-        public Request(int requestsCount, long timestamp) {
+        public Request(int requestsCount, long timestamp, int sequence) {
             this.requestsCount = requestsCount;
             this.timestamp = timestamp;
+            this.sequence = sequence;
         }
 
 
