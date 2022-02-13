@@ -1,7 +1,6 @@
 package com.systemdesign;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,25 +15,6 @@ public class TwitterSnowFlake {
     private static ConcurrentHashMap<String, Object> uniques=  new ConcurrentHashMap<>();
 
 
-    public static void test(String[] args) {
-
-
-        System.out.println(String.format("%1$" + 12 + "s", "1234567890").replace(' ', '0'));
-
-        System.out.println(System.currentTimeMillis());
-
-        long currentTime = System.currentTimeMillis() - 1644485024328l;
-//        long timeSinceTwitterEpoch = currentTime - epoch;
-
-        String binary = "time-dc-mc-counter";
-
-        // get the 41 bit binary representation
-        System.out.println(currentTime);
-        System.out.println(Long.toBinaryString(currentTime));
-        System.out.println(Long.toBinaryString(System.currentTimeMillis()));
-
-    }
-
     public static void main(String[] args) throws InterruptedException {
 
         long start = System.currentTimeMillis();
@@ -46,6 +26,7 @@ public class TwitterSnowFlake {
             Thread t = new Thread(() -> {
                 String name = Thread.currentThread().getName();
                 for (int i = 0; i < 10; i++) {
+
 //                    s.append("["+name+"]\t" +w.generateId()+"\n");
                     String id = w.generateId();
                     if(uniques.get(id) != null) {
@@ -55,14 +36,9 @@ public class TwitterSnowFlake {
                         uniques.put(id, new Object());
                     }
 
-//                    System.out.println("["+name+"]\t" +id);
-//                    if(i % 2 == 0) {
-//                        try {
-//                            Thread.sleep(5);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
+                    System.out.println("["+name+"]\t" +id);
+
+
                 }
             }, "t"+j);
             threads.add(t);

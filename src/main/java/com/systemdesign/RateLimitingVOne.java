@@ -2,55 +2,18 @@ package com.systemdesign;
 
 import java.util.*;
 
-public class RateLimiting {
+public class RateLimitingVOne {
 
     private Map<UUID, Request> userRequestLog = new HashMap<>();
-    private int debugGlobalCount =0;
 
-    private long rateLimitDurationInMillis = 50;
-    private int allowedRequests = 15;
-
-    public static void main(String[] args) throws InterruptedException {
-        Random random = new Random();
-        RateLimiting rl = new RateLimiting();
-        UUID userId = UUID.randomUUID();
-        final List<Thread> threads = new ArrayList<>();
-        final List<Request> allRequests =  new ArrayList<>();
-
-        long start = System.currentTimeMillis();
-
-
-        int noOfWorkers = 50;
-        for (int j = 0; j < noOfWorkers; j++) {
-            Thread t = new Thread(() -> {
-                String name = Thread.currentThread().getName();
-                for (int i = 0; i < 10; i++) {
-                    Request nr = new Request(1,  i, name);
-                    allRequests.add(nr);
-                    rl.handleNewRequest(nr, userId);
-//                    System.out.println(name+": "+i);
-                    sleep(20);
-                }
-            }, "t"+j);
-            sleep(random.nextInt(10));
-            threads.add(t);
-            t.start();
-
-        }
-
-        for (Thread t :
-                threads) {
-            t.join();
-        }
-
-        postLoad(rl, userId, allRequests, start);
-    }
+    private long rateLimitDurationInMillis = 2000;
+    private int allowedRequests = 20;
 
     // 5 requests per second for a user
-    public static void mainOld(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
         Random random = new Random();
-        RateLimiting rl = new RateLimiting();
+        RateLimitingVOne rl = new RateLimitingVOne();
         UUID userId = UUID.randomUUID();
 
         List<Request> allRequests =  new ArrayList<>();
@@ -58,32 +21,21 @@ public class RateLimiting {
         long start = System.currentTimeMillis();
         for (int i = 1; i < 100; i++) {
             int count = random.nextInt(10);
-            Request nr = new Request(count> 0 ? count : 1, i, "main");
+            Request nr = new Request(count> 0 ? count : 1, System.currentTimeMillis(), i);
             allRequests.add(nr);
             rl.handleNewRequest(nr, userId);
 //            sleep(random.nextInt(350));
             sleep(250);
         }
 
-        postLoad(rl, userId, allRequests, start);
-
-
-    }
-
-    private static void postLoad(RateLimiting rl, UUID userId, List<Request> allRequests, long start) {
         long elapsed = System.currentTimeMillis() - start;
 
         System.out.println("Time ---- >> "+ elapsed);
-        int i =0;
-        for (int j = 0; j < allRequests.size(); j++) {
-            Request tr = allRequests.get(j);
-            if(tr == null){
-                continue;
-            }
 
+        for (Request tr :  allRequests) {
             long since = (tr.timestamp - start);
             int count = tr.isRejected ? -tr.requestsCount : tr.requestsCount;
-            System.out.println(j+", "+ since + " , " + count);
+            System.out.println(tr.sequence+", "+ since + " , " + count);
         }
 
 
@@ -95,24 +47,21 @@ public class RateLimiting {
         }
 
         System.out.println(count);
+
+
     }
 
-    private static void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    private static void sleep(int millis) throws InterruptedException {
+        Thread.sleep(millis);
     }
 
     Request getUserRequest(UUID userId) {
         return userRequestLog.get(userId);
     }
 
-    public synchronized void handleNewRequest(Request nr, UUID userId){
-        nr.timestamp = System.currentTimeMillis();
+    public void handleNewRequest(Request nr, UUID userId){
         Request r = userRequestLog.get(userId);
-        debugGlobalCount++;
+
         long endTime = nr.timestamp;
         int noOfRequestsInCurrentWindow = nr.requestsCount;
         Request prev = r;
@@ -140,19 +89,20 @@ public class RateLimiting {
             else {
                 // if current window is more than the max window size then set status and break;
                 nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
-                // DROP THE PREVIOUS AS THE CURRENT WINDOW EXCEEDED THE MAX WINDOW SIZE
-                if(prev != null) {
-                    // then break the link;
-                    Request nxt = prev.next;
-                    prev.next = null;
-                    if(nxt != null) {
-                        nxt.previous = null;
-                    }
-                }
                 break;
             }
 
         }
+
+//        if(prev != null) {
+//            // then break the link;
+//            Request nxt = prev.next;
+//            prev.next = null;
+//            if(nxt != null) {
+//                nxt.previous = null;
+//            }
+//        }
+
 
         // ADD TO THE ALLOWED REQUEST LIST IF THE REQUEST WAS NOT REJECTED
         if(!nr.isRejected) {
@@ -163,6 +113,12 @@ public class RateLimiting {
             }
             userRequestLog.put(userId, nr);
         }
+        else {
+
+        }
+//        else {
+//            System.out.println("\t request rejected: "+ nr);
+//        }
 
     }
 
@@ -177,27 +133,27 @@ public class RateLimiting {
 
     static class Request{
         private final int sequence;
-        private final String requester;
         int requestsCount;
         long timestamp;
         boolean isRejected;
 
+        int allowedRequests;
+        int rejectedRequestsCount;
 
         Request next;
         Request previous;
 
-        public Request(int requestsCount, int sequence, String name) {
+        public Request(int requestsCount, long timestamp, int sequence) {
             this.requestsCount = requestsCount;
+            this.timestamp = timestamp;
             this.sequence = sequence;
-            this.requester = name;
         }
 
 
         @Override
         public String toString() {
             return
-                    "Thread=" + requester +
-                    ", Count=" + requestsCount +
+                    "Count=" + requestsCount +
                     ", timestamp=" + timestamp +
                     ", isRejected=" + isRejected ;
         }
