@@ -2,8 +2,9 @@ package com.algo.dynamicprogramming;
 
 /**
  * Created by a.nigam on 04/12/16.
+ * ITL, 15.4 Longest common subsequence
  */
-public class LongestCommonSubsequeceProblem {
+public class LongestCommonSubSequenceProblem {
 
     private static boolean debug = true;
     private static String[][] cache;

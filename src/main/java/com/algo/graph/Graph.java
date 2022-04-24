@@ -199,7 +199,7 @@ public abstract class Graph<E> {
                     relax(u, v, w)
          */
     }
-    public void singleSourceSHortestPath(Vertex<E> s){
+    public void singleSourceShortestPath(Vertex<E> s){
 
 
 
@@ -304,7 +304,7 @@ public abstract class Graph<E> {
 
 
     }
-
+    // 22.1-3
     public Graph<E> getTranspose(){
 
         Graph<E> t = new AdjacencyListGraph<E>(vlist.length);

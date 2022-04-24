@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Created by a.nigam on 16/01/17.
  */
-public class SurveyUtil {
+public class SurveyMain {
 
 
     public static Chapter chapter;
@@ -35,20 +35,20 @@ public class SurveyUtil {
 
         Survey survey = new Survey();
 
-        QuestionNode a1  = new QB().withIdText(11,"a1").wc("x").wc("y").build();
-        QuestionNode a2  = new QB().withIdText(12,"a2").wc("x").wc("y").build();
-        QuestionNode a3  = new QB().withIdText(13,"a3").wc("x").wc("y").build();
+        QuestionNode a1  = new QuestionBuilder().withIdText(11,"a1").wc("x").wc("y").build();
+        QuestionNode a2  = new QuestionBuilder().withIdText(12,"a2").wc("x").wc("y").build();
+        QuestionNode a3  = new QuestionBuilder().withIdText(13,"a3").wc("x").wc("y").build();
 
-        QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
-        QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
-        QuestionNode c  = new QB().withIdText(3,"c").build();
-        QuestionNode d  = new QB().withIdText(4,"distance").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
+        QuestionNode a  = new QuestionBuilder().withIdText(1,"a").wc("x").wc("y").build();
+        QuestionNode b  = new QuestionBuilder().withIdText(2,"b").wc("x").wc("y").build();
+        QuestionNode c  = new QuestionBuilder().withIdText(3,"c").build();
+        QuestionNode d  = new QuestionBuilder().withIdText(4,"d").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
 
-        QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
-        QuestionNode f  = new QB().withIdText(6,"f").wc("x").wc("y").build();
-        QuestionNode g  = new QB().withIdText(7,"g").build();
-        QuestionNode h  = new QB().withIdText(8,"h").build();
+        QuestionNode e  = new QuestionBuilder().withIdText(5,"e").wc("x").wc("y").build();
+        QuestionNode f  = new QuestionBuilder().withIdText(6,"f").wc("x").wc("y").build();
+        QuestionNode g  = new QuestionBuilder().withIdText(7,"g").build();
+        QuestionNode h  = new QuestionBuilder().withIdText(8,"h").build();
 
         survey.addFirstQuestionNode(a1);
         survey.addNextQuestionNode(a1, a2);
@@ -151,16 +151,16 @@ public class SurveyUtil {
     private static Survey getSampleSurvey() {
         Survey survey = new Survey();
 
-        QuestionNode a  = new QB().withIdText(1,"a").wc("x").wc("y").build();
-        QuestionNode b  = new QB().withIdText(2,"b").wc("x").wc("y").build();
-        QuestionNode c  = new QB().withIdText(3,"c").build();
-        QuestionNode d  = new QB().withIdText(4,"distance").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
+        QuestionNode a  = new QuestionBuilder().withIdText(1,"a").wc("x").wc("y").build();
+        QuestionNode b  = new QuestionBuilder().withIdText(2,"b").wc("x").wc("y").build();
+        QuestionNode c  = new QuestionBuilder().withIdText(3,"c").build();
+        QuestionNode d  = new QuestionBuilder().withIdText(4,"distance").wc("x").wc("y").wc("z").withType(QuestionType.MULTIPLE_CHOICE).build();
 
 
-        QuestionNode e  = new QB().withIdText(5,"e").wc("x").wc("y").build();
-        QuestionNode f  = new QB().withIdText(6,"f").wc("x").wc("y").build();
-        QuestionNode g  = new QB().withIdText(7,"g").build();
-        QuestionNode h  = new QB().withIdText(8,"h").build();
+        QuestionNode e  = new QuestionBuilder().withIdText(5,"e").wc("x").wc("y").build();
+        QuestionNode f  = new QuestionBuilder().withIdText(6,"f").wc("x").wc("y").build();
+        QuestionNode g  = new QuestionBuilder().withIdText(7,"g").build();
+        QuestionNode h  = new QuestionBuilder().withIdText(8,"h").build();
 
         survey.addFirstQuestionNode(a);
         survey.addNextChoiceLinkedQuestionNode(a, b, "y");
@@ -234,7 +234,7 @@ public class SurveyUtil {
         System.out.println(dfs);
     }
 
-    private static void printAllPossiblePaths(SurveyUtil survey){
+    private static void printAllPossiblePaths(SurveyMain survey){
 
     }
 

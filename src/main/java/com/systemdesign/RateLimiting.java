@@ -10,6 +10,101 @@ public class RateLimiting {
     private long rateLimitDurationInMillis = 50;
     private int allowedRequests = 15;
 
+    public synchronized void handleNewRequest(Request nr, UUID userId){
+        nr.timestamp = System.currentTimeMillis();
+        Request r = userRequestLog.get(userId);
+        debugGlobalCount++;
+        long endTime = nr.timestamp;
+        int noOfRequestsInCurrentWindow = nr.requestsCount;
+        Request prev = r;
+        // ITERATE OVER ALL THE PAST REQUESTS IN THE CURRENT TIME WINDOW
+        while (true) {
+            // this also handles first request as well
+            if(prev == null) {
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                break;
+            }
+
+            long timeElapsed =  endTime - prev.timestamp;
+            // IF TIME ELAPSED SINCE PREVIOUS REQUEST IS LESS THAN THE WINDOW SIZE then INCREMENT THE COUNT AND CHECK
+            // AGAINST ALLOWED LIMIT
+            if(timeElapsed <= rateLimitDurationInMillis) {
+                // IF PREVIOUS WAS NOT REJECTED THEN INCREASE THE COUNT
+                noOfRequestsInCurrentWindow = noOfRequestsInCurrentWindow + prev.requestsCount;
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                if(nr.isRejected){
+                    break;
+                }
+                prev = prev.previous;
+
+            }
+            else {
+                // if current window is more than the max window size then set status and break;
+                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                // DROP THE PREVIOUS AS THE CURRENT WINDOW EXCEEDED THE MAX WINDOW SIZE
+                if(prev != null) {
+                    // then break the link;
+                    Request nxt = prev.next;
+                    prev.next = null;
+                    if(nxt != null) {
+                        nxt.previous = null;
+                    }
+                }
+                break;
+            }
+
+        }
+
+        // ADD TO THE ALLOWED REQUEST LIST IF THE REQUEST WAS NOT REJECTED
+        if(!nr.isRejected) {
+            if (r != null) {
+                nr.previous = r;
+                nr.next = null;
+                r.next = nr;
+            }
+            userRequestLog.put(userId, nr);
+        }
+
+    }
+
+    private Request addRequestToHead(Request nr, Request r) {
+        nr.previous = r;
+        nr.next = null;
+        r.next = nr;
+        r = nr;
+        return r;
+    }
+
+
+    static class Request{
+        private final int sequence;
+        private final String requester;
+        int requestsCount;
+        long timestamp;
+        boolean isRejected;
+
+
+        Request next;
+        Request previous;
+
+        public Request(int requestsCount, int sequence, String name) {
+            this.requestsCount = requestsCount;
+            this.sequence = sequence;
+            this.requester = name;
+        }
+
+
+        @Override
+        public String toString() {
+            return
+                    "Thread=" + requester +
+                    ", Count=" + requestsCount +
+                    ", timestamp=" + timestamp +
+                    ", isRejected=" + isRejected ;
+        }
+    }
+
+
     public static void main(String[] args) throws InterruptedException {
         Random random = new Random();
         RateLimiting rl = new RateLimiting();
@@ -108,101 +203,6 @@ public class RateLimiting {
     Request getUserRequest(UUID userId) {
         return userRequestLog.get(userId);
     }
-
-    public synchronized void handleNewRequest(Request nr, UUID userId){
-        nr.timestamp = System.currentTimeMillis();
-        Request r = userRequestLog.get(userId);
-        debugGlobalCount++;
-        long endTime = nr.timestamp;
-        int noOfRequestsInCurrentWindow = nr.requestsCount;
-        Request prev = r;
-        // ITERATE OVER ALL THE PAST REQUESTS IN THE CURRENT TIME WINDOW
-        while (true) {
-            // this also handles first request as well
-            if(prev == null) {
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
-                break;
-            }
-
-            long timeElapsed =  endTime - prev.timestamp;
-            // IF TIME ELAPSED SINCE PREVIOUS REQUEST IS LESS THAN THE WINDOW SIZE then INCREMENT THE COUNT AND CHECK
-            // AGAINST ALLOWED LIMIT
-            if(timeElapsed <= rateLimitDurationInMillis) {
-                // IF PREVIOUS WAS NOT REJECTED THEN INCREASE THE COUNT
-                noOfRequestsInCurrentWindow = noOfRequestsInCurrentWindow + prev.requestsCount;
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
-                if(nr.isRejected){
-                    break;
-                }
-                prev = prev.previous;
-
-            }
-            else {
-                // if current window is more than the max window size then set status and break;
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
-                // DROP THE PREVIOUS AS THE CURRENT WINDOW EXCEEDED THE MAX WINDOW SIZE
-                if(prev != null) {
-                    // then break the link;
-                    Request nxt = prev.next;
-                    prev.next = null;
-                    if(nxt != null) {
-                        nxt.previous = null;
-                    }
-                }
-                break;
-            }
-
-        }
-
-        // ADD TO THE ALLOWED REQUEST LIST IF THE REQUEST WAS NOT REJECTED
-        if(!nr.isRejected) {
-            if (r != null) {
-                nr.previous = r;
-                nr.next = null;
-                r.next = nr;
-            }
-            userRequestLog.put(userId, nr);
-        }
-
-    }
-
-    private Request addRequestToHead(Request nr, Request r) {
-        nr.previous = r;
-        nr.next = null;
-        r.next = nr;
-        r = nr;
-        return r;
-    }
-
-
-    static class Request{
-        private final int sequence;
-        private final String requester;
-        int requestsCount;
-        long timestamp;
-        boolean isRejected;
-
-
-        Request next;
-        Request previous;
-
-        public Request(int requestsCount, int sequence, String name) {
-            this.requestsCount = requestsCount;
-            this.sequence = sequence;
-            this.requester = name;
-        }
-
-
-        @Override
-        public String toString() {
-            return
-                    "Thread=" + requester +
-                    ", Count=" + requestsCount +
-                    ", timestamp=" + timestamp +
-                    ", isRejected=" + isRejected ;
-        }
-    }
-
 
 
 

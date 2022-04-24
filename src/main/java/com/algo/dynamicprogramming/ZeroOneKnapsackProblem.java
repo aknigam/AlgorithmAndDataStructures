@@ -6,19 +6,24 @@ import java.util.Arrays;
 
 /**
  * Created by a.nigam on 05/12/16.
+ *
+ * This is a question from ITA (Search - "Greedy versus dynamic programming")
+ *
+ * FractionalKnapsackProblem can be solved using greedy Algorithm. Find the value density (vi/wj) and sort in
+ * descending order
  */
 public class ZeroOneKnapsackProblem {
 
     private static boolean debug = false;
 
     public static void main(String[] args) {
-//        int[] w = new int[]{ 10, 20, 30 };
-//        int[] v = new int[]{ 60, 100, 120 };
+        int[] w = new int[]{ 10, 20, 30 };
+        int[] v = new int[]{ 60, 100, 120 };
         System.out.println(11/2);
-        int[] w = new int[]{ 1, 1, 1 };
-        int[] v = new int[]{ 10, 20, 30 };
+//        int[] w = new int[]{ 1, 1, 1 };
+//        int[] v = new int[]{ 10, 20, 30 };
 
-        int wCap = 2;
+        int wCap = 50;
         int maxVal = topDownFillKnapSack(w, v, wCap, 0);
         System.out.println(maxVal);
     }

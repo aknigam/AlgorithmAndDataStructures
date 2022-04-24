@@ -13,7 +13,7 @@ public class RateLimitingVOne {
     public static void main(String[] args) throws InterruptedException {
 
         Random random = new Random();
-        RateLimitingVOne rl = new RateLimitingVOne();
+        RateLimitingVOne rateLimiter = new RateLimitingVOne();
         UUID userId = UUID.randomUUID();
 
         List<Request> allRequests =  new ArrayList<>();
@@ -23,7 +23,7 @@ public class RateLimitingVOne {
             int count = random.nextInt(10);
             Request nr = new Request(count> 0 ? count : 1, System.currentTimeMillis(), i);
             allRequests.add(nr);
-            rl.handleNewRequest(nr, userId);
+            rateLimiter.handleNewRequest(nr, userId);
 //            sleep(random.nextInt(350));
             sleep(250);
         }
@@ -39,7 +39,7 @@ public class RateLimitingVOne {
         }
 
 
-        Request r = rl.userRequestLog.get(userId);
+        Request r = rateLimiter.userRequestLog.get(userId);
         int count =0;
         while (r.previous != null) {
             count++;
@@ -59,17 +59,17 @@ public class RateLimitingVOne {
         return userRequestLog.get(userId);
     }
 
-    public void handleNewRequest(Request nr, UUID userId){
+    public void handleNewRequest(Request incomingRequest, UUID userId){
         Request r = userRequestLog.get(userId);
 
-        long endTime = nr.timestamp;
-        int noOfRequestsInCurrentWindow = nr.requestsCount;
+        long endTime = incomingRequest.timestamp;
+        int noOfRequestsInCurrentWindow = incomingRequest.requestsCount;
         Request prev = r;
         // ITERATE OVER ALL THE PAST REQUESTS IN THE CURRENT TIME WINDOW
         while (true) {
             // this also handles first request as well
             if(prev == null) {
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                incomingRequest.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
                 break;
             }
 
@@ -79,8 +79,8 @@ public class RateLimitingVOne {
             if(timeElapsed <= rateLimitDurationInMillis) {
                 // IF PREVIOUS WAS NOT REJECTED THEN INCREASE THE COUNT
                 noOfRequestsInCurrentWindow = noOfRequestsInCurrentWindow + prev.requestsCount;
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
-                if(nr.isRejected){
+                incomingRequest.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                if(incomingRequest.isRejected){
                     break;
                 }
                 prev = prev.previous;
@@ -88,7 +88,7 @@ public class RateLimitingVOne {
             }
             else {
                 // if current window is more than the max window size then set status and break;
-                nr.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
+                incomingRequest.isRejected = noOfRequestsInCurrentWindow > allowedRequests;
                 break;
             }
 
@@ -105,13 +105,13 @@ public class RateLimitingVOne {
 
 
         // ADD TO THE ALLOWED REQUEST LIST IF THE REQUEST WAS NOT REJECTED
-        if(!nr.isRejected) {
+        if(!incomingRequest.isRejected) {
             if (r != null) {
-                nr.previous = r;
-                nr.next = null;
-                r.next = nr;
+                incomingRequest.previous = r;
+                incomingRequest.next = null;
+                r.next = incomingRequest;
             }
-            userRequestLog.put(userId, nr);
+            userRequestLog.put(userId, incomingRequest);
         }
         else {
 

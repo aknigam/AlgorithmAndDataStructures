@@ -13,7 +13,7 @@ public class AllParenthesis {
     private Map<Integer, List<String>> cache = new HashMap();
     boolean cachingEnabled = true;
 
-    public List<String> AllParenthesis(int n)
+    public List<String> generateAllParenthesis(int n)
     {
         long startTime = System.currentTimeMillis();
         List<String> combinations = process( 2*n-1);
@@ -125,6 +125,6 @@ public class AllParenthesis {
     }
 
     public static void main(String[] args) {
-        new AllParenthesis().AllParenthesis(5);
+        new AllParenthesis().generateAllParenthesis(5);
     }
 }

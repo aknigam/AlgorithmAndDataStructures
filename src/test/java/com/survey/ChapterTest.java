@@ -143,10 +143,10 @@ public class ChapterTest {
     private void prepare() {
         survey = new Survey();
 
-        a  = new QB().withIdText(1,"a.").wc("x").wc("y").build();
-        b = new QB().withIdText(2, "b.").wc("x").wc("y").build();
-        c  = new QB().withIdText(3,"c.").build();
-        d  = new QB().withIdText(4,"distance.").wc("x").wc("y").wc("z").wc("u").wc("v").withType(QuestionType.MULTIPLE_CHOICE).build();
+        a  = new QuestionBuilder().withIdText(1,"a.").wc("x").wc("y").build();
+        b = new QuestionBuilder().withIdText(2, "b.").wc("x").wc("y").build();
+        c  = new QuestionBuilder().withIdText(3,"c.").build();
+        d  = new QuestionBuilder().withIdText(4,"distance.").wc("x").wc("y").wc("z").wc("u").wc("v").withType(QuestionType.MULTIPLE_CHOICE).build();
 
         survey.addFirstQuestionNode(a);
         survey.addNextChoiceLinkedQuestionNode(a, b, "y");
@@ -160,10 +160,10 @@ public class ChapterTest {
         survey.addChapter(d, chapter);
 
 
-        QuestionNode e  = new QB().withIdText(5,"e.").wc("x").wc("y").build();
-        QuestionNode f  = new QB().withIdText(6,"f.").wc("x").wc("y").build();
-        QuestionNode g  = new QB().withIdText(7,"g.").build();
-        QuestionNode h  = new QB().withIdText(8,"h.").build();
+        QuestionNode e  = new QuestionBuilder().withIdText(5,"e.").wc("x").wc("y").build();
+        QuestionNode f  = new QuestionBuilder().withIdText(6,"f.").wc("x").wc("y").build();
+        QuestionNode g  = new QuestionBuilder().withIdText(7,"g.").build();
+        QuestionNode h  = new QuestionBuilder().withIdText(8,"h.").build();
 
 
         chapter.addFirstQuestionNode(e);

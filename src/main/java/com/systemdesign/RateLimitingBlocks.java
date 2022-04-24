@@ -1,8 +1,20 @@
 package com.systemdesign;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalField;
+/**
+ * Refer: https://medium.com/@saisandeepmopuri/system-design-rate-limiter-and-data-modelling-9304b0d18250
+ *
+ * Sliding window counters
+ * - This is a hybrid of Fixed Window Counters and Sliding Window logs
+ * - The entire window time is broken down into smaller buckets. The size of each bucket depends on how much elasticity is allowed for the rate limiter
+ * - Each bucket stores the request count corresponding to the bucket range.
+ *
+ * If a request is received then find the block number to which it belongs,
+ * check the total count across all the blocks in the current window
+ * if the total count is <= allowed count in the window then allow otherwise reject
+ *
+ *
+ *
+ */
 import java.util.*;
 
 public class RateLimitingBlocks {

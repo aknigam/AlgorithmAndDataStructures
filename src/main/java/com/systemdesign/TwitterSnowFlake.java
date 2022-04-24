@@ -19,7 +19,7 @@ public class TwitterSnowFlake {
 
         long start = System.currentTimeMillis();
         long epoch =  System.currentTimeMillis() - 30*365*24*60*60*1000;
-        Worker w = new Worker(1, epoch);
+        Worker worker = new Worker(1, epoch);
         StringBuilder s= new StringBuilder();
         List<Thread> threads = new ArrayList<>();
         for (int j = 0; j < 1000000; j++) {
@@ -28,7 +28,7 @@ public class TwitterSnowFlake {
                 for (int i = 0; i < 10; i++) {
 
 //                    s.append("["+name+"]\t" +w.generateId()+"\n");
-                    String id = w.generateId();
+                    String id = worker.generateId();
                     if(uniques.get(id) != null) {
                         System.out.println("Duplicate -> "+id);
                     }
@@ -63,12 +63,6 @@ public class TwitterSnowFlake {
         }
 
         System.out.println("Max -> "+ max);
-
-//        System.out.println(s);
-
-
-
-
 
     }
 
@@ -141,26 +135,8 @@ public class TwitterSnowFlake {
             }
 
             public int giveNextCounter(long ts){
-
                 counterTimeMap.putIfAbsent(ts, new AtomicInteger(-1));
                 return counterTimeMap.get(ts).incrementAndGet();
-
-            /*
-                if (this.timestamp.get() != ts) {
-                    this.timestamp.set(ts);
-                    this.counter.set(-1);
-                    int currVal = counter.get();
-                    return counter.incrementAndGet();
-                }
-                else  {
-                    if(counter.get() >= 4096) {
-                        throw new RuntimeException("Millisecond counter limit exceeded");
-                    }
-                    return counter.incrementAndGet();
-                }
-
-             */
-
 
             }
         }

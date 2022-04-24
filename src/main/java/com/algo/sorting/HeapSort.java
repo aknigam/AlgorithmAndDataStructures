@@ -10,9 +10,9 @@ public class HeapSort extends AbstractBaseSort{
 
     public static void main(String[] args) {
         HeapSort hs = new HeapSort();
-        int[] a = {27,17,3,16,13,10,1,5,7,12,4,8,9,0};
+        int[] a = {27,17,3,16,13,10,1,5,7,12,4,8,9,50};
 //        int[] a = {45, 7, 6, 56, 4,5,78} ;// , 43, 57, 7, 9, 89};
-        hs.sort(a);
+        hs.sort(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
 
 
 
@@ -21,6 +21,13 @@ public class HeapSort extends AbstractBaseSort{
     public void buildMaxheap(int[] a){
 
         int len = a.length;
+
+        // if the length is odd (i.e. last index is eve`n)
+        // >>>> that is last node is left child of i (right child index = 2*i + i)
+
+        // if the length is odd (i.e. last index is even)
+        // >>>> that is last node is left child of i (right child index = 2*i + i)
+
 
         for (int i = (len / 2); i >=0; i--) {
             System.out.println("max heapify: "+ i);
@@ -39,6 +46,7 @@ public class HeapSort extends AbstractBaseSort{
         int largest;
 
         while (l < heapSize || r < heapSize) {
+            System.out.println("\t\tloop");
 
 //            System.out.println("Root - left - right:\t\t"+a[previous]+"("+previous+")\t"+ a[l]+"("+l+") \t"+a[r]+"("+r+")");
             if (l < heapSize && a[l] > a[p]) {
@@ -56,10 +64,16 @@ public class HeapSort extends AbstractBaseSort{
             int temp =  a[largest];
             a[largest] = a[p];
             a[p] = temp;
-            p = largest;
-            l =  2*p + 1;
-            r =  2*p + 2;
-            continue;
+
+            if(largest != p) {
+                p = largest;
+                l = 2 * p + 1;
+                r = 2 * p + 2;
+                continue;
+            }
+            else {
+                break;
+            }
         }
 
     }
