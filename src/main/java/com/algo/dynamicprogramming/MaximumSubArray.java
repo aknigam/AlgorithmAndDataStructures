@@ -28,11 +28,11 @@ public class MaximumSubArray {
         System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -9, 10}) == 24);
         System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -90, 10}) == 23);
 
-        /*
+
         int[] a = {1,2,3,4,5,5,6,6,7,8,9,9,10,11,12,13,14,15,16};
         Map<Integer, Integer> x = findPairWithSum1(a, 10);
         System.out.println(x);
-        */
+
     }
 
     private static long findSubArrayWithMaxSum(int[] arr) {
@@ -127,45 +127,4 @@ public class MaximumSubArray {
     }
 
 
-    // it has bug. Doesn't work properly if max sum is negative
-    private static int findSubArrayWithMaxSumOld(int[] a) {
-
-        int sum= 0 ;
-        int maxSum = 0, pmaxSum = 0;
-        int s =0 , ps =  0;
-        int e =-1, pe = -1;
-
-        for (int i = 0; i < a.length; i++) {
-            int x = a[i];
-            sum = sum +  x;
-
-            if(sum > maxSum){
-                maxSum = sum;
-                e = i;
-            }
-            if(sum < 0){
-                sum = 0;
-                if(pmaxSum < maxSum) {
-                    pmaxSum = maxSum;
-                    ps = s;
-                    pe = e;
-                }
-                maxSum = 0;
-                s = i + 1;
-                e = -1;
-            }
-        }
-
-        if(maxSum > pmaxSum)
-        {
-            System.out.println(s +" - "+ e);
-        }
-        else
-        {
-            System.out.println(ps +" - "+ pe);
-        }
-
-        return maxSum > pmaxSum ? maxSum : pmaxSum;
-
-    }
 }

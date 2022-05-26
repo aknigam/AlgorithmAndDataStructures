@@ -4,30 +4,19 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47577d04-f8cd-4320-b3e1-c63955ba7d84" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="47577d04-f8cd-4320-b3e1-c63955ba7d84" name="Default" comment="committed as of now">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestIncreasingSubsequence.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/UniformIntegers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestCommonSubsequeceProblem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestCommonSubSequenceProblem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/MaximumSubArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/MaximumSubArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/StackStalisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/StackStalisation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/ZeroOneKnapsackProblem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/ZeroOneKnapsackProblem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/AllParenthesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/AllParenthesis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/graph/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/greedyalgorithm/ActivitySelection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/greedyalgorithm/ActivitySelection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/sorting/HeapSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/sorting/HeapSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/survey/QB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/survey/QuestionBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/survey/QuestionContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/survey/QuestionContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/survey/SurveyUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/survey/SurveyMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimiting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimiting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimitingBlocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimitingBlocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimitingVOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimitingVOne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/systemdesign/TwitterSnowFlake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/systemdesign/TwitterSnowFlake.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/survey/ChapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/survey/ChapterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/algo/ThreadTest$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/algo/ThreadTest$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/binary/StringConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/binary/StringConverter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/generalprogramming/LockExamples$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/generalprogramming/StackSizeTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/generalprogramming/StackSizeTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/interitence/GeneralAlgosPart2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/interitence/GeneralAlgosPart2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/interitence/dummy/A2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/interitence/dummy/A2.class" afterDir="false" />
     </list>
@@ -806,14 +795,14 @@
       <recent name="com.learning.design" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.algo.dynamicprogramming" />
       <recent name="com.systemdesign" />
       <recent name="com.learning.algorithm" />
       <recent name="com.learning.design.game.tictactoe" />
       <recent name="com.learning.design.game.chess.piece" />
-      <recent name="com.learning.design.game" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SurveyMain">
+  <component name="RunManager" selected="Application.CutRod">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -1013,13 +1002,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RateLimiting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.systemdesign.RateLimiting" />
+    <configuration name="CutRod" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.algo.dynamicprogramming.CutRod" />
       <module name="AlgorithmAndDataStructures" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.systemdesign.*" />
+          <option name="PATTERN" value="com.algo.dynamicprogramming.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -1027,13 +1016,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RateLimitingBlocks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.systemdesign.RateLimitingBlocks" />
+    <configuration name="FixingTwoNodesOfBST" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.algo.geeksforgeeks.FixingTwoNodesOfBST" />
       <module name="AlgorithmAndDataStructures" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.systemdesign.*" />
+          <option name="PATTERN" value="com.algo.geeksforgeeks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -1041,13 +1030,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SurveyMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.survey.SurveyMain" />
+    <configuration name="LongestCommonSubSequenceProblem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.algo.dynamicprogramming.LongestCommonSubSequenceProblem" />
       <module name="AlgorithmAndDataStructures" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.survey.*" />
+          <option name="PATTERN" value="com.algo.dynamicprogramming.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -1055,13 +1044,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TwitterSnowFlake" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.systemdesign.TwitterSnowFlake" />
+    <configuration name="LongestIncreasingSubsequence" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.algo.dynamicprogramming.LongestIncreasingSubsequence" />
       <module name="AlgorithmAndDataStructures" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.systemdesign.*" />
+          <option name="PATTERN" value="com.algo.dynamicprogramming.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -1101,19 +1090,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TwitterSnowFlake" />
-      <item itemvalue="Application.RateLimiting" />
-      <item itemvalue="Application.RateLimitingBlocks" />
       <item itemvalue="Application.AllParenthesis" />
-      <item itemvalue="Application.SurveyMain" />
+      <item itemvalue="Application.FixingTwoNodesOfBST" />
+      <item itemvalue="Application.LongestIncreasingSubsequence" />
+      <item itemvalue="Application.LongestCommonSubSequenceProblem" />
+      <item itemvalue="Application.CutRod" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SurveyMain" />
-        <item itemvalue="Application.RateLimiting" />
+        <item itemvalue="Application.CutRod" />
+        <item itemvalue="Application.LongestCommonSubSequenceProblem" />
+        <item itemvalue="Application.LongestIncreasingSubsequence" />
+        <item itemvalue="Application.FixingTwoNodesOfBST" />
         <item itemvalue="Application.AllParenthesis" />
-        <item itemvalue="Application.RateLimitingBlocks" />
-        <item itemvalue="Application.TwitterSnowFlake" />
       </list>
     </recent_temporary>
   </component>
@@ -1295,7 +1284,35 @@
       <option name="project" value="LOCAL" />
       <updated>1644814783506</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="committed as of now">
+      <created>1650801927649</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1650801927649</updated>
+    </task>
+    <task id="LOCAL-00024" summary="committed as of now">
+      <created>1653290033888</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1653290033889</updated>
+    </task>
+    <task id="LOCAL-00025" summary="committed as of now">
+      <created>1653293783960</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1653293783960</updated>
+    </task>
+    <task id="LOCAL-00026" summary="committed as of now">
+      <created>1653305636984</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1653305636984</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1368,7 +1385,8 @@
     <MESSAGE value="k" />
     <MESSAGE value="Rate limiting" />
     <MESSAGE value="committing all remaining changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="committing all remaining changes" />
+    <MESSAGE value="committed as of now" />
+    <option name="LAST_COMMIT_MESSAGE" value="committed as of now" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1521,6 +1539,79 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/systemdesign/RateLimitingBlocks.java</url>
           <line>168</line>
           <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/string/LongestSubstringWithoutRepeatingCharacters.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/string/LongestSubstringWithoutRepeatingCharacters.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/string/LongestSubstringWithoutRepeatingCharacters.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/string/MedianOfTwoSortedArrays.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/string/MedianOfTwoSortedArrays.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestPalindromeSubstringProblem.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/StackStalisation.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="cost == 19" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/StackStalisation.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/FixingTwoNodesOfBST.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="111" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/geeksforgeeks/FixingTwoNodesOfBST.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestIncreasingSubsequence.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="a[begin] == 6" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestIncreasingSubsequence.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="s == 6" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestIncreasingSubsequence.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/algo/dynamicprogramming/LongestCommonSubSequenceProblem.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="131" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

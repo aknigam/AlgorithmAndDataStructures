@@ -19,7 +19,7 @@ public class ZeroOneKnapsackProblem {
     public static void main(String[] args) {
         int[] w = new int[]{ 10, 20, 30 };
         int[] v = new int[]{ 60, 100, 120 };
-        System.out.println(11/2);
+
 //        int[] w = new int[]{ 1, 1, 1 };
 //        int[] v = new int[]{ 10, 20, 30 };
 

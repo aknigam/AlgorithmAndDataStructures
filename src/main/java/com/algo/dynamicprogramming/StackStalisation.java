@@ -5,11 +5,13 @@ public class StackStalisation {
     public static void main(String[] args) {
         StackStalisation ss = new StackStalisation();
 
-        int[] a = {6, 5, 4, 3}; //{2, 5, 3, 6, 5};
+//        int[] a = {6, 5, 4, 3}; //{2, 5, 3, 6, 5};
 //        int[] a = {5, 2};
+        int[] a = {100, 100, 1, 1};
+        int A = 2;
+        int B =  1;
 
-
-        long cost = ss.getMinimumSecondsRequired(a.length, a, 10, 1);
+        long cost = ss.getMinimumSecondsRequired(a.length, a, A, B);
 
         System.out.println(cost);
     }
@@ -66,8 +68,8 @@ public class StackStalisation {
                 long stepCost = i * B;
                 d[index] = R[index] - i;
                 long c =  getMinimumSecondsRequiredInternal(N, d, A , B , index + 1, cost + stepCost, R[index] -i);
-                if(cost + c < minCost) {
-                    minCost = cost + c;
+                if( c < minCost) {
+                    minCost = c;
                 }
             }
             cost = minCost;
@@ -116,6 +118,6 @@ public class StackStalisation {
                 sb.append(",");
             }
         }
-        System.out.println("Cost: "+ cost +" > "+ sb.toString());
+//        System.out.println("Cost: "+ cost +" > "+ sb.toString());
     }
 }

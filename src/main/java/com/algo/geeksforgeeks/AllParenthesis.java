@@ -62,15 +62,15 @@ public class AllParenthesis {
 
 
      */
-    private List<String> process( int end) {
+    private List<String> process( int endIndex) {
         if(cachingEnabled) {
-            List<String> cachedResult = cache.get(end);
+            List<String> cachedResult = cache.get(endIndex);
             if (cachedResult != null) {
                 return cachedResult;
             }
         }
         count++;
-        if(end == 1) {
+        if(endIndex == 1) {
             return Arrays.asList("()");
         }
         int start =0;
@@ -78,7 +78,7 @@ public class AllParenthesis {
 
         LinkedList<String> combinations = new LinkedList<>();
 
-        for (int i = end ; i > start; i = i -2) {
+        for (int i = endIndex ; i > start; i = i -2) {
             count++;
             int midStart = start + 1;
             int midEnd = i - 1;
@@ -92,9 +92,9 @@ public class AllParenthesis {
             }
 
             List<String> tails = Collections.emptyList();
-            if(i < end) {
+            if(i < endIndex) {
                 tailStart = i+1;
-                tailEnd = end;
+                tailEnd = endIndex;
                 tails = process(tailEnd-tailStart);
             }
             if(!mids.isEmpty() && !tails.isEmpty()) {
@@ -118,13 +118,13 @@ public class AllParenthesis {
         }
 
         if(cachingEnabled) {
-            cache.put(end, combinations);
+            cache.put(endIndex, combinations);
         }
         return combinations;
 
     }
 
     public static void main(String[] args) {
-        new AllParenthesis().generateAllParenthesis(5);
+        new AllParenthesis().generateAllParenthesis(3);
     }
 }
