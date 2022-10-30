@@ -1,5 +1,8 @@
 package com.algo.string;
 
+/*
+https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+ */
 public class LongestSubstringWithoutRepeatingCharacters {
 
 
@@ -41,6 +44,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
 
             }
             else {
+                // this means repetition
                 keyVal[indx] =  i;
                 currlen = ce - cs  + 1;
 

@@ -189,6 +189,50 @@ public abstract class Graph<E> {
 
     }
 
+
+
+
+    protected void dfsInternalIterative(Vertex<E> s, DFSAlgoAttributes attr){
+
+//        s.connectedComponents = attr.cc;
+//        attr.parenthesisStructure.append("(").append(s.data);
+//        attr.dfs.append(s.data).append("\t");
+        s.color = VertexColor.Gray; // GRAY
+//        s.startTime = ++ attr.time;
+//        s.distance = attr.time;
+
+        Stack<Vertex<E>> stack =  new Stack<>();
+
+
+        while (!stack.isEmpty()) {
+
+            Vertex<E> u = stack.pop();
+
+            List<Vertex<E>> adj = getAdjacentvertices(s);
+            debug(s + "-->\t" + adj);
+            for (int i = 0; i < adj.size(); i++) {
+
+                Vertex<E> v = adj.get(i);
+                if (v.color == VertexColor.White) {
+                    // TREE edge
+                    attr.treeEdge.add(s.data + "-" + v.data);
+
+                    v.color = VertexColor.Gray;
+                    v.previous = s;
+                    stack.push(v);
+                }
+
+            }
+            s.color = VertexColor.Black; // BLACK
+            s.endTime = ++attr.time;
+            attr.parenthesisStructure.append(s.data).append(")");
+
+            attr.topologicalSort.add(s);
+        }
+
+
+    }
+
     public void dagSingleSourceShortestPath(){
         /*
         DAG-SHORTEST-PATHS .G; w; s/
