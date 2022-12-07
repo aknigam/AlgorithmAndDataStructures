@@ -6,9 +6,70 @@ package com.algo.dynamicprogramming;
 public class CutRod {
 
     public static void main(String[] args) {
-        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
-        cutRodTopDown(p);
+//        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
+        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
+//        int[] p = {1, 5};
+//        cutRodTopDown(p);
+
+        cutRodTopDownApproach(p);
     }
+
+    private static void cutRodTopDownApproach(int[] p) {
+
+// r[0] => 0 as it is hypothetical situation where you make zero cuts
+
+
+        int[] r = new int[p.length+1];
+        init(r);
+        r[0] =0;
+
+        int maxRev =  maxRevenue(p, r, p.length);
+        System.out.println("Top down => "+maxRev);
+    }
+
+    private static int maxRevenue(int[] p, int[] r, int rodLength) {
+
+
+        if(r[rodLength] > -1) {
+            return r[rodLength];
+        }
+
+        String prefix = getPrefix(rodLength, p.length);
+        if(rodLength == 0) {
+            return 0;
+        }
+        int maxRev = Integer.MIN_VALUE;
+        int pieceOneLength = 0;
+        int pieceTwoLength = 0;
+        for (int i = 0; i < rodLength; i++) {
+
+            System.out.println(prefix+ "Calculating Max revenue for rod length {"+ rodLength+"} ," +
+                    " piece one length {"+ (i+1)+ "} and " +
+                    "{ max revenue of rod length {"+ (rodLength -i-1)+"}");
+
+            int maxRevenueSubProblem= p[i] + maxRevenue(p, r, rodLength- i - 1);
+            if(maxRevenueSubProblem > maxRev) {
+                maxRev = Math.max(maxRev, maxRevenueSubProblem);
+                pieceOneLength =  i +1;
+                pieceTwoLength =  rodLength - (i +1);
+            }
+
+
+        }
+        r[rodLength] = maxRev;
+        System.out.println(prefix+"Max revenue for rod length of {"+rodLength+"} is = "+ maxRev +" Piece 1 => "+ pieceOneLength+", Piece 2 => "+ pieceTwoLength);
+        return r[rodLength];
+    }
+
+    private static String getPrefix(int rodLength, int length) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < length - rodLength; i++) {
+            s.append("\t");
+        }
+        return s.toString();
+    }
+
+
     public static void cutRodTopDown(int[] p) {
 
         int[] r = new int[p.length];
