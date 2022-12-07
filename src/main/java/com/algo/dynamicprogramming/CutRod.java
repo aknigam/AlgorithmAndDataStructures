@@ -1,13 +1,15 @@
 package com.algo.dynamicprogramming;
 
+import com.survey.Log;
+
 /**
  * Refer: http://www.geeksforgeeks.org/dynamic-programming-set-13-cutting-a-rod/
  */
 public class CutRod {
 
     public static void main(String[] args) {
-//        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
-        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
+        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
+//        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
 //        int[] p = {1, 5};
 //        cutRodTopDown(p);
 
@@ -18,13 +20,13 @@ public class CutRod {
 
 // r[0] => 0 as it is hypothetical situation where you make zero cuts
 
-
+        Log.setLevel(Log.DEBUG);
         int[] r = new int[p.length+1];
         init(r);
         r[0] =0;
 
         int maxRev =  maxRevenue(p, r, p.length);
-        System.out.println("Top down => "+maxRev);
+        Log.info("Top down => "+maxRev);
     }
 
     private static int maxRevenue(int[] p, int[] r, int rodLength) {
@@ -43,7 +45,7 @@ public class CutRod {
         int pieceTwoLength = 0;
         for (int i = 0; i < rodLength; i++) {
 
-            System.out.println(prefix+ "Calculating Max revenue for rod length {"+ rodLength+"} ," +
+            Log.debug(prefix+ "Calculating Max revenue for rod length {"+ rodLength+"} ," +
                     " piece one length {"+ (i+1)+ "} and " +
                     "{ max revenue of rod length {"+ (rodLength -i-1)+"}");
 
@@ -57,7 +59,7 @@ public class CutRod {
 
         }
         r[rodLength] = maxRev;
-        System.out.println(prefix+"Max revenue for rod length of {"+rodLength+"} is = "+ maxRev +" Piece 1 => "+ pieceOneLength+", Piece 2 => "+ pieceTwoLength);
+        Log.info(prefix+"Max revenue for rod length of {"+rodLength+"} is = "+ maxRev +" Piece 1 => "+ pieceOneLength+", Piece 2 => "+ pieceTwoLength);
         return r[rodLength];
     }
 
@@ -80,7 +82,7 @@ public class CutRod {
         StringBuilder log = new StringBuilder();
         int rev = extendedMemoizedCutRodTopDown(p, p.length, log,r, peices);
 
-        System.out.println(rev+"\n"+log);
+        Log.info(rev+"\n"+log);
 
         for (int i = 0; i < r.length; i++) {
             int size = i;
@@ -90,7 +92,7 @@ public class CutRod {
                 size = size - peices[size];
             }
 
-            System.out.println("Size\t"+(i+1)+"\t"+String.valueOf(r[i])+"\t"+sb);
+            Log.info("Size\t"+(i+1)+"\t"+String.valueOf(r[i])+"\t"+sb);
         }
 
 
@@ -131,7 +133,7 @@ public class CutRod {
      */
     static int extendedMemoizedCutRodTopDown(int price[], int n, StringBuilder log, int[] r, int[] peices){
 
-        System.out.println("Processing\t"+n);
+        Log.info("Processing\t"+n);
         if (n <= 0)
             return 0;
 
@@ -151,7 +153,7 @@ public class CutRod {
             if(rev == -1) {
                 rev = extendedMemoizedCutRodTopDown(price, n - i - 1, log, r,peices);
             }else {
-//                System.out.println("Skipped\t"+(n-i-1));
+//                Log.info("Skipped\t"+(n-i-1));
             }
 
             if(max_val < price[i] + rev) {
@@ -175,7 +177,7 @@ public class CutRod {
 
     static int memoizedCutRodTopDown(int price[], int n, StringBuilder log, int[] r)
     {
-        System.out.println("Processing\t"+n);
+        Log.info("Processing\t"+n);
         if (n <= 0)
             return 0;
 
@@ -194,7 +196,7 @@ public class CutRod {
             if(rev == -1) {
                 rev = memoizedCutRodTopDown(price, n - i - 1, log, r);
             }else {
-//                System.out.println("Skipped\t"+(n-i-1));
+//                Log.info("Skipped\t"+(n-i-1));
             }
 
             if(max_val < price[i] + rev) {
