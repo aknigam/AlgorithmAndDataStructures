@@ -8,28 +8,74 @@ import com.survey.Log;
 public class CutRod {
 
     public static void main(String[] args) {
-        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
-//        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
+//        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
+        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
 //        int[] p = {1, 5};
 //        cutRodTopDown(p);
 
         cutRodTopDownApproach(p);
+        cutRodBottomUpApproach(p);
     }
+
+    private static int cutRodBottomUpApproach(int[] p) {
+        Log.setLevel(Log.DEBUG);
+        int[] r = new int[p.length+1];
+        init(r);
+        r[0] =0;
+
+        int rodLength =  p.length;
+
+        // incrementally find the max revenue for increasing lengths of rod
+        for (int j = 0; j < rodLength; j++) {
+            int maxRevJlen = Integer.MIN_VALUE;
+            // following for loop is calculating the max revenue for the rod of lenght j
+            for (int i = 0; i <= j; i++) {
+                maxRevJlen = Math.max(maxRevJlen , r[i] + p[j-i] );
+            }
+
+            r[j+1] = maxRevJlen;
+
+        }
+        System.out.println("Max revenue with botton up approach => "+ r[p.length]);
+
+        return r[p.length];
+
+
+    }
+//    r[n]  = max  (p[i]  + r[n-i]).  1<= i <= n
+    private static int maxRevenueBottomUp(int[] p, int[] r, int rodLength) {
+        int maxRev = 0;
+
+
+        //len = i+1
+
+        for (int i = 0; i < rodLength; i++) {
+
+            r[i+1] = Math.max(  r[i] +   p[0], p[i]);
+
+
+
+
+
+        }
+        return maxRev;
+    }
+
 
     private static void cutRodTopDownApproach(int[] p) {
 
-// r[0] => 0 as it is hypothetical situation where you make zero cuts
+        // r[0] => 0 as it is hypothetical situation where you make zero cuts
 
         Log.setLevel(Log.DEBUG);
         int[] r = new int[p.length+1];
         init(r);
         r[0] =0;
 
-        int maxRev =  maxRevenue(p, r, p.length);
+        int maxRev =  maxRevenueTopDown(p, r, p.length);
         Log.info("Top down => "+maxRev);
     }
 
-    private static int maxRevenue(int[] p, int[] r, int rodLength) {
+    private static int maxRevenueTopDown(int[] p, int[] r, int rodLength) {
 
 
         if(r[rodLength] > -1) {
@@ -49,7 +95,7 @@ public class CutRod {
                     " piece one length {"+ (i+1)+ "} and " +
                     "{ max revenue of rod length {"+ (rodLength -i-1)+"}");
 
-            int maxRevenueSubProblem= p[i] + maxRevenue(p, r, rodLength- i - 1);
+            int maxRevenueSubProblem= p[i] + maxRevenueTopDown(p, r, rodLength- i - 1);
             if(maxRevenueSubProblem > maxRev) {
                 maxRev = Math.max(maxRev, maxRevenueSubProblem);
                 pieceOneLength =  i +1;
