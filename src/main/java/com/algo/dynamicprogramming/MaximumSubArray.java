@@ -18,6 +18,8 @@ public class MaximumSubArray {
         // following array used for max sum sub array problem
 //        int[] a = new int[]{13, -3, -25, 20 , -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
 //        int[] a = {13, 3, -25, 1, 4, 120 , -500, 1, 5, 56};
+        System.out.println( findSubArrayWithMaxSum(new int[]{-1,0}) == 0);
+        System.out.println( findSubArrayWithMaxSum(new int[]{-2,1,-3,4,-1,2,1,-5,4}) == 6);
 
         System.out.println( findSubArrayWithMaxSum(new int[]{-4, -5, -5, -3}) == -3);
         System.out.println(findSubArrayWithMaxSum(new int[]{-1, -5, -4}) == -1);
@@ -29,9 +31,6 @@ public class MaximumSubArray {
         System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -90, 10}) == 23);
 
 
-        int[] a = {1,2,3,4,5,5,6,6,7,8,9,9,10,11,12,13,14,15,16};
-        Map<Integer, Integer> x = findPairWithSum1(a, 10);
-        System.out.println(x);
 
     }
 
@@ -53,7 +52,7 @@ public class MaximumSubArray {
 
             int nrs = runningSum + num;
             // this handles both the cases when running sum is (-)ve or (+)ve
-            if(num > 0) {
+            if(num >= 0) {
                 if(runningSum >= 0) {
                     runningSum = runningSum + num;
                 }
@@ -86,45 +85,6 @@ public class MaximumSubArray {
 
     }
 
-    public static Map<Integer, Integer> findPairWithSum1(int[] a, int sum){
-        Map<Integer, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < a.length; i++) {
-            map.put(a[i], i);
-        }
-
-        int p;
-        Map<Integer, Integer> m = new HashMap<>();
-        for (int i = 0; i < a.length; i++) {
-            p = sum - a[i];
-            if(map.get(p) != null){
-                m.put(a[i], a[map.get(p)]);
-            }
-        }
-
-        return m;
-
-    }
-    public static Map<Integer, Integer> findPairWithSum(int[] a, int sum){
-        Arrays.sort(a);
-        Map<Integer, Integer> m = new HashMap<>();
-        if(a[0] > sum){
-            return m;
-        }
-
-        int len = a.length;
-
-        for (int i = 0; i < a.length; i++) {
-            for (int j = i+1; j < len; j++) {
-             if((a[j] + a[i]) == sum){
-                 m.put(a[i], a[j]);
-                 len = j;
-             }
-            }
-
-        }
-        return m;
-    }
 
 
 }

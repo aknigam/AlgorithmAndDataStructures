@@ -16,9 +16,10 @@ public class LongestIncreasingSubsequence {
 
 
         List<DagNode> l= new ArrayList<>();
+        Node<DagNode> start = new Node<>();
 
         for (int i = 0; i < a.length; i++) {
-            insert(l, a[i]);
+            insert(start, a[i]);
             sortList(l);
         }
         DagNode ss = l.get(0);
@@ -48,37 +49,32 @@ public class LongestIncreasingSubsequence {
     }
 
 
-    public static void insert(List<DagNode> endNodes, int e) {
+    public static void insert(Node<DagNode> start, int e) {
 //        sortList(endNodes);
         DagNode nn = DagNode.of(e);
         Iterator<DagNode> itr;
-        if (!endNodes.isEmpty()) {
-            itr = endNodes.iterator();
-            while (itr.hasNext()) {
-                DagNode dn = itr.next();
 
-                if (dn.val < e) {
-                    dn.nextNode = nn;
-                    nn.prevNode = dn;
-                    nn.maxLen = dn.maxLen + 1;
-                    break;
-                }
+        Node<DagNode> node = start;
+
+        while (node.hasNext()) {
+            DagNode dn = node.next.val;
+
+            if (dn.val < e) {
+                dn.nextNode = nn;
+                nn.prevNode = dn;
+                nn.maxLen = dn.maxLen + 1;
+                break;
             }
+
         }
 
 
 
-        LinkedList<DagNode> ll = new LinkedList<>(endNodes);
 
-        itr = ll.iterator();
-        while (itr.hasNext()) {
-            DagNode n = itr.next();
-            if(n.maxLen < e) {
-//                ll.add()
-            }
-        }
 
-        endNodes.add(nn);
+
+
+//        endNodes.add(nn);
 
 
     }
@@ -88,6 +84,11 @@ public class LongestIncreasingSubsequence {
         T val;
         Node<T> next;
         Node<T> prev;
+
+
+        public boolean hasNext() {
+            return next != null;
+        }
     }
 
     static class DagNode {

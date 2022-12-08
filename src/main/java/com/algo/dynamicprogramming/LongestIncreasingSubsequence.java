@@ -15,6 +15,21 @@ https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-
  https://www.geeksforgeeks.org/longest-increasing-subsequence-dp-3/
 
 
+ {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is
+ {10, 22, 33, 50, 60, 80}.
+
+
+ 1 , 3 , 5, 7 , 9    [9]
+
+
+ Does it fit into this series in the end => size + 1
+ Does it fit into this series between the end and the end -1 element => size [modified list]
+
+
+
+
+
+
 1. If A[i] is smallest among all end
    candidates of active lists, we will start
    new active list of length 1.

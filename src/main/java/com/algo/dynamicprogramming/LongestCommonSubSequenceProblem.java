@@ -16,12 +16,20 @@ public class LongestCommonSubSequenceProblem {
 
         cache = new String[y.length()][x.length()];
         String lcs = topDownMemorizedLCS(x.toCharArray(), 0, y.toCharArray(), 0);
-        if(lcs.trim().equals("")){
+        if (lcs.trim().equals("")){
             System.out.println("No common subsequence");
-        }else
+        } else
             System.out.println(lcs);
-
     }
+
+
+
+
+
+    public static String bottomUpLCS(char[] x, int iXBegin, char[]y, int iYBegin){
+        return "";
+    }
+
 
     public static String topDownMemorizedLCS(char[] x, int iXBegin, char[]y, int iYBegin){
         System.out.println("Call \t["+ iYBegin+","+iXBegin+"]");
@@ -52,10 +60,6 @@ public class LongestCommonSubSequenceProblem {
         cache[iYBegin][iXBegin] = subSeq;
         return subSeq;
 
-    }
-
-    public static String bottomUpLCS(char[] x, int iXBegin, char[]y, int iYBegin){
-        return "";
     }
 
 }

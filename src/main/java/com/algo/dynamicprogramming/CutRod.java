@@ -8,8 +8,8 @@ import com.survey.Log;
 public class CutRod {
 
     public static void main(String[] args) {
-//        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
-        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
+        int[] p = {1, 5, 8, 9 ,10 ,17 ,17 ,20 ,24 ,30};
+//        int[] p  = {1  , 5  , 8  , 9  ,10  ,17 , 17, 20};
 //        int[] p = {1, 5};
 //        cutRodTopDown(p);
 
@@ -18,7 +18,7 @@ public class CutRod {
     }
 
     private static int cutRodBottomUpApproach(int[] p) {
-        Log.setLevel(Log.DEBUG);
+        Log.setLevel(Log.INFO);
         int[] r = new int[p.length+1];
         init(r);
         r[0] =0;
@@ -27,16 +27,26 @@ public class CutRod {
 
         // incrementally find the max revenue for increasing lengths of rod
         for (int j = 0; j < rodLength; j++) {
-            int maxRevJlen = Integer.MIN_VALUE;
-            // following for loop is calculating the max revenue for the rod of lenght j
-            for (int i = 0; i <= j; i++) {
-                maxRevJlen = Math.max(maxRevJlen , r[i] + p[j-i] );
-            }
 
+            // following for loop is calculating the max revenue for the rod of length j
+            // in bottom up
+            // manner
+            int maxRevJlen = Integer.MIN_VALUE;
+            int p1len =0;
+            int p2len =0;
+            for (int i = 0; i <= j; i++) {
+                int revenue =  r[i] + p[j-i];
+                if(revenue > maxRevJlen) {
+                    maxRevJlen = Math.max(maxRevJlen, r[i] + p[j - i]);
+                    p1len =  i;
+                    p2len = j -i+1;
+                }
+            }
+            Log.debug("Max revenue for size "+(j+1)+"=> "+ maxRevJlen+" p1 ="+ p1len+", p2 len = "+ p2len );
             r[j+1] = maxRevJlen;
 
         }
-        System.out.println("Max revenue with botton up approach => "+ r[p.length]);
+        Log.info("Max revenue with bottom up approach => "+ r[p.length]);
 
         return r[p.length];
 
@@ -50,12 +60,7 @@ public class CutRod {
         //len = i+1
 
         for (int i = 0; i < rodLength; i++) {
-
             r[i+1] = Math.max(  r[i] +   p[0], p[i]);
-
-
-
-
 
         }
         return maxRev;
