@@ -124,7 +124,29 @@ public class AllParenthesis {
 
     }
 
+    // DP implementation
+    public Set<String> generateAllParenthesisTopDown(int n) {
+
+        if(n == 0) {
+            return new HashSet<>(Arrays.asList(""));
+        }
+        if( n == 1) {
+            return new HashSet<>(Arrays.asList("()"));
+        }
+        Set<String> allPairs = new HashSet<>();
+        Set<String> pairs = generateAllParenthesisTopDown(n - 1);
+        for (String s :  pairs) {
+            allPairs.add("()"+s);
+            allPairs.add(s+"()");
+            allPairs.add("("+s+")");
+        }
+        return allPairs;
+    }
+
     public static void main(String[] args) {
-        new AllParenthesis().generateAllParenthesis(3);
+//        new AllParenthesis().generateAllParenthesis(3);
+        AllParenthesis solution = new AllParenthesis();
+        Set<String> allPairs = solution.generateAllParenthesisTopDown(3);
+        solution.printResults(new ArrayList<>(allPairs));
     }
 }
