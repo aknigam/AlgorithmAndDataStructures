@@ -21,12 +21,12 @@ public class ThreeSum {
 
             int size = nums.length;
             if(size < 3) {
-                return null;
+                return Collections.emptyList();
             }
             if(size == 3) {
                 int sum = nums[0] + nums[1] + nums[2];
                 if(sum != 0) {
-                    return null;
+                    return Collections.emptyList();
                 }
                 return Arrays.asList(Arrays.asList(nums[0] , nums[1] , nums[2]));
             }
@@ -43,24 +43,42 @@ public class ThreeSum {
                     tl.add(n);
                 }
             }
-            // need a way to remove duplicates
-            return tl;
+
+
+            return removeDuplicates(tl);
+
+        }
+
+        private List<List<Integer>> removeDuplicates(List<List<Integer>> tl) {
+            List<List<Integer>> tlw = new ArrayList<>();
+            Set<String> unique = new HashSet();
+            for (List<Integer> l: tl){
+                Collections.sort(l);
+                String s = l.get(0)+""+l.get(1)+""+l.get(0);
+                if(!unique.contains(s)){
+                    unique.add(s);
+                    tlw.add(l);
+
+                }
+
+            }
+            return tlw;
         }
 
         public List<List<Integer>> twoSums(int start, int end, int[] nums, int sum) {
             List<List<Integer>> tl = new ArrayList<>();
 
-            Map<Integer, Integer> map = new HashMap<>();
+//            Map<Integer, Integer> map = new HashMap<>();
 
             for (int i = start; i < end -1; i++) {
                 int one = nums[i];
                 for (int j = i+1; j < end; j++) {
                     if(nums[j]+ one == sum) {
                         //found
-                        if(!checkPairExists(map, nums[j], one)) {
-                            map.put(one, nums[j]);
+//                        if(!checkPairExists(map, nums[j], one)) {
+//                            map.put(one, nums[j]);
                             tl.add(Arrays.asList(one, nums[j]));
-                        }
+//                        }
                     }
                 }
             }
