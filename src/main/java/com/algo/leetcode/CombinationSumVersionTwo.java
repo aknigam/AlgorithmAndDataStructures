@@ -1,7 +1,6 @@
 package com.algo.leetcode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
 
@@ -17,17 +16,69 @@ public class CombinationSumVersionTwo {
 
     public static void main(String[] args) {
 
-        int sum = 30;
+        int sum = 8;
 
         CombinationSumVersionTwo solution= new CombinationSumVersionTwo();
 
         long t = System.currentTimeMillis();
+        int[] nums = new int[]{10,1,2,7,6,1,5, 5, 5, 10, 5, 10}; //new int[]{1,1,1,1,1,1,1,1,1}
         List<List<Integer>> ans
-                = solution. combinationSum2(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, sum);
+                = solution. combinationSum2(nums, 15);
 
         t = System.currentTimeMillis() -t;
         System.out.println("Time taken: "+ t);
         // If result is empty, then
+        printResults(solution, ans);
+    }
+
+
+
+
+    private static Boolean[][] cache;
+
+    private Set<String> unique = new HashSet<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(candidates);
+        Map<Integer, Integer> indexTargetmap = new HashMap<>();
+        findcombinationsLC(0,candidates,target,ans,new ArrayList<>(), indexTargetmap);
+        return ans;
+    }
+
+    int counter =0;
+
+    public void findcombinationsLC(int index, int[] candidates, int target, List<List<Integer>> ans,
+                                   List<Integer> ds, Map<Integer, Integer> indexTargetmap)
+    {
+
+
+        if(indexTargetmap.containsKey(index) && indexTargetmap.get(index).equals(target)){
+            return;
+        }
+        indexTargetmap.put(index, target);
+
+        if(index==candidates.length)
+        {
+            if(target==0 )
+            {
+                ArrayList<Integer> a = new ArrayList<>(ds);
+                ans.add(a);
+            }
+            return;
+        }
+
+        if(candidates[index]<=target)
+        {
+            ds.add(candidates[index]);
+            findcombinationsLC(index+1,candidates,target- candidates[index],ans,ds, indexTargetmap);
+            ds.remove(ds.size()-1);
+        }
+        findcombinationsLC(index+1,candidates,target,ans,ds, indexTargetmap);
+    }
+
+
+    private static void printResults(CombinationSumVersionTwo solution, List<List<Integer>> ans) {
         if (ans.size() == 0) {
             System.out.println("Empty");
             return;
@@ -45,56 +96,7 @@ public class CombinationSumVersionTwo {
         }
 
 
-        System.out.println("\n\n"+solution.unique);
-    }
 
-    Set<String> unique = new HashSet();
-    // leetcode best solution
-
-    private static Boolean[][] cache;
-
-
-    public void findcombinations(int index,int[] candidates,int target,List<List<Integer>> ans,ArrayList<Integer> ds)
-    {
-
-        if(cache[index][target] != null && !cache[index][target]) {
-                return;
-        }
-        if(index>=candidates.length)
-        {
-            return;
-        }
-
-
-        if(target==0)
-        {
-            ans.add(new ArrayList<>(ds));
-            cache[index][target] = true;
-            System.out.println("Added => ["+index+" - "+target+"] "+ds);
-        }
-        else {
-            cache[index][target] = false;
-        }
-
-
-        for (int i = index; i < candidates.length; i++) {
-
-            if((target - candidates[i]) > 0 )
-            {
-                ds.add(candidates[i]);
-                findcombinations(index+1,candidates,target- candidates[index],ans,ds);
-                ds.remove(ds.size()-1);
-            }
-        }
-
-//        findcombinations(index+1,candidates,target,ans,ds);
-    }
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-
-        cache = new Boolean[candidates.length+1][target+1];
-        List<List<Integer>> ans = new ArrayList<>();
-        findcombinations(0,candidates,target,ans,new ArrayList<>());
-        return ans;
     }
 
 
