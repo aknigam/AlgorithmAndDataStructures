@@ -25,12 +25,13 @@ public class SwapPairs {
 
 
             ListNode first = head;
-            ListNode prev = null;
+            ListNode prevFirst = null;
+            // after swapping the second node becomes head. So saving the new head after swapping
             head = first == null ? null : first.next;
             int i=0;
 
             while (first != null) {
-                prev = swapPair(prev, first, first.next);
+                prevFirst = swapPair(prevFirst, first, first.next);
 
                 if(first == null ) {
                     break;
@@ -42,12 +43,13 @@ public class SwapPairs {
             return head;
         }
 
-        private ListNode swapPair(ListNode prev, ListNode first, ListNode second) {
+        private ListNode swapPair(ListNode prevFirst, ListNode first, ListNode second) {
 
 
             if(second != null) {
-                if(prev != null) {
-                    prev.next = second;
+                // by now the previous first is the second and it needs to point the first after swapping
+                if(prevFirst != null) {
+                    prevFirst.next = second;
                 }
                 first.next = second.next;
                 second.next = first;

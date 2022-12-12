@@ -35,9 +35,6 @@ public class RemoveNthFromEnd {
                 }
             }
 
-
-
-
             return null;
         }
     }
