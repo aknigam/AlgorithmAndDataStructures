@@ -48,6 +48,8 @@ public class CombinationSumVersionTwo {
 
     int counter =0;
 
+    // intuition is that this method can be called from various paths. But we will allow only one path from here onwards
+
     public void findcombinationsLC(int index, int[] candidates, int target, List<List<Integer>> ans,
                                    List<Integer> ds, Map<Integer, Integer> indexTargetmap)
     {
@@ -56,6 +58,7 @@ public class CombinationSumVersionTwo {
         if(indexTargetmap.containsKey(index) && indexTargetmap.get(index).equals(target)){
             return;
         }
+        System.out.println(index+" - " + target);
         indexTargetmap.put(index, target);
 
         if(index==candidates.length)
@@ -75,6 +78,9 @@ public class CombinationSumVersionTwo {
             ds.remove(ds.size()-1);
         }
         findcombinationsLC(index+1,candidates,target,ans,ds, indexTargetmap);
+
+
+
     }
 
 
