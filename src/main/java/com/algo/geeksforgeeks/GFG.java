@@ -45,7 +45,7 @@ public class GFG {
     // driver program
     public static void main (String[] args)
     {
-        int n = 15;
+        int n = 4;
         char[] str = new char[2 * n];
         printParenthesis(str, n);
     }

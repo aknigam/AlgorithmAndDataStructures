@@ -82,6 +82,9 @@ public class ArrayUtils {
     }
 
     public static void swap(int[] arr, int i, int j) {
+        if(i == j) {
+            return;
+        }
         int temp =arr[j];
         arr[j] = arr[i];
         arr[i] = temp;
@@ -96,5 +99,27 @@ public class ArrayUtils {
 
         }
 
+    }
+
+    public static void printIntArray(int[] a) {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            sb.append(a[i]);
+            sb.append("\t");
+//            sb.append("("+i+") ").append("\t");
+        }
+        System.out.println(sb);
+
+    }
+
+    public static void printIBoolArray(boolean[] a) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length; i++) {
+            sb.append(a[i] ? 1: 0);
+            sb.append("\t");
+//            sb.append("("+i+") ").append("\t");
+        }
+        System.out.println(sb);
     }
 }

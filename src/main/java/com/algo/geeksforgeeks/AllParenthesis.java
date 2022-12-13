@@ -124,29 +124,67 @@ public class AllParenthesis {
 
     }
 
-    // DP implementation
-    public Set<String> generateAllParenthesisTopDown(int n) {
+    /*
+    // 0-1, 0-3, 0-5 .... 0-n
+    // Note : this gives wrong results
 
-        if(n == 0) {
-            return new HashSet<>(Arrays.asList(""));
+    implemented again... same as above
+
+
+     */
+    public List<String> generateAllParenthesisTopDown(int end) {
+
+        if( end == 1) {
+            return Arrays.asList("()");
         }
-        if( n == 1) {
-            return new HashSet<>(Arrays.asList("()"));
+
+
+        List<String> pairs = new ArrayList<>();
+        for (int i = end; i >= 1; ) {
+
+
+            List<String> pairsMid = Collections.emptyList();
+            List<String> pairsEnd = Collections.emptyList();
+
+            if(i >2) {
+                pairsMid = generateAllParenthesisTopDown(i - 2);
+            }
+
+            if(i < end) {
+                pairsEnd = generateAllParenthesisTopDown( end - i -1);
+            }
+            if(!pairsEnd.isEmpty() && !pairsMid.isEmpty()){
+                for (String s : pairsMid) {
+                    for (String e : pairsEnd) {
+                        pairs.add("("+s+")"+e);
+                    }
+                }
+            }
+            else if(pairsEnd.isEmpty() ){
+                for (String s : pairsMid) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("(").append(s).append(")");
+                    pairs.add(sb.toString());
+                }
+            }
+            else {
+                for (String s : pairsEnd) {
+                    pairs.add("()"+s);
+                }
+            }
+
+            i = i -2;
+
+
         }
-        Set<String> allPairs = new HashSet<>();
-        Set<String> pairs = generateAllParenthesisTopDown(n - 1);
-        for (String s :  pairs) {
-            allPairs.add("()"+s);
-            allPairs.add(s+"()");
-            allPairs.add("("+s+")");
-        }
-        return allPairs;
+        return pairs;
     }
 
     public static void main(String[] args) {
-//        new AllParenthesis().generateAllParenthesis(3);
+        int size = 4;
+//        new AllParenthesis().generateAllParenthesis(size);
         AllParenthesis solution = new AllParenthesis();
-        Set<String> allPairs = solution.generateAllParenthesisTopDown(3);
-        solution.printResults(new ArrayList<>(allPairs));
+        List<String> allPairs = solution.generateAllParenthesisTopDown(2*size -1);
+        solution.printResults(allPairs);
     }
 }

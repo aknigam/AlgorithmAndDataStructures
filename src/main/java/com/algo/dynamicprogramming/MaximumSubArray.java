@@ -18,20 +18,36 @@ public class MaximumSubArray {
         // following array used for max sum sub array problem
 //        int[] a = new int[]{13, -3, -25, 20 , -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
 //        int[] a = {13, 3, -25, 1, 4, 120 , -500, 1, 5, 56};
-        System.out.println( findSubArrayWithMaxSum(new int[]{-1,0}) == 0);
-        System.out.println( findSubArrayWithMaxSum(new int[]{-2,1,-3,4,-1,2,1,-5,4}) == 6);
+//        System.out.println( findSubArrayWithMaxSum(new int[]{-1,0}) == 0);
+//        System.out.println( findSubArrayWithMaxSum(new int[]{-2,1,-3,4,-1,2,1,-5,4}) == 6);
 
         System.out.println( findSubArrayWithMaxSum(new int[]{-4, -5, -5, -3}) == -3);
-        System.out.println(findSubArrayWithMaxSum(new int[]{-1, -5, -4}) == -1);
-        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 4}) == 6);
-        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 5}) == 6);
-        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 6}) == 7);
-        System.out.println(findSubArrayWithMaxSum(new int[]{6, -7, 8}) == 8);
-        System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -9, 10}) == 24);
-        System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -90, 10}) == 23);
+        System.out.println( maxSubArray(new int[]{-4, -5, -5, -3}) == -3);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{-1, -5, -4}) == -1);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 4}) == 6);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 5}) == 6);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{6, -5, 6}) == 7);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{6, -7, 8}) == 8);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -9, 10}) == 24);
+//        System.out.println(findSubArrayWithMaxSum(new int[]{16, -17, 8, 5, 6, 4, -90, 10}) == 23);
 
 
 
+    }
+
+    //Kadane algorithm [DP] https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d
+    public static int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int max = Integer.MIN_VALUE, sum = 0;
+
+        for(int i=0;i<n;i++){
+            sum += nums[i];
+            max = Math.max(sum,max);
+
+            if(sum<0) sum = 0;
+        }
+
+        return max;
     }
 
     private static long findSubArrayWithMaxSum(int[] arr) {
